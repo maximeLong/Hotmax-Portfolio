@@ -4,9 +4,8 @@
       <window :canClose="false" :shortTitle="'::Bash Console.exe'">
         <div class="console">
 
-
           <typed class="line intro"
-            :str="':/STATION_*#&*%#@%! / USERS / MAXIMELONG'"
+            :str="':/STATION_*͔̟̆ͪ#͓͎̞͚͎̜̭ͣ̄̓ͥ̓ͣ͠&̘̭͈̻̉̎̒ͣ̓͛͒̀*̸%̫͓̝̪̻̣̮̅ͥ̄͌ͯ#̢͇̰̳̰̬̼̀ͅ@̦̰̬̥̣́͂͗%̸̫͉̘͖̺͔͓́!̡ͨ͂̈́ / USERS / MAXIMELONG'"
             :type-speed="80"
             :cleanCursor="true"
             :delay="2000"
@@ -24,6 +23,9 @@
             v-if="windowIsOpen">
           </typed>
 
+          <ascii></ascii>
+
+
 
         </div>
       </window>
@@ -36,6 +38,7 @@ module.exports =
   components:
     Window: require './Window'
     Typed: require './Typed'
+    Ascii: require './Ascii'
 
   data: ->
     sentenceIndex: 0
