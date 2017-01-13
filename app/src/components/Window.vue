@@ -1,33 +1,34 @@
 <template>
-  <div id="window">
+  <transition appear name="fadeup">
+    <div id="window" v-bind:class="type">
 
-    <div class="window-header">
-      <div class="line-group"><div class="line" v-for="n in 4"></div></div>
-      <div class="close-btn" :class="{ active: canClose}" @click="closeWindow">
-        <span v-if="canClose">x</span>
+      <div class="window-header">
+        <div class="line-group"><div class="line" v-for="n in 4"></div></div>
+        <div class="close-btn" :class="{ active: canClose}" @click="closeWindow">
+        </div>
+        <div class="line-group"><div class="line" v-for="n in 4"></div></div>
       </div>
-      <div class="line-group"><div class="line" v-for="n in 4"></div></div>
-    </div>
 
-    <div class="short-title">{{shortTitle}}</div>
+      <div class="short-title">{{shortTitle}}</div>
 
-    <div class="real-title-container" v-if="realTitle">
-      <div class="real-title">{{realTitle}}</div>
-      <div class="portfolio-toggle">
-        <div class="toggle-btn"
-             @click="portfolioOption = 'technical'"
-             :class="{ active: portfolioOption == 'technical' }">> Technical</div>
-        <div class="toggle-btn"
-             @click="portfolioOption = 'aesthetic'"
-             :class="{ active: portfolioOption == 'aesthetic' }">> Aesthetic</div>
+      <div class="real-title-container" v-if="realTitle">
+        <div class="real-title">{{realTitle}}</div>
+        <div class="portfolio-toggle">
+          <div class="toggle-btn"
+               @click="portfolioOption = 'technical'"
+               :class="{ active: portfolioOption == 'technical' }">> Technical</div>
+          <div class="toggle-btn"
+               @click="portfolioOption = 'aesthetic'"
+               :class="{ active: portfolioOption == 'aesthetic' }">> Aesthetic</div>
+        </div>
       </div>
-    </div>
 
-    <div class="window-content">
-      <slot></slot>
-    </div>
+      <div class="window-content">
+        <slot></slot>
+      </div>
 
-  </div>
+    </div>
+  </transition>
 </template>
 
 <script lang="coffee">
@@ -38,12 +39,19 @@ module.exports =
     shortTitle: type: String
     realTitle:  type: String
     canClose:   type: Boolean
+    type:       type: String
 
   data: ->
     portfolioOption: 'aesthetic'
 
   methods:
-    closeWindow: -> @$store.commit 'SET_WINDOW_IS_OPEN', false
+    closeWindow: ->
+      if @type is 'pdf'
+        @$store.commit 'SET_PDF_IS_OPEN', false
+      if @type is 'navigator'
+        @$store.commit 'SET_NAVIGATOR_IS_OPEN', false
+      if @type is 'portfolio'
+        @$store.commit 'SET_WINDOW_IS_OPEN', false
 
 
 </script>
@@ -58,8 +66,10 @@ module.exports =
   z-index: 99
   height: 100%
   width: 100%
-  border: 1px solid #939393
+  border: 1px solid $window_border
   box-shadow: 20px 20px 0 rgba(95, 166, 217, 0.18)
+  &.pdf
+    cursor: move
 
   .window-header
     padding: 10px 12px
@@ -67,9 +77,6 @@ module.exports =
     +flexbox
     +align-items(center)
     +flex-direction(row)
-    &:hover > .close-btn.active span
-      opacity: 1
-      +transition(.20s ease all)
 
     .line-group
       +flexbox
@@ -90,29 +97,32 @@ module.exports =
       height: 16px
       width: 16px
       margin: 0 5px
+      position: relative
     .close-btn.active
-      border: 1px solid $action_red
-      +clickable
-      +flexbox
-      +justify-content(center)
-      +align-items(center)
-      span
-        color: $action_red
-        height: 100%
-        opacity: 0
+      border: 1px solid $action_color
+      background-color: none
+      +transition(.35s ease all)
+      &:hover
+        cursor: pointer
+        background-color: $action_color
         +transition(.35s ease all)
 
   .short-title, .real-title-container
     padding: 10px 30px
     border-bottom: 1px solid $window_border
   .short-title
+    +systemType
+    font-weight: normal
+    font-size: 11px
+    letter-spacing: 1px
     color: #4f4f4f
     text-transform: uppercase
   .real-title-container
     padding: 15px 30px
     .real-title
-      font-size: $font_size_big
-      color: #606161
+      +systemType
+      font-size: 17px
+      color: $ink_black
       font-weight: bold
     .portfolio-toggle
       display: block

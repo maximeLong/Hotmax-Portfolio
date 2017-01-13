@@ -13,12 +13,10 @@ module.exports =
     HEIGHT = @$el.offsetHeight
     WIDTH = @$el.offsetWidth
 
-    console.log @$el.offsetWidth, @$el.offsetHeight
-
     # set up scene and camera
     scene = new THREE.Scene()
     camera = new THREE.PerspectiveCamera( 75, WIDTH / HEIGHT, 0.1, 1000 )
-    camera.position.z = 5
+    camera.position.z = 2
 
     # web gl renderer, appended to component body
     renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true })
@@ -26,17 +24,12 @@ module.exports =
     renderer.shadowMap.enabled = true
     @$el.appendChild( renderer.domElement )
 
-    # effect = new THREE.AsciiEffect( renderer )
-    # effect.setSize( width, height )
-    # container.appendChild( effect.domElement )
 
     # add geometry
-    geometry = new THREE.TetrahedronGeometry( 1,3 )
-    material = new THREE.MeshPhongMaterial({
-      color: 0xef5e6c
-      shininess: 10
-      specular: 0xffffff
-      shading: THREE.FlatShading
+    geometry = new THREE.OctahedronGeometry(1, 1)
+    material = new THREE.MeshBasicMaterial({
+      color: 0x0b3039
+      wireframe: true
     })
 
     # mesh takes a geometry and adds a material
@@ -60,8 +53,8 @@ module.exports =
 
   methods:
     changeRotation: ()->
-      @cube.rotation.x += 0.01
-      @cube.rotation.y += 0.01
+      @cube.rotation.x += 0.005
+      @cube.rotation.y += 0.005
     changeSize: ()->
       @cube.scale.x += 0.1
       @cube.scale.y += 0.1

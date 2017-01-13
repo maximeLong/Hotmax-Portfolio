@@ -9,10 +9,12 @@
 <script lang="coffee">
 THREE = require 'three'
 _ = require 'lodash'
-{ EffectComposer, RenderPass, FilmPass, GlitchPass } = require 'postprocessing'
+{ EffectComposer, BloomPass, RenderPass, FilmPass, GlitchPass } = require 'postprocessing'
 
 module.exports =
   name: 'three'
+  props:
+    cameraPosition: String
 
   mounted: ->
     # set up scene and camera
@@ -25,7 +27,12 @@ module.exports =
 
     # camera
     camera = new THREE.PerspectiveCamera( 75, WIDTH / HEIGHT, 0.1, 1000 )
-    camera.position.z = 5
+    #entry
+    # camera.position.z = 5
+
+    camera.position.z = 3.6
+    camera.position.y = 13
+    camera.rotation.x = 5
 
     # web gl renderer, appended to component body
     renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true })
@@ -41,6 +48,7 @@ module.exports =
     geometry = new THREE.TetrahedronGeometry( 1,3 )
     material = new THREE.MeshPhongMaterial({
       color: 0xef5e6c
+      name: 'sun'
       shininess: 10
       specular: 0xffffff
       shading: THREE.FlatShading
@@ -87,6 +95,9 @@ module.exports =
     # lighting
     hemisphereLight = new THREE.HemisphereLight(0xb98a5b,0x000000, .9)
     shadowLight = new THREE.DirectionalLight(0xb98a5b, .9)
+    # hemisphereLight = new THREE.HemisphereLight(0xb98a5b,0x000000, .9)
+    # shadowLight = new THREE.DirectionalLight(0xb98a5b, .9)
+
     shadowLight.position.set(5, 5, 10)
     shadowLight.castShadow = true
     scene.add( hemisphereLight )
@@ -97,6 +108,8 @@ module.exports =
     composer1.addPass(new RenderPass( scene, camera ))
     composer2 = new EffectComposer(renderer)
     composer2.addPass(new RenderPass( scene, camera ))
+    composer3 = new EffectComposer(renderer)
+    composer3.addPass(new RenderPass( scene, camera ))
 
     # film pass
     filmPass = new FilmPass({
@@ -107,12 +120,24 @@ module.exports =
       vignetteOffset:     0.5
       vignetteDarkness:   0.75
     })
+    # glitch pass
     glitchPass = new GlitchPass()
     glitchPass.mode = 1
+    # bloom pass
+    bloomPass = new BloomPass({
+      resolution:  0.5
+      blurriness:  1.0
+      strength:    1.1
+      distinction: -0.75
+    })
+
+    bloomPass.renderToScreen  = true
     glitchPass.renderToScreen = false
-    filmPass.renderToScreen = true
+    filmPass.renderToScreen   = false
     composer1.addPass(filmPass)
     composer2.addPass(glitchPass)
+    composer3.addPass(bloomPass)
+
     @$watch 'glitch', (newVal,oldVal)->
       if newVal == true
         glitchPass.renderToScreen = true
@@ -124,33 +149,55 @@ module.exports =
 
 
     # begin raycasting
-    mouse =     new THREE.Vector2()
+    mouse = new THREE.Vector2()
     raycaster = new THREE.Raycaster()
     window.addEventListener 'mousemove', (e)->
       mouse.x = ( event.clientX / WIDTH ) * 2 - 1
       mouse.y = - ( event.clientY / HEIGHT ) * 2 + 1
     , false
-    console.log objectsContainer.children
     mousePoint = new THREE.Vector3()
-
 
     do render = ()=>
       delta = clock.getDelta()
       time = clock.getElapsedTime()
 
+      #update camera position on cameraPosition Prop change
+      # if @cameraPosition is 'desktop'
+
+
       #update the picking ray with the camera and mouse position
       raycaster.setFromCamera( mouse, camera )
       intersects = raycaster.intersectObjects( objectsContainer.children )
-      for intersect in intersects
-        if intersect.object?.type == 'Mesh'
-          @turnGlitchOn(intersect)
-        else
-          @glitch = false
+      # if intersects.length > 0
+      #   #intersects[0].object?
+      #   # do something
+      # else
+      #   # do something else
+
+
 
       # rotation
       for line,i in @solarLines
         @rotateOnOneAxis(line, delta/3, 'y')
       @rotateOnXYAxis(@sunMesh, delta/2)
+
+      #opacity and mouse tracking -- set on desktop prop change
+      for line,i in @solarLines
+        line.material.opacity = 1
+      for line,i in @planetLines
+        line.material.opacity = 1
+
+      @solarLines[0].rotation.x = mouse.y * 0.3
+      @solarLines[0].rotation.z = mouse.x * 0.3
+      @solarLines[1].rotation.x = -mouse.y * 0.15
+      @solarLines[1].rotation.z = -mouse.x * 0.15
+      @solarLines[2].rotation.x = mouse.y * 0.15
+      @solarLines[2].rotation.z = mouse.x * 0.15
+      @solarLines[3].rotation.x = -mouse.y * 0.15
+      @solarLines[3].rotation.z = -mouse.x * 0.15
+
+      # objectsContainer.rotation.x = mouse.y * 0.15
+      # objectsContainer.rotation.z = mouse.x * 0.15
 
       # bobbing
       @changePosition(@solarLines[0], (Math.sin(time) / 5) + .1, 'y')
@@ -172,15 +219,15 @@ module.exports =
       requestAnimationFrame(render)
       composer1.render(delta)
       composer2.render(delta)
+      composer3.render(delta)
 
   data: ->
     glitch: false
 
   methods:
-    turnGlitchOn: _.throttle (intersect)->
+    turnGlitchOn: ()->
       @glitch = true
-      intersect.object?.material.color.setHex( Math.random() * 0xffffff )
-    , 50
+      # intersect.object?.material.color.setHex( Math.random() * 0xffffff )
     onClick: ->
       console.log 'click'
 
@@ -219,6 +266,7 @@ module.exports =
         lineGeo = new THREE.CylinderGeometry( radiusTop,radiusBottom,height,radiusSegments,heightSegments,openEnded,thetaStart )
         lineMat = new THREE.LineBasicMaterial({
           color: 0xffffff
+          transparent: true
         })
         lineGeo.vertices.pop()
         lineGeo.vertices.pop()
@@ -229,7 +277,6 @@ module.exports =
           solarLine.rotation.y += i * 1.5
         if type is 'planet'
           solarLine.rotation.x += 1.5
-          # solarLine.rotation.z = 2 * Math.PI / 3
         array.push(solarLine)
 
 

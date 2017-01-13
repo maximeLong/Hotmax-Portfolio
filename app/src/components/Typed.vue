@@ -62,10 +62,6 @@ module.exports =
 
 <style scoped>
 
-.typed {
-  white-space: pre;
-}
-
 .cursor {
   opacity: 1;
   font-weight: 100;
