@@ -57,8 +57,7 @@ module.exports =
 
   mounted: ->
     @$watch 'activePdf', (pdf)->
-      if pdf.title is 'readme.txt' or 'resume.txt'
-        console.log 'cmon'
+      if pdf.title == 'readme.txt' || pdf.title == 'resume.txt'
         @pdfWindowHeight = 100
         @pdfWindowWidth = 50
       else

@@ -1,7 +1,15 @@
 <template>
   <div id="pdf-panel">
     <window :canClose="true" :shortTitle="'::' + activePdf.title" :type="'pdf'">
-      <div class="content"><img src="../assets/readme-image.png"></div>
+
+      <div class="content">
+        <img src="../assets/readme-image.png" v-if="activePdf.title !== 'asteroids.exe'">
+      </div>
+
+      <div class="asteroids-content" v-if="activePdf.title == 'asteroids.exe'">
+        <asteroids></asteroids>
+      </div>
+
     </window>
 </template>
 
@@ -12,6 +20,7 @@ module.exports =
   name: 'pdfPanel'
   components:
     Window: require './Window'
+    Asteroids: require './Asteroids'
 
   computed:
     activePdf: -> return @$store.state.activePdf
@@ -50,6 +59,13 @@ module.exports =
 
   .content
     background-color: $black_one_quarter
+
+  .asteroids-content
+    height: 100%
+    width: 100%
+    padding: 25px
+    background-color: $ink_black
+    +flexbox
 
   .pdf
     .content

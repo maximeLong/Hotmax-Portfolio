@@ -90,7 +90,6 @@ module.exports =
   methods:
     lineDone: ->
       @sentenceIndex += 1
-      console.log 'sentence done'
 
   # created: ->
   #   interact('.console-container')

@@ -41,12 +41,12 @@
         :type="'navigator'">
         <div class="content icon-grid">
 
-          <div @click="openPdf(pdf.readme)" class="icon file">
+          <div @click="openPdf(pdf.resume)" class="icon file">
             <img src="../assets/file-icon.svg">
             <div class="caption">resume.pdf</div>
           </div>
 
-          <div @click="openPdf(pdf.readme)" class="icon file">
+          <div @click="openPdf(pdf.asteroids)" class="icon file">
             <img src="../assets/file-icon.svg">
             <div class="caption">asteroids.exe</div>
           </div>
@@ -77,8 +77,11 @@ module.exports =
         realTitle:  'Choices Video Portal'
     pdf:
       readme:
-        context: null
         title: 'readme.txt'
+      resume:
+        title: 'resume.txt'
+      asteroids:
+        title: 'asteroids.exe'
 
   methods:
     openWindow: (view)->
