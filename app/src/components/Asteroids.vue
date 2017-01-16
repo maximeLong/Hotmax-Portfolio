@@ -22,24 +22,30 @@ module.exports =
     score: 0
     lives: 4
     asteroidCollection: []
-    keyPressMap: {}
+    bulletCollection: []
+    keyPressMap:
+      KeyA: false
+      KeyS: false
+      KeyD: false
+      KeyW: false
+      Space: false
 
   mounted: ->
     scene = new THREE.Scene()
-    HEIGHT = @$el.offsetHeight
-    WIDTH = @$el.offsetWidth
+    @HEIGHT = @$el.offsetHeight
+    @WIDTH = @$el.offsetWidth
 
     # update the camera and the renderer size on window resize
     # window.addEventListener('resize', handleWindowResize, false)
 
     # camera
     # camera = new THREE.PerspectiveCamera( 75, WIDTH / HEIGHT, 0.1, 1000 )
-    camera = new THREE.OrthographicCamera( WIDTH / - 2, WIDTH / 2, HEIGHT / 2, HEIGHT / - 2, 1, 2000 )
+    camera = new THREE.OrthographicCamera( @WIDTH / - 2, @WIDTH / 2, @HEIGHT / 2, @HEIGHT / - 2, 1, 2000 )
     camera.position.z = 1000
 
     # web gl renderer, appended to component body
     renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true })
-    renderer.setSize( WIDTH, HEIGHT )
+    renderer.setSize( @WIDTH, @HEIGHT )
     renderer.shadowMap.enabled = true
     @$el.appendChild( renderer.domElement )
 
@@ -49,13 +55,6 @@ module.exports =
 
     # add spaceship
     spaceshipGeo = new THREE.ConeGeometry( 10,30,5 )
-    # spaceshipMat = new THREE.MeshPhongMaterial({
-    #   color: 0xef5e6c
-    #   name: 'sun'
-    #   shininess: 10
-    #   specular: 0xffffff
-    #   shading: THREE.FlatShading
-    # })
     spaceshipMat = new THREE.MeshPhongMaterial({
       color: 0xffffff
       transparent: true
@@ -66,7 +65,6 @@ module.exports =
     })
     @spaceship = new THREE.Mesh( spaceshipGeo, spaceshipMat )
     @spaceship.receiveShadow = true
-    # @spaceship.rotateX(90)
     @map.add( @spaceship )
 
     # add asteroids
@@ -100,19 +98,21 @@ module.exports =
     # begin raycasting
     mouse = new THREE.Vector2()
     raycaster = new THREE.Raycaster()
-    window.addEventListener 'mousemove', (e)->
-      mouse.x = ( event.clientX / WIDTH ) * 2 - 1
-      mouse.y = - ( event.clientY / HEIGHT ) * 2 + 1
+    window.addEventListener 'mousemove', (e)=>
+      mouse.x = ( event.clientX / @WIDTH ) * 2 - 1
+      mouse.y = - ( event.clientY / @HEIGHT ) * 2 + 1
     , false
     mousePoint = new THREE.Vector3()
 
     # handle keybindings
     window.addEventListener 'keydown', (e)=>
       @keyPressMap[e.code] = true
+      if e.code is 'Space' then @bulletBuilder() #handle seperately from other keycodes
     , false
-    # window.addEventListener 'keyup', (e)=>
-    #   @keyPressMap[e.code] = false
-    # , false
+    window.addEventListener 'keyup', (e)=>
+      @keyPressMap[e.code] = false
+    , false
+
 
     # this is needed for the pass for some reason
     clock = new THREE.Clock()
@@ -134,17 +134,10 @@ module.exports =
       #   # do something else
 
       # handle keyPressMap
-      if @keyPressMap.keyA is true    #A - left
-        console.log 'a key is presed'
-        @spaceship.rotation.z -= .1
-      if @keyPressMap.keyD is true    #D - right
-        @spaceship.rotation.z += .1
-      if @keyPressMap.keyW is true    #W - forward accel
-        @spaceship.position.y += 1
-      if @keyPressMap.keyS is true    #S - back accel
-        @spaceship.position.y -= 1
+      @handleKeyBindings()
 
-
+      # handle bounds of all objects
+      @handleBounds(@spaceship)
 
 
       # rotate ship to mouse rotation
@@ -156,7 +149,16 @@ module.exports =
 
       # bobbing -- maybe give to asteroids for visual
       for asteroid in @asteroidCollection
-        @changePosition(asteroid, (Math.sin(time)) * 100, 'x')
+        # @changePosition(asteroid, (Math.sin(time)) * 100, 'x')
+        asteroid.position.x += 1
+        asteroid.position.y += 1
+        @handleBounds(asteroid)
+
+      for bullet in @bulletCollection
+        bullet.position.y += 1
+        bullet.position.x += 1
+        @handleBounds(bullet)
+
 
       requestAnimationFrame(render)
       composer.render(delta)
@@ -170,25 +172,39 @@ module.exports =
       mesh.scale.x += amount
       mesh.scale.y += amount
 
-    keyBindings: ->
-      if @keyPressMap.keyA is true    #A - left
+    handleBounds: (obj)->
+      if obj.position.x < @WIDTH / -2
+        obj.position.x = @WIDTH / 2
+      if obj.position.x > @WIDTH / 2
+        obj.position.x = @WIDTH / -2
+      if obj.position.y < @HEIGHT / -2
+        obj.position.y = @HEIGHT / 2
+      if obj.position.y > @HEIGHT / 2
+        obj.position.y = @HEIGHT / -2
+
+    handleKeyBindings: ->
+      if @keyPressMap.KeyA is true    #A - left
         @spaceship.rotation.z -= .1
-      if @keyPressMap.keyD is true    #D - right
+
+      if @keyPressMap.KeyD is true    #D - right
         @spaceship.rotation.z += .1
-      if @keyPressMap.keyW is true    #W - forward accel
+
+      if @keyPressMap.KeyW is true    #W - forward accel
         @spaceship.position.y += 1
-      if @keyPressMap.keyS is true    #S - back accel
+
+      if @keyPressMap.KeyS is true    #S - back accel
         @spaceship.position.y -= 1
 
     asteroidBuilder: ->
-      radiusTop       =  30
-      radiusBottom    =  30
-      height          =  0.002
-      radiusSegments  =  32
-      heightSegments  =  1
-      openEnded       =  false
-      thetaStart      =  0 # Start angle for first segment, default = 0 (three o'clock position).
-      # thetaLength     =  The central angle, often called theta, of the circular sector. The default is 2*Pi, which makes for a complete cylinder.
+      radiusBuilder   = Math.floor(Math.random()*(60-20+1)+20)
+      radiusTop       = radiusBuilder
+      radiusBottom    = radiusBuilder
+      height          = 0.002
+      radiusSegments  = 9
+      heightSegments  = 1
+      openEnded       = false
+      thetaStart      = 0 # Start angle for first segment, default = 0 (three o'clock position).
+      # thetaLength   =     The central angle, often called theta, of the circular sector. The default is 2*Pi, which makes for a complete cylinder.
       lineGeo = new THREE.CylinderGeometry( radiusTop,radiusBottom,height,radiusSegments,heightSegments,openEnded,thetaStart )
       lineMat = new THREE.LineBasicMaterial({
         color: 0xffffff
@@ -198,10 +214,48 @@ module.exports =
       lineGeo.vertices.pop()
       asteroid = new THREE.Line( lineGeo, lineMat )
       asteroid.rotateX(90)
+      asteroid.rotateY(Math.random()*10)
       asteroid.position.x = Math.floor(Math.random()*500) - 250
       asteroid.position.z = Math.floor(Math.random()*500) - 250
       @asteroidCollection.push(asteroid)
       @map.add(asteroid)
+
+    bulletBuilder: _.throttle ->
+      width   =  20
+      height  =  1
+      bulletGeo = new THREE.PlaneGeometry( width, height)
+      bulletMat = new THREE.MeshBasicMaterial({
+        color: 0xb98a5b
+        side: THREE.DoubleSide
+      })
+      bullet = new THREE.Line( bulletGeo, bulletMat )
+      bullet.position.copy(@spaceship.position) # set bullet from where spaceship is
+
+      bullet.rotateZ(@spaceship.rotation.z)
+      console.log bullet.rotation.z, @spaceship.rotation.z
+
+      @move = ()=>
+        movement = new THREE.Vector3(0,10,0)
+        m = new THREE.Matrix4()
+        m.makeRotationFromEuler(bullet.rotation)
+        movement.applyMatrix4(m)
+        bullet.position.add(movement)
+        # check to see if we went pass viewport bounds
+        if bullet.position.x < @WIDTH / -2
+          bullet.position.x = @WIDTH / 2
+        if bullet.position.x > @WIDTH / 2
+          bullet.position.x = @WIDTH / -2
+        if bullet.position.y < @HEIGHT / -2
+          bullet.position.y = @HEIGHT / 2
+        if bullet.position.y > @HEIGHT / 2
+          bullet.position.y = @HEIGHT / -2
+
+      #create bullet and then set timeout and destroy and pop bullet from array
+      @bulletCollection.push(bullet)
+      @map.add(bullet)
+
+
+    , 500
 
 </script>
 
