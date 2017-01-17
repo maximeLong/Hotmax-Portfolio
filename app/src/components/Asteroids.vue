@@ -21,7 +21,7 @@ module.exports =
   data: ->
     score: 0
     lives: 4
-    showExhaust: false
+    shipExhaust: false
     asteroidCollection: []
     bulletCollection: []
     keyPressMap:
@@ -136,15 +136,12 @@ module.exports =
       # else
       #   # do something else
 
-      #handle ship momentum
-      tempMomentum = new THREE.Vector3()
-      tempMomentum.copy(@shipMomentum)
-      tempMomentum.multiplyScalar(50 * @delta)
+      renderMomentum = new THREE.Vector3() # handle ship momentum
+      renderMomentum.copy(@shipMomentum)
+      renderMomentum.multiplyScalar(50 * @delta)
+      @spaceship.position.add(renderMomentum)
 
-      @spaceship.position.add(tempMomentum)
-
-
-      @handleKeyBindings()      # handle spaceship logic
+      @handleKeyBindings() # handle spaceship logic
       @handleBounds(@spaceship)
 
       for asteroid in @asteroidCollection # handle asteroid logic
@@ -152,9 +149,9 @@ module.exports =
         asteroid.position.y += 1
         @handleBounds(asteroid)
 
-      for bullet in @bulletCollection # handle bullet logic
-        bullet.position.y += 1
-        bullet.position.x += 1
+      for bullet, index in @bulletCollection # handle bullet logic
+        @bulletThrust(bullet)
+        # @checkBulletLife(bullet, index)
         @handleBounds(bullet)
 
       requestAnimationFrame(render)
@@ -162,13 +159,6 @@ module.exports =
 
 
   methods:
-    changePosition: (mesh, amount, axis)->
-      mesh.position[axis] = amount
-
-    changeSize: (mesh, amount)->
-      mesh.scale.x += amount
-      mesh.scale.y += amount
-
     handleBounds: (obj)->
       if obj.position.x < @WIDTH / -2
         obj.position.x = @WIDTH / 2
@@ -182,15 +172,12 @@ module.exports =
     handleKeyBindings: ->
       if @keyPressMap.KeyA is true    #A - left
         @spaceship.rotation.z -= .1
-
       if @keyPressMap.KeyD is true    #D - right
         @spaceship.rotation.z += .1
-
       if @keyPressMap.KeyW is true    #W - forward accel
         @shipThrust()
-
-      if @keyPressMap.KeyS is true    #S - back accel
-        @spaceship.position.y -= 1
+      # if @keyPressMap.KeyS is true    #S - back accel
+      #   @spaceship.position.y -= 1
 
     shipThrust: ->
       forwardVector = new THREE.Vector3(0, 10 * @delta, 0)
@@ -198,14 +185,18 @@ module.exports =
       rotationMatrix.makeRotationFromEuler(@spaceship.rotation)
       forwardVector.applyMatrix4(rotationMatrix)
       @shipMomentum.add(forwardVector)
-
       if @shipMomentum.x > 5  then @shipMomentum.x = 5
       if @shipMomentum.x < -5 then @shipMomentum.x = -5
       if @shipMomentum.y > 5  then @shipMomentum.y = 5
       if @shipMomentum.y < -5 then @shipMomentum.y = -5
-      # @spaceship.position.add(forwardVector)
+      @shipExhaust = true
 
-      @showExhaust = true;
+    bulletThrust: (bullet)->
+      movement = new THREE.Vector3(0,5,0)
+      m = new THREE.Matrix4()
+      m.makeRotationFromEuler(bullet.rotation)
+      movement.applyMatrix4(m)
+      bullet.position.add(movement)
 
 
     asteroidBuilder: ->
@@ -243,31 +234,18 @@ module.exports =
       })
       bullet = new THREE.Line( bulletGeo, bulletMat )
       bullet.position.copy(@spaceship.position) # set bullet from where spaceship is
-
       bullet.rotateZ(@spaceship.rotation.z)
-      console.log bullet.rotation.z, @spaceship.rotation.z
-
-      @move = ()=>
-        movement = new THREE.Vector3(0,10,0)
-        m = new THREE.Matrix4()
-        m.makeRotationFromEuler(bullet.rotation)
-        movement.applyMatrix4(m)
-        bullet.position.add(movement)
-        # check to see if we went pass viewport bounds
-        if bullet.position.x < @WIDTH / -2
-          bullet.position.x = @WIDTH / 2
-        if bullet.position.x > @WIDTH / 2
-          bullet.position.x = @WIDTH / -2
-        if bullet.position.y < @HEIGHT / -2
-          bullet.position.y = @HEIGHT / 2
-        if bullet.position.y > @HEIGHT / 2
-          bullet.position.y = @HEIGHT / -2
+      bulletGeo.rotateZ(Math.PI / 2)
 
       #create bullet and then set timeout and destroy and pop bullet from array
       @bulletCollection.push(bullet)
       @map.add(bullet)
-
-
+      currId = bullet.id
+      setTimeout =>
+        removeIndex = _.findIndex(@bulletCollection, ['id', currId])
+        @bulletCollection.splice(removeIndex, 1)
+        @map.remove(bullet)
+      , 2000
     , 500
 
 </script>
