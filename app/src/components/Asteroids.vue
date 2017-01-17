@@ -21,6 +21,7 @@ module.exports =
   data: ->
     score: 0
     lives: 4
+    showExhaust: false
     asteroidCollection: []
     bulletCollection: []
     keyPressMap:
@@ -65,6 +66,8 @@ module.exports =
     })
     @spaceship = new THREE.Mesh( spaceshipGeo, spaceshipMat )
     @spaceship.receiveShadow = true
+    @shipMomentum = new THREE.Vector3(0,0,0)
+
     @map.add( @spaceship )
 
     # add asteroids
@@ -121,8 +124,8 @@ module.exports =
     #      R E N D E R   L O O P
     # //////////////////////////////////
     do render = ()=>
-      delta = clock.getDelta()
-      time = clock.getElapsedTime()
+      @delta = clock.getDelta()
+      @time = clock.getElapsedTime()
 
       #update the picking ray with the camera and mouse position
       raycaster.setFromCamera( mouse, camera )
@@ -133,35 +136,29 @@ module.exports =
       # else
       #   # do something else
 
-      # handle keyPressMap
-      @handleKeyBindings()
+      #handle ship momentum
+      tempMomentum = new THREE.Vector3()
+      tempMomentum.copy(@shipMomentum)
+      tempMomentum.multiplyScalar(50 * @delta)
 
-      # handle bounds of all objects
+      @spaceship.position.add(tempMomentum)
+
+
+      @handleKeyBindings()      # handle spaceship logic
       @handleBounds(@spaceship)
 
-
-      # rotate ship to mouse rotation
-      # @solarLines[0].rotation.x = mouse.y * 0.3
-      # @solarLines[0].rotation.z = mouse.x * 0.3
-
-      # acceleration for spaceship
-      # @acceleration(@spaceship, @speed)
-
-      # bobbing -- maybe give to asteroids for visual
-      for asteroid in @asteroidCollection
-        # @changePosition(asteroid, (Math.sin(time)) * 100, 'x')
+      for asteroid in @asteroidCollection # handle asteroid logic
         asteroid.position.x += 1
         asteroid.position.y += 1
         @handleBounds(asteroid)
 
-      for bullet in @bulletCollection
+      for bullet in @bulletCollection # handle bullet logic
         bullet.position.y += 1
         bullet.position.x += 1
         @handleBounds(bullet)
 
-
       requestAnimationFrame(render)
-      composer.render(delta)
+      composer.render(@delta)
 
 
   methods:
@@ -190,10 +187,26 @@ module.exports =
         @spaceship.rotation.z += .1
 
       if @keyPressMap.KeyW is true    #W - forward accel
-        @spaceship.position.y += 1
+        @shipThrust()
 
       if @keyPressMap.KeyS is true    #S - back accel
         @spaceship.position.y -= 1
+
+    shipThrust: ->
+      forwardVector = new THREE.Vector3(0, 10 * @delta, 0)
+      rotationMatrix = new THREE.Matrix4()
+      rotationMatrix.makeRotationFromEuler(@spaceship.rotation)
+      forwardVector.applyMatrix4(rotationMatrix)
+      @shipMomentum.add(forwardVector)
+
+      if @shipMomentum.x > 5  then @shipMomentum.x = 5
+      if @shipMomentum.x < -5 then @shipMomentum.x = -5
+      if @shipMomentum.y > 5  then @shipMomentum.y = 5
+      if @shipMomentum.y < -5 then @shipMomentum.y = -5
+      # @spaceship.position.add(forwardVector)
+
+      @showExhaust = true;
+
 
     asteroidBuilder: ->
       radiusBuilder   = Math.floor(Math.random()*(60-20+1)+20)
