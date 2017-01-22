@@ -2,6 +2,7 @@
   <div id="three">
   </div>
 </template>
+
 <style lang="sass">
 @import src/styles/main
 #three
@@ -40,11 +41,6 @@ module.exports =
     # window.addEventListener('resize', handleWindowResize, false) # update the camera and the renderer size on window resize
 
     camera = new THREE.PerspectiveCamera( 75, @WIDTH / @HEIGHT, 0.1, 1000 )
-    @$watch 'mode', (newVal)=>
-      if newVal is 'desktop'
-        camera.position.z = 3.6 # desktop
-        camera.position.y = 13
-        camera.rotation.x = 5
     camera.position.z = 5
 
     renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true }) # web gl renderer, appended to component body
@@ -126,9 +122,9 @@ module.exports =
       strength:    1.1
       distinction: -0.75
     })
-    bloomPass.renderToScreen  = true    # rendering options - TODO: dependent on props
+    bloomPass.renderToScreen  = false    # rendering options
     glitchPass.renderToScreen = false
-    filmPass.renderToScreen   = false
+    filmPass.renderToScreen   = true
     @$watch 'glitch', (newVal,oldVal)->
       if newVal == true
         glitchPass.renderToScreen = true
@@ -140,7 +136,6 @@ module.exports =
     composer3.addPass(bloomPass)
     clock = new THREE.Clock()   # clock needed for pass
 
-
     mouse = new THREE.Vector2()           # raycasting and mouse position
     raycaster = new THREE.Raycaster()
     window.addEventListener 'mousemove', (e)=>
@@ -149,7 +144,18 @@ module.exports =
     , false
     mousePoint = new THREE.Vector3()
 
+    # change camera position and pass on desktop mode change
+    @$watch 'mode', (mode)=>
+      if mode is 'desktop'
+        camera.position.z = 3.6
+        camera.position.y = 13
+        camera.rotation.x = 5
+        bloomPass.renderToScreen  = true
+        filmPass.renderToScreen   = false
 
+    # //////////////////////////////////////////
+    #  R E N D E R   L O O P
+    # /////////////////////////////////////////
     do render = ()=>
       delta = clock.getDelta()
       time = clock.getElapsedTime()
@@ -182,7 +188,7 @@ module.exports =
         @orbitTracks[3].rotation.x = -mouse.y * 0.15
         @orbitTracks[3].rotation.z = -mouse.x * 0.15
 
-      
+
       # bobbing
       @changePosition(@orbitTracks[0], (Math.sin(time) / 5) + .1, 'y')
       @changePosition(@orbitTracks[1], (Math.sin(time) / 4) + .1, 'y')

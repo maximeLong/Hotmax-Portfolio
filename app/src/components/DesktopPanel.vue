@@ -45,7 +45,6 @@
             <img src="../assets/file-icon.svg">
             <div class="caption">resume.pdf</div>
           </div>
-
           <div @click="openPdf(pdf.asteroids)" class="icon file">
             <img src="../assets/file-icon.svg">
             <div class="caption">asteroids.exe</div>

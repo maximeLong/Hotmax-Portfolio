@@ -20,13 +20,12 @@
           <pdf-panel></pdf-panel>
         </div>
       </div>
-
     </div>
 
-    <button v-on:click="changeSpaceMode('desktop')">change mode</button>
+    <button v-on:click="entryIsOpen = false" v-if="entryIsOpen">close entry</button>
     <div class="three-container">
       <div class="growth-container">
-        <three :mode="spaceMode"></three>
+        <three :mode="threeMode"></three>
       </div>
     </div>
 
@@ -46,14 +45,14 @@ module.exports =
     Three: require './components/Three'
 
   data: ->
-    entryIsOpen: false
+    entryIsOpen: true
+    threeMode: 'entry'
     showConsole: false
     showDesktop: false
 
     pdfWindowHeight: 90
     pdfWindowWidth: 70
 
-    spaceMode: 'entry'
 
   mounted: ->
     @$watch 'activePdf', (pdf)->
@@ -63,6 +62,10 @@ module.exports =
       else
         @pdfWindowHeight = 90
         @pdfWindowWidth = 70
+
+    @$watch 'entryIsOpen', (mode)->
+      if mode is false then @threeMode = 'desktop'
+
 
   computed:
     # vuex
@@ -77,9 +80,6 @@ module.exports =
       setTimeout =>
         @showConsole = true
       , 3500
-    changeSpaceMode: (newMode)->
-      console.log 'space mode button click'
-      @spaceMode = newMode
 
 
 </script>
@@ -96,8 +96,8 @@ module.exports =
   button
     position: absolute
     top: 200px
-    left: 200px
-    z-index: 999999
+    left: 300px
+    z-index: 99999
 
   .three-container
     width: 100%
