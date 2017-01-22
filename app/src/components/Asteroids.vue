@@ -145,14 +145,12 @@ module.exports =
       @handleBounds(@spaceship)
 
       for asteroid in @asteroidCollection # handle asteroid logic
-        asteroid.position.x += 1
-        asteroid.position.y += 1
         @handleBounds(asteroid)
 
       for bullet, index in @bulletCollection # handle bullet logic
         @bulletThrust(bullet)
-        # @checkBulletLife(bullet, index)
         @handleBounds(bullet)
+        @checkCollision(bullet, index)
 
       requestAnimationFrame(render)
       composer.render(@delta)
@@ -160,14 +158,15 @@ module.exports =
 
   methods:
     handleBounds: (obj)->
-      if obj.position.x < @WIDTH / -2
-        obj.position.x = @WIDTH / 2
-      if obj.position.x > @WIDTH / 2
-        obj.position.x = @WIDTH / -2
-      if obj.position.y < @HEIGHT / -2
-        obj.position.y = @HEIGHT / 2
-      if obj.position.y > @HEIGHT / 2
-        obj.position.y = @HEIGHT / -2
+      if obj
+        if obj.position.x < @WIDTH / -2
+          obj.position.x = @WIDTH / 2
+        if obj.position.x > @WIDTH / 2
+          obj.position.x = @WIDTH / -2
+        if obj.position.y < @HEIGHT / -2
+          obj.position.y = @HEIGHT / 2
+        if obj.position.y > @HEIGHT / 2
+          obj.position.y = @HEIGHT / -2
 
     handleKeyBindings: ->
       if @keyPressMap.KeyA is true    #A - left
@@ -192,59 +191,90 @@ module.exports =
       @shipExhaust = true
 
     bulletThrust: (bullet)->
-      movement = new THREE.Vector3(0,5,0)
-      m = new THREE.Matrix4()
-      m.makeRotationFromEuler(bullet.rotation)
-      movement.applyMatrix4(m)
-      bullet.position.add(movement)
+      if bullet
+        movement = new THREE.Vector3(0,5,0)
+        m = new THREE.Matrix4()
+        m.makeRotationFromEuler(bullet.rotation)
+        movement.applyMatrix4(m)
+        bullet.position.add(movement)
+
+    checkCollision: (bullet, bulletIndex)->
+      if bullet
+        # This is still a little wonky and needs some finessing with the rays
+        # and the distance of the raycast that is being tested.
+        # rays = [
+        #   new THREE.Vector3(0, 0, 1),
+        #   new THREE.Vector3(1, 0, 1),
+        #   new THREE.Vector3(1, 0, 0),
+        #   new THREE.Vector3(1, 0, -1),
+        #   new THREE.Vector3(0, 0, -1),
+        #   new THREE.Vector3(-1, 0, -1),
+        #   new THREE.Vector3(-1, 0, 0),
+        #   new THREE.Vector3(-10, 0, 10)
+        # ]
+        # for ray in rays
+        ray = new THREE.Vector3(0, 0, 1)
+        caster = new THREE.Raycaster()
+        caster.set(bullet.position, ray)
+        collisions = caster.intersectObjects(@asteroidCollection, true)
+        if collisions.length > 0
+          @bulletCollection.splice(bulletIndex, 1)
+          @map.remove(bullet)
+          asteroidIndex = _.findIndex(@asteroidIndex, ['id', collisions[0].object.id])
+          @asteroidCollection.splice(asteroidIndex, 1)
+          @map.remove(collisions[0].object)
+          @score += 1
 
 
     asteroidBuilder: ->
       radiusBuilder   = Math.floor(Math.random()*(60-20+1)+20)
       radiusTop       = radiusBuilder
       radiusBottom    = radiusBuilder
-      height          = 0.002
-      radiusSegments  = 9
-      heightSegments  = 1
+      height          = 50
+      radiusSegments  = 10
+      heightSegments  = 20
       openEnded       = false
       thetaStart      = 0 # Start angle for first segment, default = 0 (three o'clock position).
       # thetaLength   =     The central angle, often called theta, of the circular sector. The default is 2*Pi, which makes for a complete cylinder.
       lineGeo = new THREE.CylinderGeometry( radiusTop,radiusBottom,height,radiusSegments,heightSegments,openEnded,thetaStart )
-      lineMat = new THREE.LineBasicMaterial({
+      lineMat = new THREE.MeshBasicMaterial({
         color: 0xffffff
-        transparent: true
+        # transparent: true
       })
       lineGeo.vertices.pop()
       lineGeo.vertices.pop()
       asteroid = new THREE.Line( lineGeo, lineMat )
-      asteroid.rotateX(90)
-      asteroid.rotateY(Math.random()*10)
+
+      asteroid.rotateX(Math.PI / 2)
+      asteroid.rotateY(Math.PI / Math.random() * 10)
       asteroid.position.x = Math.floor(Math.random()*500) - 250
       asteroid.position.z = Math.floor(Math.random()*500) - 250
+
       @asteroidCollection.push(asteroid)
       @map.add(asteroid)
 
     bulletBuilder: _.throttle ->
-      width   =  20
-      height  =  1
+      width  = 20
+      height = 1
       bulletGeo = new THREE.PlaneGeometry( width, height)
       bulletMat = new THREE.MeshBasicMaterial({
         color: 0xb98a5b
         side: THREE.DoubleSide
       })
       bullet = new THREE.Line( bulletGeo, bulletMat )
+
       bullet.position.copy(@spaceship.position) # set bullet from where spaceship is
       bullet.rotateZ(@spaceship.rotation.z)
       bulletGeo.rotateZ(Math.PI / 2)
-
       #create bullet and then set timeout and destroy and pop bullet from array
       @bulletCollection.push(bullet)
       @map.add(bullet)
       currId = bullet.id
       setTimeout =>
         removeIndex = _.findIndex(@bulletCollection, ['id', currId])
-        @bulletCollection.splice(removeIndex, 1)
-        @map.remove(bullet)
+        if removeIndex != -1
+          @bulletCollection.splice(removeIndex, 1)
+          @map.remove(bullet)
       , 2000
     , 500
 

@@ -1,10 +1,17 @@
 <template>
   <div id="three">
-    <!-- <div class="buttons">
-      <button @click="turnGlitchOn">glitch it bitch</button>
-    </div> -->
   </div>
 </template>
+<style lang="sass">
+@import src/styles/main
+#three
+  position: relative
+  +flex(1 1 50%)
+  +flexbox
+  +justify-content(center)
+  +align-items(center)
+  overflow: hidden
+</style>
 
 <script lang="coffee">
 THREE = require 'three'
@@ -16,88 +23,78 @@ module.exports =
   props:
     cameraPosition: String
 
+  data: ->
+    rotationalParents: []
+    orbitTracks: []
+    planetParents: []
+    planets: []
+    glitch: false
+
+
   mounted: ->
     # set up scene and camera
     scene = new THREE.Scene()
-    HEIGHT = window.innerHeight
-    WIDTH = window.innerWidth
+    @HEIGHT = window.innerHeight
+    @WIDTH = window.innerWidth
 
-    # update the camera and the renderer size on window resize
-    # window.addEventListener('resize', handleWindowResize, false)
+    # window.addEventListener('resize', handleWindowResize, false) # update the camera and the renderer size on window resize
 
-    # camera
-    camera = new THREE.PerspectiveCamera( 75, WIDTH / HEIGHT, 0.1, 1000 )
-    #entry
-    # camera.position.z = 5
-
-    camera.position.z = 3.6
+    camera = new THREE.PerspectiveCamera( 75, @WIDTH / @HEIGHT, 0.1, 1000 )
+    # camera.position.z = 5 # entry
+    camera.position.z = 3.6 # desktop
     camera.position.y = 13
     camera.rotation.x = 5
 
-    # web gl renderer, appended to component body
-    renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true })
-    renderer.setSize( WIDTH, HEIGHT )
+    renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true }) # web gl renderer, appended to component body
+    renderer.setSize( @WIDTH, @HEIGHT )
     renderer.shadowMap.enabled = true
     @$el.appendChild( renderer.domElement )
 
-    # celestial Parent
-    objectsContainer = new THREE.Object3D()
-    scene.add(objectsContainer)
+    # parent container
+    @map = new THREE.Object3D()
+    scene.add(@map)
 
-    # add geometry
-    geometry = new THREE.TetrahedronGeometry( 1,3 )
-    material = new THREE.MeshPhongMaterial({
+    # build sun mesh
+    sunGeo = new THREE.TetrahedronGeometry( 1,3 )
+    sunMat = new THREE.MeshPhongMaterial({
       color: 0xef5e6c
       name: 'sun'
       shininess: 10
       specular: 0xffffff
       shading: THREE.FlatShading
     })
-    @sunMesh = new THREE.Mesh( geometry, material )
+    @sunMesh = new THREE.Mesh( sunGeo, sunMat )
     @sunMesh.receiveShadow = true
-    objectsContainer.add( @sunMesh )
+    @map.add( @sunMesh )
 
-    # add orbit parent
-    @parents = []
+    # add track/planet parent object -- used for rotation
     for i in [0...4]
       parent = new THREE.Object3D()
       parent.rotation.x += .4
-      @parents.push( parent )
-    for parent in @parents
-      objectsContainer.add( parent )
+      @rotationalParents.push( parent )
+      @map.add( parent )
 
-    @solarLines = []
-    @lineFactory(@solarLines, 'track')
-    for line in @solarLines
-      objectsContainer.add( line )
+    # build orbiting 'tracks'
+    @lineFactory(@orbitTracks, 'track')
+    for line in @orbitTracks
+      @map.add( line )
 
-
-    # orbiting object and add to scene
-    @orbits = []
+    # build planet container and planet
     for i in [0...4]
-      orbit = new THREE.Object3D()
-      # orbit.position.x = i * Math.PI / 3
-      orbit.position.x = @solarLines[i].geometry.parameters.radiusTop
-      @orbits.push( orbit )
-    for orbit,i in @orbits
-      @parents[i].add(orbit)
+      planetParent = new THREE.Object3D()
+      # planetParent.position.x = i * Math.PI / 3
+      planetParent.position.x = @orbitTracks[i].geometry.parameters.radiusTop
+      @planetParents.push( planetParent )
+      @rotationalParents[i].add( planetParent )
 
-    # add lines
-    @planetLines = []
-    @lineFactory(@planetLines, 'planet')
-    for planet,i in @planetLines
-      @orbits[i].add( planet )
+    @lineFactory(@planets, 'planet')
+    for planet,i in @planets
+      @planetParents[i].add( planet )
 
 
-    # fog??
-    scene.fog = new THREE.Fog(0xf7d9aa, 100,950)
-
-    # lighting
-    hemisphereLight = new THREE.HemisphereLight(0xb98a5b,0x000000, .9)
+    scene.fog = new THREE.Fog(0xf7d9aa, 100,950)                        # fog??
+    hemisphereLight = new THREE.HemisphereLight(0xb98a5b,0x000000, .9)  # lighting
     shadowLight = new THREE.DirectionalLight(0xb98a5b, .9)
-    # hemisphereLight = new THREE.HemisphereLight(0xb98a5b,0x000000, .9)
-    # shadowLight = new THREE.DirectionalLight(0xb98a5b, .9)
-
     shadowLight.position.set(5, 5, 10)
     shadowLight.castShadow = true
     scene.add( hemisphereLight )
@@ -111,8 +108,7 @@ module.exports =
     composer3 = new EffectComposer(renderer)
     composer3.addPass(new RenderPass( scene, camera ))
 
-    # film pass
-    filmPass = new FilmPass({
+    filmPass = new FilmPass({     # film pass -- used for entry
       noiseIntensity:     0.5
       scanlineIntensity:  0.4
       scanlineDensity:    1.2
@@ -120,109 +116,89 @@ module.exports =
       vignetteOffset:     0.5
       vignetteDarkness:   0.75
     })
-    # glitch pass
-    glitchPass = new GlitchPass()
+    glitchPass = new GlitchPass() # glitch pass and default mode -- used for transition
     glitchPass.mode = 1
-    # bloom pass
-    bloomPass = new BloomPass({
+    bloomPass = new BloomPass({   # bloom pass -- used for desktop
       resolution:  0.5
       blurriness:  1.0
       strength:    1.1
       distinction: -0.75
     })
-
-    bloomPass.renderToScreen  = true
+    bloomPass.renderToScreen  = true    # rendering options - TODO: dependent on props
     glitchPass.renderToScreen = false
     filmPass.renderToScreen   = false
-    composer1.addPass(filmPass)
-    composer2.addPass(glitchPass)
-    composer3.addPass(bloomPass)
-
     @$watch 'glitch', (newVal,oldVal)->
       if newVal == true
         glitchPass.renderToScreen = true
       else
         glitchPass.renderToScreen = false
 
-    # this is needed for the pass for some reason
-    clock = new THREE.Clock()
+    composer1.addPass(filmPass)
+    composer2.addPass(glitchPass)
+    composer3.addPass(bloomPass)
+    clock = new THREE.Clock()   # clock needed for pass
 
 
-    # begin raycasting
-    mouse = new THREE.Vector2()
+    mouse = new THREE.Vector2()           # raycasting and mouse position
     raycaster = new THREE.Raycaster()
-    window.addEventListener 'mousemove', (e)->
-      mouse.x = ( event.clientX / WIDTH ) * 2 - 1
-      mouse.y = - ( event.clientY / HEIGHT ) * 2 + 1
+    window.addEventListener 'mousemove', (e)=>
+      mouse.x = ( event.clientX / @WIDTH ) * 2 - 1
+      mouse.y = - ( event.clientY / @HEIGHT ) * 2 + 1
     , false
     mousePoint = new THREE.Vector3()
+
 
     do render = ()=>
       delta = clock.getDelta()
       time = clock.getElapsedTime()
 
-      #update camera position on cameraPosition Prop change
+      #TODO: create entry/desktop flag and animate camera position
       # if @cameraPosition is 'desktop'
-
 
       #update the picking ray with the camera and mouse position
       raycaster.setFromCamera( mouse, camera )
-      intersects = raycaster.intersectObjects( objectsContainer.children )
+      intersects = raycaster.intersectObjects( @map.children )
       # if intersects.length > 0
       #   #intersects[0].object?
       #   # do something
       # else
       #   # do something else
 
-
-
       # rotation
-      for line,i in @solarLines
+      for line,i in @orbitTracks
         @rotateOnOneAxis(line, delta/3, 'y')
       @rotateOnXYAxis(@sunMesh, delta/2)
 
-      #opacity and mouse tracking -- set on desktop prop change
-      for line,i in @solarLines
-        line.material.opacity = 1
-      for line,i in @planetLines
-        line.material.opacity = 1
-
-      @solarLines[0].rotation.x = mouse.y * 0.3
-      @solarLines[0].rotation.z = mouse.x * 0.3
-      @solarLines[1].rotation.x = -mouse.y * 0.15
-      @solarLines[1].rotation.z = -mouse.x * 0.15
-      @solarLines[2].rotation.x = mouse.y * 0.15
-      @solarLines[2].rotation.z = mouse.x * 0.15
-      @solarLines[3].rotation.x = -mouse.y * 0.15
-      @solarLines[3].rotation.z = -mouse.x * 0.15
-
-      # objectsContainer.rotation.x = mouse.y * 0.15
-      # objectsContainer.rotation.z = mouse.x * 0.15
+      #opacity and mouse tracking -- TODO: create desktop flag for this behavior
+      @orbitTracks[0].rotation.x = mouse.y * 0.3
+      @orbitTracks[0].rotation.z = mouse.x * 0.3
+      @orbitTracks[1].rotation.x = -mouse.y * 0.15
+      @orbitTracks[1].rotation.z = -mouse.x * 0.15
+      @orbitTracks[2].rotation.x = mouse.y * 0.15
+      @orbitTracks[2].rotation.z = mouse.x * 0.15
+      @orbitTracks[3].rotation.x = -mouse.y * 0.15
+      @orbitTracks[3].rotation.z = -mouse.x * 0.15
 
       # bobbing
-      @changePosition(@solarLines[0], (Math.sin(time) / 5) + .1, 'y')
-      @changePosition(@solarLines[1], (Math.sin(time) / 4) + .1, 'y')
-      @changePosition(@solarLines[2], (Math.sin(time) / 5) + .1, 'y')
-      @changePosition(@solarLines[3], (Math.sin(time) / 7) + .1, 'y')
-
-      @changePosition(@planetLines[0], (Math.sin(time) / 5) + .1, 'y')
-      @changePosition(@planetLines[1], (Math.sin(time) / 4) + .1, 'y')
-      @changePosition(@planetLines[2], (Math.sin(time) / 5) + .1, 'y')
-      @changePosition(@planetLines[3], (Math.sin(time) / 7) + .1, 'y')
+      @changePosition(@orbitTracks[0], (Math.sin(time) / 5) + .1, 'y')
+      @changePosition(@orbitTracks[1], (Math.sin(time) / 4) + .1, 'y')
+      @changePosition(@orbitTracks[2], (Math.sin(time) / 5) + .1, 'y')
+      @changePosition(@orbitTracks[3], (Math.sin(time) / 7) + .1, 'y')
+      @changePosition(@planets[0], (Math.sin(time) / 5) + .1, 'y')
+      @changePosition(@planets[1], (Math.sin(time) / 4) + .1, 'y')
+      @changePosition(@planets[2], (Math.sin(time) / 5) + .1, 'y')
+      @changePosition(@planets[3], (Math.sin(time) / 7) + .1, 'y')
 
       # orbiting planets
-      @parents[0].rotation.y += 0.01
-      @parents[1].rotation.y += 0.005
-      @parents[2].rotation.y += 0.0025
-      @parents[3].rotation.y += 0.00125
+      @rotationalParents[0].rotation.y += 0.01
+      @rotationalParents[1].rotation.y += 0.005
+      @rotationalParents[2].rotation.y += 0.0025
+      @rotationalParents[3].rotation.y += 0.00125
 
       requestAnimationFrame(render)
       composer1.render(delta)
       composer2.render(delta)
       composer3.render(delta)
-
-  data: ->
-    glitch: false
 
   methods:
     turnGlitchOn: ()->
@@ -231,73 +207,37 @@ module.exports =
     onClick: ->
       console.log 'click'
 
-
     rotateOnOneAxis: (mesh, amount, axis)->
       mesh.rotation[axis] += amount
     rotateOnXYAxis: (mesh, amount)->
       mesh.rotation.x += amount
       mesh.rotation.y += amount
-
     changePosition: (mesh, amount, axis)->
       mesh.position[axis] = amount
-    changePositionOnXZAxis: (mesh, amount)->
-      mesh.position.x += amount
-      mesh.position.z += amount
-
-    changeSize: (mesh, amount)->
-      mesh.scale.x += amount
-      mesh.scale.y += amount
-      mesh.scale.z += amount
 
     lineFactory: (array, type)->
       for i in [3...7]
         if type is 'track' then size = i * .6
         if type is 'planet' then size = .28
-
         radiusTop       =  size
         radiusBottom    =  size
         height          =  0.002
         radiusSegments  =  32
         heightSegments  =  1
-        openEnded       =  false
-        thetaStart      =  0 # Start angle for first segment, default = 0 (three o'clock position).
-        # thetaLength     =  The central angle, often called theta, of the circular sector. The default is 2*Pi, which makes for a complete cylinder.
-
-        lineGeo = new THREE.CylinderGeometry( radiusTop,radiusBottom,height,radiusSegments,heightSegments,openEnded,thetaStart )
+        lineGeo = new THREE.CylinderGeometry( radiusTop, radiusBottom, height, radiusSegments, heightSegments )
         lineMat = new THREE.LineBasicMaterial({
           color: 0xffffff
           transparent: true
         })
         lineGeo.vertices.pop()
         lineGeo.vertices.pop()
-        solarLine = new THREE.Line( lineGeo, lineMat )
-
+        line = new THREE.Line( lineGeo, lineMat )
         if type is 'track'
-          solarLine.rotation.x += .4
-          solarLine.rotation.y += i * 1.5
+          line.rotation.x += .4
+          line.rotation.y += i * 1.5
         if type is 'planet'
-          solarLine.rotation.x += 1.5
-        array.push(solarLine)
+          line.rotation.x += 1.5
+        array.push(line)
 
 
 </script>
-
-<style lang="sass">
-@import src/styles/main
-
-#three
-  position: relative
-  +flex(1 1 50%)
-  +flexbox
-  +justify-content(center)
-  +align-items(center)
-  overflow: hidden
-
-  .buttons
-    position: absolute
-    top: 20px
-
-
-
-
-</style>
