@@ -21,7 +21,7 @@ _ = require 'lodash'
 module.exports =
   name: 'three'
   props:
-    cameraPosition: String
+    mode: String
 
   data: ->
     rotationalParents: []
@@ -40,10 +40,12 @@ module.exports =
     # window.addEventListener('resize', handleWindowResize, false) # update the camera and the renderer size on window resize
 
     camera = new THREE.PerspectiveCamera( 75, @WIDTH / @HEIGHT, 0.1, 1000 )
-    # camera.position.z = 5 # entry
-    camera.position.z = 3.6 # desktop
-    camera.position.y = 13
-    camera.rotation.x = 5
+    @$watch 'mode', (newVal)=>
+      if newVal is 'desktop'
+        camera.position.z = 3.6 # desktop
+        camera.position.y = 13
+        camera.rotation.x = 5
+    camera.position.z = 5
 
     renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true }) # web gl renderer, appended to component body
     renderer.setSize( @WIDTH, @HEIGHT )
@@ -153,7 +155,7 @@ module.exports =
       time = clock.getElapsedTime()
 
       #TODO: create entry/desktop flag and animate camera position
-      # if @cameraPosition is 'desktop'
+      # if @mode is 'desktop'
 
       #update the picking ray with the camera and mouse position
       raycaster.setFromCamera( mouse, camera )
@@ -170,15 +172,17 @@ module.exports =
       @rotateOnXYAxis(@sunMesh, delta/2)
 
       #opacity and mouse tracking -- TODO: create desktop flag for this behavior
-      @orbitTracks[0].rotation.x = mouse.y * 0.3
-      @orbitTracks[0].rotation.z = mouse.x * 0.3
-      @orbitTracks[1].rotation.x = -mouse.y * 0.15
-      @orbitTracks[1].rotation.z = -mouse.x * 0.15
-      @orbitTracks[2].rotation.x = mouse.y * 0.15
-      @orbitTracks[2].rotation.z = mouse.x * 0.15
-      @orbitTracks[3].rotation.x = -mouse.y * 0.15
-      @orbitTracks[3].rotation.z = -mouse.x * 0.15
+      if @mode is 'desktop'
+        @orbitTracks[0].rotation.x = mouse.y * 0.3
+        @orbitTracks[0].rotation.z = mouse.x * 0.3
+        @orbitTracks[1].rotation.x = -mouse.y * 0.15
+        @orbitTracks[1].rotation.z = -mouse.x * 0.15
+        @orbitTracks[2].rotation.x = mouse.y * 0.15
+        @orbitTracks[2].rotation.z = mouse.x * 0.15
+        @orbitTracks[3].rotation.x = -mouse.y * 0.15
+        @orbitTracks[3].rotation.z = -mouse.x * 0.15
 
+      
       # bobbing
       @changePosition(@orbitTracks[0], (Math.sin(time) / 5) + .1, 'y')
       @changePosition(@orbitTracks[1], (Math.sin(time) / 4) + .1, 'y')

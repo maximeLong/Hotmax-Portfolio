@@ -23,9 +23,10 @@
 
     </div>
 
+    <button v-on:click="changeSpaceMode('desktop')">change mode</button>
     <div class="three-container">
       <div class="growth-container">
-        <three></three>
+        <three :mode="spaceMode"></three>
       </div>
     </div>
 
@@ -42,10 +43,7 @@ module.exports =
     ConsolePanel: require './components/ConsolePanel'
     HeaderPanel: require './components/HeaderPanel'
     PdfPanel: require './components/PdfPanel'
-
-
     Three: require './components/Three'
-    Ascii: require './components/Ascii'
 
   data: ->
     entryIsOpen: false
@@ -54,6 +52,8 @@ module.exports =
 
     pdfWindowHeight: 90
     pdfWindowWidth: 70
+
+    spaceMode: 'entry'
 
   mounted: ->
     @$watch 'activePdf', (pdf)->
@@ -77,6 +77,9 @@ module.exports =
       setTimeout =>
         @showConsole = true
       , 3500
+    changeSpaceMode: (newMode)->
+      console.log 'space mode button click'
+      @spaceMode = newMode
 
 
 </script>
@@ -89,6 +92,12 @@ module.exports =
   width: 100vw
   height: 100vh
   overflow: hidden
+
+  button
+    position: absolute
+    top: 200px
+    left: 200px
+    z-index: 999999
 
   .three-container
     width: 100%
