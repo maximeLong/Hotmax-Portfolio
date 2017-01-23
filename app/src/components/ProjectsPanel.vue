@@ -6,7 +6,7 @@
         <img src="../assets/rubbish-icon.svg">
         <div class="caption">Rubbish Bin</div>
       </div>
-      <div @click="openOverlay(overlay.readme)" class="icon file">
+      <div @click="openOverlay(overlays.readme)" class="icon file">
         <img src="../assets/file-icon.svg">
         <div class="caption">readme.pdf</div>
       </div>
