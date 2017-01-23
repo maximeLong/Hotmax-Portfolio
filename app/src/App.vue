@@ -5,28 +5,29 @@
       <entry></entry>
     </div>
 
-    <div id="desktop-experience" v-if="!entryIsOpen">
+    <transition appear name="fadedown">
+      <div id="desktop-experience" v-if="!entryIsOpen" v-bind:class="{ entry: entryIsOpen, desktop: !entryIsOpen }">
 
-      <div id="header-container">
-        <transition appear v-on:enter="beginShowingDesktop()" name="fadedown">
-          <header-panel></header-panel>
-        </transition>
-      </div>
+        <div id="header-container">
+          <transition appear v-on:enter="beginShowingDesktop()" name="fadedown">
+            <header-panel></header-panel>
+          </transition>
+        </div>
 
-      <div id="body-container">
-        <projects-panel v-if="projectPanelVisibility"></projects-panel>
-        <console-panel v-if="consolePanelVisibility"></console-panel>
-        <div id="overlay-container" v-if="overlayIsOpen" v-bind:style="{ height: 'calc(' + overlayHeight + '% - 60px)', width: overlayWidth + '%' }">
-          <overlay-panel></overlay-panel>
+        <div id="body-container">
+          <projects-panel v-if="projectPanelVisibility"></projects-panel>
+          <console-panel v-if="consolePanelVisibility"></console-panel>
+          <div id="overlay-container" v-if="overlayIsOpen" v-bind:style="{ height: 'calc(' + overlayHeight + '% - 60px)', width: overlayWidth + '%' }">
+            <overlay-panel></overlay-panel>
+          </div>
         </div>
       </div>
-
-    </div>
+    </transition>
 
     <button v-on:click="setEntry(false)" v-if="entryIsOpen" class="entry-btn">close entry</button>
     <div class="three-container">
       <div class="growth-container">
-        <three :mode="threeMode"></three>
+        <three :mode="threeMode" :glitch="showThreeGlitch"></three>
       </div>
     </div>
 
@@ -63,7 +64,13 @@ module.exports =
 
     # pass entryIsOpen info down into three.js component
     @$watch 'entryIsOpen', (mode)->
-      if mode is false then @threeMode = 'desktop'
+      if mode is false
+        @threeMode = 'desktop'
+        @$store.commit 'SET_THREE_GLITCH', true
+        setTimeout =>
+          @$store.commit 'SET_THREE_GLITCH', false
+        , 3500
+
 
 
   computed:
@@ -74,6 +81,8 @@ module.exports =
 
     overlayIsOpen: -> return @$store.state.overlayIsOpen
     activeOverlay: ->  return @$store.state.activeOverlay
+
+    showThreeGlitch: -> return @$store.state.showThreeGlitch
 
   methods:
     # vuex mutators
@@ -161,6 +170,7 @@ module.exports =
     width: 100vw
     overflow-x: hidden
     overflow-y: hidden
+    background-color: white
     #header-container
       height: 60px
     #body-container

@@ -66,14 +66,14 @@ _ = require 'lodash'
 module.exports =
   name: 'three'
   props:
-    mode: String
+    mode:   type: String
+    glitch: type: Boolean
 
   data: ->
     rotationalParents: []
     orbitTracks: []
     planetParents: []
     planets: []
-    glitch: false
 
 
   mounted: ->
@@ -159,7 +159,7 @@ module.exports =
       vignetteDarkness:   0.75
     })
     glitchPass = new GlitchPass() # glitch pass and default mode -- used for transition
-    glitchPass.mode = 1
+    glitchPass.mode = .5
     bloomPass = new BloomPass({   # bloom pass -- used for desktop
       resolution:  0.5
       blurriness:  1.0
@@ -169,11 +169,6 @@ module.exports =
     bloomPass.renderToScreen  = false    # rendering options
     glitchPass.renderToScreen = false
     filmPass.renderToScreen   = true
-    @$watch 'glitch', (newVal,oldVal)->
-      if newVal == true
-        glitchPass.renderToScreen = true
-      else
-        glitchPass.renderToScreen = false
 
     composer1.addPass(filmPass)
     composer2.addPass(glitchPass)
@@ -193,6 +188,14 @@ module.exports =
       if mode is 'desktop'
         bloomPass.renderToScreen  = true
         filmPass.renderToScreen   = false
+
+    @$watch 'glitch', (mode)=>
+      if mode is true
+        glitchPass.renderToScreen = true
+        bloomPass.renderToScreen  = false
+      else
+        glitchPass.renderToScreen = false
+        bloomPass.renderToScreen  = true
 
 
     # //////////////////////////////////////////

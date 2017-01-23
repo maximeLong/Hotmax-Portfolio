@@ -4,6 +4,8 @@ Vuex = require('vuex')
 state =
   # entry to desktop toggles
   entryIsOpen: true
+  showThreeGlitch: false
+
   projectPanelVisibility: false
   consolePanelVisibility: false
 
@@ -16,7 +18,6 @@ state =
 
   overlayIsOpen: false
   activeOverlay: {}
-
 
 
 mutations =
@@ -42,10 +43,14 @@ mutations =
   SET_ACTIVE_NAVIGATOR_WINDOW: (state, project)->
     state.activeNavigatorWindow = project
 
+  SET_THREE_GLITCH: (state, mode)->
+    state.showThreeGlitch = mode
+
 
 module.exports = new Vuex.Store({
   state
   mutations
+  plugins: [init]
   actions: require './actions'
   strict: process.env.NODE_ENV != 'production'
 })
