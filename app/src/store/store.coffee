@@ -1,29 +1,46 @@
 Vuex = require('vuex')
 { init } = require('./plugins')
 
-state = {
-  windowIsOpen: false
-  activeWindow: {}
+state =
+  # entry to desktop toggles
+  entryIsOpen: true
+  projectPanelVisibility: false
+  consolePanelVisibility: false
 
-  pdfIsOpen: false
-  activePdf: {}
+  # project, navigator, and overlay window statuses
+  projectWindowIsOpen: false
+  activeProjectWindow: {}
 
-  navigatorIsOpen: false
-}
+  navigatorWindowIsOpen: false
+  activeNavigatorWindow: {}
+
+  overlayIsOpen: false
+  activeOverlay: {}
+
+
 
 mutations =
-  SET_WINDOW_IS_OPEN: (state, status)->
-    state.windowIsOpen = status
-  SET_ACTIVE_WINDOW: (state, win)->
-    state.activeWindow = win
+  SET_ENTRY_IS_OPEN: (state, status)->
+    state.entryIsOpen = status
+  SET_PROJECT_PANEL_VISIBILITY: (state, status)->
+    state.projectPanelVisibility = status
+  SET_CONSOLE_PANEL_VISIBILITY: (state, status)->
+    state.consolePanelVisibility = status
 
-  SET_PDF_IS_OPEN: (state, status)->
-    state.pdfIsOpen = status
-  SET_ACTIVE_PDF: (state, pdf)->
-    state.activePdf = pdf
+  SET_PROJECT_WINDOW_IS_OPEN: (state, status)->
+    state.projectWindowIsOpen = status
+  SET_ACTIVE_PROJECT_WINDOW: (state, project)->
+    state.activeProjectWindow = project
 
-  SET_NAVIGATOR_IS_OPEN: (state, status)->
-    state.navigatorIsOpen = status
+  SET_OVERLAY_IS_OPEN: (state, status)->
+    state.overlayIsOpen = status
+  SET_ACTIVE_OVERLAY: (state, overlay)->
+    state.activeOverlay = overlay
+
+  SET_NAVIGATOR_WINDOW_IS_OPEN: (state, status)->
+    state.navigatorWindowIsOpen = status
+  SET_ACTIVE_NAVIGATOR_WINDOW: (state, project)->
+    state.activeNavigatorWindow = project
 
 
 module.exports = new Vuex.Store({

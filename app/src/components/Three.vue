@@ -1,5 +1,44 @@
 <template>
   <div id="three">
+    <!-- <div class="camera-stuff">
+      <div>
+        position x:<button v-on:click="changeCameraPosition('x', 'up')">x up</button>
+        <button v-on:click="changeCameraPosition('x', 'down')">x down</button>
+      </div>
+      <div>
+        position y:<button v-on:click="changeCameraPosition('y', 'up')">y up</button>
+        <button v-on:click="changeCameraPosition('y', 'down')">y down</button>
+      </div>
+      <div>
+        position z:<button v-on:click="changeCameraPosition('z', 'up')">z up</button>
+        <button v-on:click="changeCameraPosition('z', 'down')">z down</button>
+      </div>
+      <div>
+        rotation x:<button v-on:click="changeCameraRotation('x', 'up')">x rotation up</button>
+        <button v-on:click="changeCameraRotation('x', 'down')">x rotation down</button>
+      </div>
+      <div>
+        rotation y:<button v-on:click="changeCameraRotation('y', 'up')">y rotation up</button>
+        <button v-on:click="changeCameraRotation('y', 'down')">y rotation down</button>
+      </div>
+      <div>
+        rotation z:<button v-on:click="changeCameraRotation('z', 'up')">z rotation up</button>
+        <button v-on:click="changeCameraRotation('z', 'down')">z rotation down</button>
+      </div>
+
+      <div>
+        map r x:<button v-on:click="changeMapRotation('x', 'up')">x rotation up</button>
+        <button v-on:click="changeMapRotation('x', 'down')">x rotation down</button>
+      </div>
+      <div>
+        map r y:<button v-on:click="changeMapRotation('y', 'up')">y rotation up</button>
+        <button v-on:click="changeMapRotation('y', 'down')">y rotation down</button>
+      </div>
+      <div>
+        map r z:<button v-on:click="changeMapRotation('z', 'up')">z rotation up</button>
+        <button v-on:click="changeMapRotation('z', 'down')">z rotation down</button>
+      </div> -->
+    </div>
   </div>
 </template>
 
@@ -12,6 +51,11 @@
   +justify-content(center)
   +align-items(center)
   overflow: hidden
+
+  .camera-stuff
+    position: absolute
+    top: 100px
+    right: 100px
 </style>
 
 <script lang="coffee">
@@ -40,8 +84,8 @@ module.exports =
 
     # window.addEventListener('resize', handleWindowResize, false) # update the camera and the renderer size on window resize
 
-    camera = new THREE.PerspectiveCamera( 75, @WIDTH / @HEIGHT, 0.1, 1000 )
-    camera.position.z = 5
+    @camera = new THREE.PerspectiveCamera( 75, @WIDTH / @HEIGHT, 1, 1000 )
+    @camera.position.z = 5
 
     renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true }) # web gl renderer, appended to component body
     renderer.setSize( @WIDTH, @HEIGHT )
@@ -100,11 +144,11 @@ module.exports =
 
     # set up effect composer and then pass
     composer1 = new EffectComposer(renderer)
-    composer1.addPass(new RenderPass( scene, camera ))
+    composer1.addPass(new RenderPass( scene, @camera ))
     composer2 = new EffectComposer(renderer)
-    composer2.addPass(new RenderPass( scene, camera ))
+    composer2.addPass(new RenderPass( scene, @camera ))
     composer3 = new EffectComposer(renderer)
-    composer3.addPass(new RenderPass( scene, camera ))
+    composer3.addPass(new RenderPass( scene, @camera ))
 
     filmPass = new FilmPass({     # film pass -- used for entry
       noiseIntensity:     0.5
@@ -144,14 +188,12 @@ module.exports =
     , false
     mousePoint = new THREE.Vector3()
 
-    # change camera position and pass on desktop mode change
+    # change pass on desktop mode change
     @$watch 'mode', (mode)=>
       if mode is 'desktop'
-        camera.position.z = 3.6
-        camera.position.y = 13
-        camera.rotation.x = 5
         bloomPass.renderToScreen  = true
         filmPass.renderToScreen   = false
+
 
     # //////////////////////////////////////////
     #  R E N D E R   L O O P
@@ -160,11 +202,24 @@ module.exports =
       delta = clock.getDelta()
       time = clock.getElapsedTime()
 
-      #TODO: create entry/desktop flag and animate camera position
-      # if @mode is 'desktop'
+      # on desktop flag -> animate new position and track mouse position
+      if @mode is 'desktop'
+        @camera.position.z += .05  if @camera.position.z <= 12.5
+        @camera.rotation.z -= .01  if @camera.rotation.z >= -1.5
+        @map.rotation.x += .01     if @map.rotation.x <= 1.55
 
-      #update the picking ray with the camera and mouse position
-      raycaster.setFromCamera( mouse, camera )
+        @orbitTracks[0].rotation.z = mouse.y * 0.3
+        @orbitTracks[0].rotation.x = mouse.x * 0.3
+        @orbitTracks[1].rotation.z = -mouse.y * 0.15
+        @orbitTracks[1].rotation.x = -mouse.x * 0.15
+        @orbitTracks[2].rotation.z = mouse.y * 0.15
+        @orbitTracks[2].rotation.x = mouse.x * 0.15
+        @orbitTracks[3].rotation.z = -mouse.y * 0.15
+        @orbitTracks[3].rotation.x = -mouse.x * 0.15
+
+
+      #update the mouse ray with the camera and mouse position
+      raycaster.setFromCamera( mouse, @camera )
       intersects = raycaster.intersectObjects( @map.children )
       # if intersects.length > 0
       #   #intersects[0].object?
@@ -172,22 +227,10 @@ module.exports =
       # else
       #   # do something else
 
-      # rotation
+      # rotation of orbit tracks and sun
       for line,i in @orbitTracks
         @rotateOnOneAxis(line, delta/3, 'y')
       @rotateOnXYAxis(@sunMesh, delta/2)
-
-      #opacity and mouse tracking -- TODO: create desktop flag for this behavior
-      if @mode is 'desktop'
-        @orbitTracks[0].rotation.x = mouse.y * 0.3
-        @orbitTracks[0].rotation.z = mouse.x * 0.3
-        @orbitTracks[1].rotation.x = -mouse.y * 0.15
-        @orbitTracks[1].rotation.z = -mouse.x * 0.15
-        @orbitTracks[2].rotation.x = mouse.y * 0.15
-        @orbitTracks[2].rotation.z = mouse.x * 0.15
-        @orbitTracks[3].rotation.x = -mouse.y * 0.15
-        @orbitTracks[3].rotation.z = -mouse.x * 0.15
-
 
       # bobbing
       @changePosition(@orbitTracks[0], (Math.sin(time) / 5) + .1, 'y')
@@ -210,12 +253,29 @@ module.exports =
       composer2.render(delta)
       composer3.render(delta)
 
+
   methods:
     turnGlitchOn: ()->
       @glitch = true
       # intersect.object?.material.color.setHex( Math.random() * 0xffffff )
-    onClick: ->
-      console.log 'click'
+
+    # camera methods for testing
+    changeCameraPosition: (axis, direction)->
+      if direction is 'up'
+        @camera.position[axis] += .5
+      if direction is 'down'
+        @camera.position[axis] -= .5
+    changeCameraRotation: (axis, direction)->
+      if direction is 'up'
+        @camera.rotation[axis] += .5
+      if direction is 'down'
+        @camera.rotation[axis] -= .5
+    changeMapRotation: (axis, direction)->
+      if direction is 'up'
+        @map.rotation[axis] += .5
+      if direction is 'down'
+        @map.rotation[axis] -= .5
+
 
     rotateOnOneAxis: (mesh, amount, axis)->
       mesh.rotation[axis] += amount

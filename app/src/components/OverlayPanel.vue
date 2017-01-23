@@ -1,12 +1,12 @@
 <template>
-  <div id="pdf-panel">
-    <window :canClose="true" :shortTitle="'::' + activePdf.title" :type="'pdf'">
+  <div id="overlay-panel">
+    <window :canClose="true" :shortTitle="'::' + activeOverlay.title" :type="'overlay'">
 
       <div class="content">
-        <img src="../assets/readme-image.png" v-if="activePdf.title !== 'asteroids.exe'">
+        <img src="../assets/readme-image.png" v-if="activeOverlay.title !== 'asteroids.exe'">
       </div>
 
-      <div class="asteroids-content" v-if="activePdf.title == 'asteroids.exe'">
+      <div class="asteroids-content" v-if="activeOverlay.title == 'asteroids.exe'">
         <asteroids></asteroids>
       </div>
 
@@ -17,16 +17,16 @@
 interact = require('interact.js')
 
 module.exports =
-  name: 'pdfPanel'
+  name: 'overlayPanel'
   components:
     Window: require './Window'
     Asteroids: require './Asteroids'
 
   computed:
-    activePdf: -> return @$store.state.activePdf
+    activeOverlay: -> return @$store.state.activeOverlay
 
   created: ->
-    interact('#pdf-panel')
+    interact('#overlay-panel')
       .styleCursor(false)
       .draggable({
         inertia: true,
@@ -53,7 +53,7 @@ module.exports =
 <style lang="sass">
 @import src/styles/main
 
-#pdf-panel
+#overlay-panel
   width: 100%
   height: 90%
 
@@ -67,7 +67,7 @@ module.exports =
     background-color: $ink_black
     +flexbox
 
-  .pdf
+  .overlay
     .content
       padding: 0 30px
       img

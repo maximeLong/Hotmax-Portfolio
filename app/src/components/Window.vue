@@ -11,7 +11,7 @@
 
       <div class="short-title">{{shortTitle}}</div>
 
-      <div class="real-title-container" v-if="realTitle">
+      <!-- <div class="real-title-container" v-if="realTitle">
         <div class="real-title">{{realTitle}}</div>
         <div class="portfolio-toggle">
           <div class="toggle-btn"
@@ -21,7 +21,7 @@
                @click="portfolioOption = 'aesthetic'"
                :class="{ active: portfolioOption == 'aesthetic' }">> Aesthetic</div>
         </div>
-      </div>
+      </div> -->
 
       <div class="window-content">
         <slot></slot>
@@ -46,12 +46,12 @@ module.exports =
 
   methods:
     closeWindow: ->
-      if @type is 'pdf'
-        @$store.commit 'SET_PDF_IS_OPEN', false
+      if @type is 'overlay'
+        @$store.commit 'SET_OVERLAY_IS_OPEN', false
       if @type is 'navigator'
-        @$store.commit 'SET_NAVIGATOR_IS_OPEN', false
+        @$store.commit 'SET_NAVIGATOR_WINDOW_IS_OPEN', false
       if @type is 'portfolio'
-        @$store.commit 'SET_WINDOW_IS_OPEN', false
+        @$store.commit 'SET_PROJECT_WINDOW_IS_OPEN', false
 
 
 </script>
@@ -68,7 +68,7 @@ module.exports =
   width: 100%
   border: 1px solid $window_border
   box-shadow: 20px 20px 0 rgba(95, 166, 217, 0.18)
-  &.pdf
+  &.overlay
     cursor: move
 
   .window-header

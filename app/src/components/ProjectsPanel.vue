@@ -1,51 +1,51 @@
 <template>
   <transition appear name="fade">
-  <div id="desktop-panel">
+  <div id="projects-panel">
     <div class="icon-grid">
-      <div @click="openNavigator" class="icon rubbish">
+      <div @click="openNavigatorWindow(navigatorWindows.rubbish)" class="icon rubbish">
         <img src="../assets/rubbish-icon.svg">
         <div class="caption">Rubbish Bin</div>
       </div>
-      <div @click="openPdf(pdf.readme)" class="icon file">
+      <div @click="openOverlay(overlay.readme)" class="icon file">
         <img src="../assets/file-icon.svg">
         <div class="caption">readme.pdf</div>
       </div>
-      <div @click="openWindow(windows.curriculum)" class="icon folder">
+      <div @click="openProjectWindow(projectWindows.curriculum)" class="icon folder">
         <img src="../assets/folder-icon.svg">
         <div class="caption">Choices Curriculum</div>
       </div>
-      <div @click="openWindow(windows.video)" class="icon folder">
+      <div @click="openProjectWindow(projectWindows.video)" class="icon folder">
         <img src="../assets/folder-icon.svg">
         <div class="caption">Video Portal</div>
       </div>
-      <div @click="openWindow(windows.curriculum)" class="icon folder">
+      <div @click="openProjectWindow(projectWindows.curriculum)" class="icon folder">
         <img src="../assets/folder-icon.svg">
         <div class="caption">Whereyaat Social</div>
       </div>
     </div>
 
-    <div class="window-container" v-if="windowIsOpen">
+    <div class="window-container" v-if="projectWindowIsOpen">
       <window
         :canClose="true"
-        :shortTitle="'::Portfolio >> ' + activeWindow.shortTitle"
-        :realTitle="activeWindow.realTitle"
+        :shortTitle="'::Portfolio >> ' + activeProjectWindow.shortTitle"
+        :realTitle="activeProjectWindow.realTitle"
         :type="'portfolio'">
         <div class="content">some content</div>
       </window>
     </div>
 
-    <div class="window-container navigator" v-if="navigatorIsOpen">
+    <div class="window-container navigator" v-if="navigatorWindowIsOpen">
       <window
         :canClose="true"
-        :shortTitle="'::Rubbish Bin'"
+        :shortTitle="'::' + activeNavigatorWindow.shortTitle"
         :type="'navigator'">
         <div class="content icon-grid">
 
-          <div @click="openPdf(pdf.resume)" class="icon file">
+          <div @click="openOverlay(overlays.resume)" class="icon file">
             <img src="../assets/file-icon.svg">
             <div class="caption">resume.pdf</div>
           </div>
-          <div @click="openPdf(pdf.asteroids)" class="icon file">
+          <div @click="openOverlay(overlays.asteroids)" class="icon file">
             <img src="../assets/file-icon.svg">
             <div class="caption">asteroids.exe</div>
           </div>
@@ -62,19 +62,25 @@
 interact = require('interact.js')
 
 module.exports =
-  name: 'desktopPanel'
+  name: 'projectsPanel'
   components:
     Window: require './Window'
 
   data: ->
-    windows:
+    projectWindows:
       curriculum:
         shortTitle: 'Digital Textbook'
         realTitle:  'Choices Digital Curriculum'
       video:
         shortTitle: 'Video Portal'
         realTitle:  'Choices Video Portal'
-    pdf:
+
+    navigatorWindows:
+      rubbish:
+        shortTitle: 'Rubbish Bin'
+        readMe: ''
+
+    overlays:
       readme:
         title: 'readme.txt'
       resume:
@@ -83,46 +89,30 @@ module.exports =
         title: 'asteroids.exe'
 
   methods:
-    openWindow: (view)->
-      @$store.commit 'SET_WINDOW_IS_OPEN', true
-      @$store.commit 'SET_ACTIVE_WINDOW', view
-    openPdf: (view)->
-      @$store.commit 'SET_PDF_IS_OPEN', true
-      @$store.commit 'SET_ACTIVE_PDF', view
-    openNavigator: (view)->
-      @$store.commit 'SET_NAVIGATOR_IS_OPEN', true
+    openProjectWindow: (view)->
+      @$store.commit 'SET_PROJECT_WINDOW_IS_OPEN', true
+      @$store.commit 'SET_ACTIVE_PROJECT_WINDOW', view
+    openOverlay: (view)->
+      @$store.commit 'SET_OVERLAY_IS_OPEN', true
+      @$store.commit 'SET_ACTIVE_OVERLAY', view
+    openNavigatorWindow: (view)->
+      @$store.commit 'SET_NAVIGATOR_WINDOW_IS_OPEN', true
+      @$store.commit 'SET_ACTIVE_NAVIGATOR_WINDOW', view
   computed:
-    windowIsOpen: -> return @$store.state.windowIsOpen
-    navigatorIsOpen: -> return @$store.state.navigatorIsOpen
-    activeWindow: -> return @$store.state.activeWindow
+    #vuex
+    projectWindowIsOpen: -> return @$store.state.projectWindowIsOpen
+    activeProjectWindow: -> return @$store.state.activeProjectWindow
+    navigatorWindowIsOpen: -> return @$store.state.navigatorWindowIsOpen
+    activeNavigatorWindow: -> return @$store.state.activeNavigatorWindow
 
-  # created: ->
-  #   interact('.window-container')
-  #     .styleCursor(false)
-  #     .draggable({
-  #       inertia: true,
-  #       restrict: {
-  #         restriction: "#body-container",
-  #         endOnly: true,
-  #         elementRect: { top: 0, left: 0, bottom: 1, right: 1 }
-  #       }
-  #       autoScroll: true,
-  #       onmove: (event)->
-  #         target = event.target
-  #         x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx
-  #         y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy
-  #         target.style.webkitTransform = 'translate3d(' + x + 'px, ' + y + 'px, 0)'
-  #         target.style.transform =       'translate3d(' + x + 'px, ' + y + 'px, 0)'
-  #         target.setAttribute('data-x', x)
-  #         target.setAttribute('data-y', y)
-  #     })
+
 
 </script>
 
 <style lang="sass">
 @import src/styles/main
 
-#desktop-panel
+#projects-panel
   position: relative
   +flex(1 1 50%)
   +flexbox

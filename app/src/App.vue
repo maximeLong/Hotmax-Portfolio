@@ -6,23 +6,24 @@
     </div>
 
     <div id="desktop-experience" v-if="!entryIsOpen">
+
       <div id="header-container">
-        <transition appear v-on:enter="startShowingStuff()" name="fadedown">
+        <transition appear v-on:enter="beginShowingDesktop()" name="fadedown">
           <header-panel></header-panel>
         </transition>
       </div>
 
       <div id="body-container">
-        <desktop-panel v-if="showDesktop"></desktop-panel>
-        <console-panel v-if="showConsole"></console-panel>
-
-        <div id="pdf-container" v-if="pdfIsOpen" v-bind:style="{ height: 'calc(' + pdfWindowHeight + '% - 60px)', width: pdfWindowWidth + '%' }">
-          <pdf-panel></pdf-panel>
+        <projects-panel v-if="projectPanelVisibility"></projects-panel>
+        <console-panel v-if="consolePanelVisibility"></console-panel>
+        <div id="overlay-container" v-if="overlayIsOpen" v-bind:style="{ height: 'calc(' + overlayHeight + '% - 60px)', width: overlayWidth + '%' }">
+          <overlay-panel></overlay-panel>
         </div>
       </div>
+
     </div>
 
-    <button v-on:click="entryIsOpen = false" v-if="entryIsOpen">close entry</button>
+    <button v-on:click="setEntry(false)" v-if="entryIsOpen" class="entry-btn">close entry</button>
     <div class="three-container">
       <div class="growth-container">
         <three :mode="threeMode"></three>
@@ -38,48 +39,53 @@ module.exports =
   name: 'app'
   components:
     Entry: require './components/Entry'
-    DesktopPanel: require './components/DesktopPanel'
+    ProjectsPanel: require './components/ProjectsPanel'
     ConsolePanel: require './components/ConsolePanel'
     HeaderPanel: require './components/HeaderPanel'
-    PdfPanel: require './components/PdfPanel'
+    OverlayPanel: require './components/OverlayPanel'
     Three: require './components/Three'
 
   data: ->
-    entryIsOpen: true
     threeMode: 'entry'
-    showConsole: false
-    showDesktop: false
-
-    pdfWindowHeight: 90
-    pdfWindowWidth: 70
+    overlayHeight: 90
+    overlayWidth: 70
 
 
   mounted: ->
-    @$watch 'activePdf', (pdf)->
-      if pdf.title == 'readme.txt' || pdf.title == 'resume.txt'
-        @pdfWindowHeight = 100
-        @pdfWindowWidth = 50
+    # have to set overlay height and width outside of component
+    @$watch 'activeOverlay', (overlay)->
+      if overlay.title == 'readme.txt' || overlay.title == 'resume.txt'
+        @overlayHeight = 100
+        @overlayWidth = 50
       else
-        @pdfWindowHeight = 90
-        @pdfWindowWidth = 70
+        @overlayHeight = 90
+        @overlayWidth = 70
 
+    # pass entryIsOpen info down into three.js component
     @$watch 'entryIsOpen', (mode)->
       if mode is false then @threeMode = 'desktop'
 
 
   computed:
-    # vuex
-    pdfIsOpen: -> return @$store.state.pdfIsOpen
-    activePdf: ->  return @$store.state.activePdf
+    # vuex store
+    entryIsOpen: -> return @$store.state.entryIsOpen
+    projectPanelVisibility: -> return @$store.state.projectPanelVisibility
+    consolePanelVisibility: -> return @$store.state.consolePanelVisibility
+
+    overlayIsOpen: -> return @$store.state.overlayIsOpen
+    activeOverlay: ->  return @$store.state.activeOverlay
 
   methods:
-    startShowingStuff: ->
+    # vuex mutators
+    beginShowingDesktop: ->
       setTimeout =>
-        @showDesktop = true
+        @$store.commit 'SET_PROJECT_PANEL_VISIBILITY', true
       , 1000
       setTimeout =>
-        @showConsole = true
-      , 3500
+        @$store.commit 'SET_CONSOLE_PANEL_VISIBILITY', true
+      , 2500
+
+    setEntry: (status)-> @$store.commit 'SET_ENTRY_IS_OPEN', status
 
 
 </script>
@@ -93,7 +99,7 @@ module.exports =
   height: 100vh
   overflow: hidden
 
-  button
+  .entry-btn
     position: absolute
     top: 200px
     left: 300px
@@ -162,7 +168,7 @@ module.exports =
       +flexbox
       +flex-direction(row)
       +align-content(center)
-    #pdf-container
+    #overlay-container
       position: absolute
       right: 0
       left: 0
