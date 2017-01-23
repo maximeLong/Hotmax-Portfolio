@@ -1,7 +1,7 @@
 <template>
   <div id="console-panel">
     <div class="console-container">
-      <window :canClose="false" :shortTitle="'::Sisyphus Console.exe'">
+      <window :canClose="false" :shortTitle="'::Console.exe'">
         <div class="console">
 
           <!-- entry experience -->
@@ -9,7 +9,7 @@
             <div class="intro-top" v-if="!windowIsOpen && windowCount < 1">
               <!-- <div class="intro">Welcome back to work [ <span>MAXIME LONG</span> ].</div> -->
               <typed class="line"
-                :str="'Welcome back to work [EMPLOYEE NAME || Maxime Long].'"
+                :str="'Welcome back to work [EMPLOYEE].'"
                 :cleanCursor="true"
                 :delay="2000"
                 v-on:done="lineDone">
@@ -34,23 +34,23 @@
           <!-- readme experience -->
           <typed class="inline"
             :str="'>'"
-            :cleanCursor="windowIsOpen ? true : false"
+            :cleanCursor="projectWindowIsOpen ? true : false"
             v-if="sentenceIndex > 2 || windowCount > 0"
           ></typed>
           <typed class="inline cd"
-            :str="'CD ' + activeWindow.shortTitle + ' && RUN .README'"
-            v-if="windowIsOpen">
+            :str="'CD ' + activeProjectWindow.shortTitle + ' && RUN .README'"
+            v-if="projectWindowIsOpen">
           </typed>
           <transition name="fadedown">
-            <div class="readme" v-if="windowIsOpen">
-              {{activeWindow.shortTitle}}
+            <div class="readme" v-if="projectWindowIsOpen">
+              {{activeProjectWindow.readme}}
             </div>
           </transition>
 
           <!-- aesthetic bottom -->
           <transition name="fadeup" appear>
-            <div class="graphs" v-if="!windowIsOpen">
-              version 1.7 -- copyright Sisyphus Mining Corporation
+            <div class="graphs" v-if="!projectWindowIsOpen">
+              version 1.7 -- copyright Afternoon Indians
             </div>
           </transition>
 
@@ -72,7 +72,7 @@ module.exports =
     Ascii: require './Ascii'
 
   mounted: ->
-    @$watch 'windowIsOpen', (newVal, oldVal)->
+    @$watch 'projectWindowIsOpen', (newVal, oldVal)->
       if newVal is true then @windowCount = @windowCount + 1
 
   data: ->
@@ -82,8 +82,8 @@ module.exports =
   computed:
 
     # vuex
-    windowIsOpen: -> return @$store.state.windowIsOpen
-    activeWindow: -> return @$store.state.activeWindow
+    projectWindowIsOpen: -> return @$store.state.projectWindowIsOpen
+    activeProjectWindow: -> return @$store.state.activeProjectWindow
     taskNumber: -> return Math.floor((Math.random() * 10000) + 1)
 
 

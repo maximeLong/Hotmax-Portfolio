@@ -27,7 +27,7 @@
     <button v-on:click="setEntry(false)" v-if="entryIsOpen" class="entry-btn">close entry</button>
     <div class="three-container">
       <div class="growth-container">
-        <three :mode="threeMode" :glitch="showThreeGlitch"></three>
+        <three :mode="threeMode" :glitch="showThreeGlitch" v-if="webGlIsWorking"></three>
       </div>
     </div>
 
@@ -80,9 +80,10 @@ module.exports =
     consolePanelVisibility: -> return @$store.state.consolePanelVisibility
 
     overlayIsOpen: -> return @$store.state.overlayIsOpen
-    activeOverlay: ->  return @$store.state.activeOverlay
+    activeOverlay: -> return @$store.state.activeOverlay
 
     showThreeGlitch: -> return @$store.state.showThreeGlitch
+    webGlIsWorking:  -> return @$store.state.webGlIsWorking
 
   methods:
     # vuex mutators
@@ -138,15 +139,17 @@ module.exports =
         border-radius: 100%
         border: 2px solid $ink_black
       &::before
-        content: ''
+        +defaultType
+        content: 'Afternoon Indians Logo'
+        text-align: center
         position: absolute
         width: 100%
         height: 125px
-        bottom: -125px
-        background-image: url('assets/sisyphus-logo-small.svg')
-        background-position: 50% 100%
-        background-size: 100%
-        background-repeat: no-repeat
+        bottom: -200px
+        // background-image: url('assets/sisyphus-logo-small.svg')
+        // background-position: 50% 100%
+        // background-size: 100%
+        // background-repeat: no-repeat
 
 
   #entry-experience

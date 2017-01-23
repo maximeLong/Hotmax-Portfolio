@@ -25,7 +25,7 @@
 
     <transition name="glitch">
       <div id="login-entry" v-if="entryIndex > 1">
-        <three></three>
+        <three v-if="webGlIsWorking"></three>
       </div>
     </transition>
 
@@ -46,6 +46,9 @@ module.exports =
     lineDone: ->
       @entryIndex += 1
       console.log @entryIndex
+
+  computed:
+    webGlIsWorking: -> return @$store.state.webGlIsWorking
 
 
 

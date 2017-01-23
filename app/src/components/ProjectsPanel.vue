@@ -24,16 +24,26 @@
       </div>
     </div>
 
+    <!-- project window -->
     <div class="window-container" v-if="projectWindowIsOpen">
       <window
         :canClose="true"
-        :shortTitle="'::Portfolio >> ' + activeProjectWindow.shortTitle"
+        :shortTitle="'::Our Work >> ' + activeProjectWindow.shortTitle"
         :realTitle="activeProjectWindow.realTitle"
         :type="'portfolio'">
-        <div class="content">some content</div>
+
+        <div class="banner">
+          <img :src="'../static/banners/' + activeProjectWindow.bannerImg">
+          <div class="title">{{activeProjectWindow.realTitle}}</div>
+        </div>
+        <div class="content">
+          <component v-bind:is="activeProjectWindow.component"></component>
+        </div>
+
       </window>
     </div>
 
+    <!-- navigator window TODO: make more general -->
     <div class="window-container navigator" v-if="navigatorWindowIsOpen">
       <window
         :canClose="true"
@@ -66,14 +76,25 @@ module.exports =
   components:
     Window: require './Window'
 
+    #content components
+    DigitalTextbook: require '../projects/DigitalTextbook'
+    VideoPortal: require '../projects/VideoPortal'
+
+
   data: ->
     projectWindows:
       curriculum:
+        bannerImg:  'boulder.svg'
+        component:  'DigitalTextbook'
         shortTitle: 'Digital Textbook'
-        realTitle:  'Choices Digital Curriculum'
+        realTitle:  'Choices Group Digital Curriculum'
+        readme:     'some description about the choices textbook site'
       video:
+        bannerImg:  'stick-figure.svg'
+        component:  'VideoPortal'
         shortTitle: 'Video Portal'
-        realTitle:  'Choices Video Portal'
+        realTitle:  'Choices Group Video Portal'
+        readme:     'some description about the choices video portal'
 
     navigatorWindows:
       rubbish:
@@ -122,14 +143,34 @@ module.exports =
   +justify-content(center)
 
   .window-container
-    width: 75%
-    height: 80%
+    width: 88%
+    height: 90%
     z-index: 99
     background-color: white
     position: relative
+    .banner
+      width: 100%
+      height: 150px
+      position: relative
+      +flexbox
+      +justify-content(middle)
+      +align-items(center)
+      img
+        position: absolute
+        height: 100%
+        width: 100%
+        background-color: $action_color
+      .title
+        z-index: 99
+        text-align: center
+        margin: 0 auto
+        background-color: $ink_black
+        padding: 20px
+        color: white
+
     .content
       padding: 30px
-      height: 100%
+      height: calc(100% - 150px)
       width: 100%
     &.navigator
       position: absolute

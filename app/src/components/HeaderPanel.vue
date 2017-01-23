@@ -1,9 +1,9 @@
 <template>
   <div id="header-panel">
     <div class="system">
-      <div class="logo"><img src="../assets/stick-figure.svg"></div>
-      <div class="boulder"><img src="../assets/boulder.svg"></div>
-      <div class="title">Sisyphus mining corporation | employee terminal</div>
+      <!-- <div class="logo"><img src="../assets/stick-figure.svg"></div>
+      <div class="boulder"><img src="../assets/boulder.svg"></div> -->
+      <div class="title">Afternoon Indians Logo | employee terminal</div>
     </div>
   </div>
 </template>

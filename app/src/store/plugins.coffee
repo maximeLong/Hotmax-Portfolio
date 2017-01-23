@@ -14,5 +14,8 @@ module.exports =
 
     if webglContext is null
       console.log 'WebGL is not supported on your browser, and you should see something less taxing.'
+      #TODO: add some visual fallback for this case
+      store.commit 'SET_WEBGL_IS_WORKING', false
     else
       console.log 'WebGL is supported on your browser, and life is good.'
+      store.commit 'SET_WEBGL_IS_WORKING', true
