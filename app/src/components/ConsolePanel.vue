@@ -6,7 +6,7 @@
 
           <!-- entry experience -->
           <transition name="fadedown" appear>
-            <div class="intro-top" v-if="!windowIsOpen && windowCount < 1">
+            <div class="intro-top" v-if="!projectWindowIsOpen && windowCount < 1">
               <!-- <div class="intro">Welcome back to work [ <span>MAXIME LONG</span> ].</div> -->
               <typed class="line"
                 :str="'Welcome back to work [EMPLOYEE].'"
