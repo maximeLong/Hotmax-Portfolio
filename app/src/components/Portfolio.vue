@@ -1,7 +1,7 @@
 <template>
   <div id="portfolio">
 
-    <transition-group name="fade">
+    <transition-group name="list">
       <div class="portfolio-item" v-for="project in tagFiltered" :key="project.key">
 
         <div @click="openProjectWindow(project)" class="group">
@@ -54,6 +54,7 @@ module.exports =
     display: inline-block
     margin-right: 40px
     vertical-align: top
+    +transition(.5s ease all)
     +clickable
     .group
       width: 100px

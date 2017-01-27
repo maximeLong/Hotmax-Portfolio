@@ -3,6 +3,12 @@
 .fade-enter, .fade-leave-active
   opacity: 0
 
+.list-enter, .list-leave-to, .list-leave-active
+  opacity: 0
+  +transition(.5s ease all)
+.list-leave-active
+  position: absolute
+
 .fadeup-enter-active, .fadeup-leave-active
   transition: all .5s ease
   +translate3d(0, 0, 0)
