@@ -10,17 +10,17 @@
         <img src="../assets/folder-icon.svg">
         <div class="caption">Our Work</div>
       </div>
-      <div @click="openProjectWindow(projectWindows.curriculum)" class="icon folder">
-        <img src="../assets/folder-icon.svg">
-        <div class="caption">Choices Curriculum</div>
+      <div @click="openOverlay(overlays.aboutUs)" class="icon file">
+        <img src="../assets/file-icon.svg">
+        <div class="caption">About Us</div>
       </div>
-      <div @click="openProjectWindow(projectWindows.video)" class="icon folder">
-        <img src="../assets/folder-icon.svg">
-        <div class="caption">Video Portal</div>
+      <div @click="openOverlay(overlays.ourServices)" class="icon file">
+        <img src="../assets/file-icon.svg">
+        <div class="caption">Our Services</div>
       </div>
-      <div @click="openProjectWindow(projectWindows.curriculum)" class="icon folder">
-        <img src="../assets/folder-icon.svg">
-        <div class="caption">Whereyaat Social</div>
+      <div @click="openOverlay(overlays.contactUs)" class="icon file">
+        <img src="../assets/file-icon.svg">
+        <div class="caption">Contact Us</div>
       </div>
     </div>
 
@@ -149,7 +149,7 @@ module.exports =
       position: absolute
       +clickable
       &:nth-child(2)
-        +translate3d(110px, 40px, 0)
+        +translate3d(130px, 50px, 0)
       &:nth-child(3)
         +translate3d(0, 220px, 0)
       &:nth-child(4)

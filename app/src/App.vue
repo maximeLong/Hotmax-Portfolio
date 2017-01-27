@@ -55,12 +55,12 @@ module.exports =
   mounted: ->
     # have to set overlay height and width outside of component
     @$watch 'activeOverlay', (overlay)->
-      if overlay.title == 'readme.txt' || overlay.title == 'resume.txt'
-        @overlayHeight = 100
-        @overlayWidth = 50
-      else
+      if overlay.title is 'asteroids.exe'
         @overlayHeight = 90
         @overlayWidth = 70
+      else
+        @overlayHeight = 100
+        @overlayWidth = 50
 
     # pass entryIsOpen info down into three.js component
     @$watch 'entryIsOpen', (mode)->

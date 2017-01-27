@@ -20,6 +20,12 @@ state =
   overlays:
     readme:
       title: 'readme.txt'
+    aboutUs:
+      title: 'About Us.txt'
+    ourServices:
+      title: 'Our Services.txt'
+    contactUs:
+      title: 'Contact Us.txt'
     resume:
       title: 'resume.txt'
     asteroids:
