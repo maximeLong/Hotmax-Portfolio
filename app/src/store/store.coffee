@@ -32,8 +32,8 @@ state =
   # projects
   projectWindows:
     arSynth:
-      content:    'VideoPortal'
-      readme:     'VideoPortalReadme'
+      content:    'ArSynth'
+      readme:     'ArSynthReadme'
       meta:
         tags: ['All', 'Sound Design', 'App Dev.', 'AR']
         bannerImg:  'stick-figure.svg'
@@ -50,8 +50,8 @@ state =
         realTitle:  'Choices Group Digital Curriculum'
         date:       'June 2016'
     whereyaat:
-      content:    'DigitalTextbook'
-      readme:     'DigitalTextbookReadme'
+      content:    'Whereyaat'
+      readme:     'WhereyaatReadme'
       meta:
         tags: ['All', 'UI Design', 'App Dev.', 'AR']
         bannerImg:  'boulder.svg'
@@ -59,8 +59,8 @@ state =
         realTitle:  'Whereyaat Geographic Social App'
         date:       'Ongoing'
     walkthrough:
-      content:    'VideoPortal'
-      readme:     'VideoPortalReadme'
+      content:    'Walkthrough'
+      readme:     'WalkthroughReadme'
       meta:
         tags: ['All', 'VR', 'App Dev.']
         bannerImg:  'stick-figure.svg'
@@ -77,8 +77,8 @@ state =
         realTitle:  'Choices Group Video Portal'
         date:       'May 2016'
     translation:
-      content:    'VideoPortal'
-      readme:     'VideoPortalReadme'
+      content:    'Translation'
+      readme:     'TranslationReadme'
       meta:
         tags: ['All', 'UI Design', 'App Dev.']
         bannerImg:  'stick-figure.svg'
@@ -86,8 +86,8 @@ state =
         realTitle:  'Lizzie Davis Translation Portfolio'
         date:       'January 2017'
     ibes:
-      content:    'VideoPortal'
-      readme:     'VideoPortalReadme'
+      content:    'Ibes'
+      readme:     'IbesReadme'
       meta:
         tags: ['All', 'UI Design']
         bannerImg:  'stick-figure.svg'

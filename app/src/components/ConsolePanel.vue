@@ -76,8 +76,13 @@ module.exports =
     Ascii: require './Ascii'
 
     #project components
-    DigitalTextbookReadme: require '../projects/DigitalTextbook/DigitalTextbookReadme'
-    VideoPortalReadme: require '../projects/VideoPortal/VideoPortalReadme'
+    DigitalTextbookReadme:  require '../projects/DigitalTextbook/DigitalTextbookReadme'
+    VideoPortalReadme:      require '../projects/VideoPortal/VideoPortalReadme'
+    WhereyaatReadme:        require '../projects/Whereyaat/WhereyaatReadme'
+    IbesReadme:             require '../projects/Ibes/IbesReadme'
+    ArSynthReadme:          require '../projects/ArSynth/ArSynthReadme'
+    TranslationReadme:      require '../projects/Translation/TranslationReadme'
+    WalkthroughReadme:      require '../projects/Walkthrough/WalkthroughReadme'
 
 
   mounted: ->

@@ -64,6 +64,12 @@ module.exports =
     #content components
     DigitalTextbook:  require '../projects/DigitalTextbook/DigitalTextbook'
     VideoPortal:      require '../projects/VideoPortal/VideoPortal'
+    Whereyaat:        require '../projects/Whereyaat/Whereyaat'
+    Ibes:             require '../projects/Ibes/Ibes'
+    ArSynth:          require '../projects/ArSynth/ArSynth'
+    Translation:      require '../projects/Translation/Translation'
+    Walkthrough:      require '../projects/Walkthrough/Walkthrough'
+
     RubbishBin:       require './RubbishBin'
     Portfolio:        require './Portfolio'
 
