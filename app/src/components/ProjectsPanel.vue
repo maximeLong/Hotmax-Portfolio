@@ -28,7 +28,7 @@
     <div class="window-container" v-if="projectWindowIsOpen">
       <window
         :canClose="true"
-        :shortTitle="'::Our Work >> ' + activeProjectWindow.meta.shortTitle"
+        :shortTitle="'::Portfolio >> ' + activeProjectWindow.meta.shortTitle"
         :type="'portfolio'">
 
         <component v-bind:is="activeProjectWindow.content"></component>
@@ -119,11 +119,12 @@ module.exports =
   .window-container
     width: 88%
     height: 90%
-    z-index: 99
+    z-index: 999
     background-color: white
     position: relative
     &.navigator
       position: absolute
+      z-index: 99
     &.RubbishBin
       width: 60%
       height: 50%
@@ -149,8 +150,6 @@ module.exports =
         +translate3d(130px, 250px, 0)
       &:nth-child(5)
         +translate3d(260px, 220px, 0)
-      // &:nth-child(6)
-      //   +translate3d(40px, 520px, 0)
 
       .caption
         padding: 5px 0 0 10px

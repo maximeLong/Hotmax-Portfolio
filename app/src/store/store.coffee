@@ -31,24 +31,6 @@ state =
 
   # projects
   projectWindows:
-    curriculum:
-      content:    'DigitalTextbook'
-      readme:     'DigitalTextbookReadme'
-      meta:
-        tags: ['All', 'UI Design', 'App Dev.']
-        bannerImg:  'boulder.svg'
-        shortTitle: 'Digital Textbook'
-        realTitle:  'Choices Group Digital Curriculum'
-        date:       'June 2016'
-    video:
-      content:    'VideoPortal'
-      readme:     'VideoPortalReadme'
-      meta:
-        tags: ['All', 'UI Design', 'App Dev.']
-        bannerImg:  'stick-figure.svg'
-        shortTitle: 'Video Portal'
-        realTitle:  'Choices Scholars Video Portal'
-        date:       'May 2016'
     arSynth:
       content:    'VideoPortal'
       readme:     'VideoPortalReadme'
@@ -58,6 +40,60 @@ state =
         shortTitle: 'AR Synth'
         realTitle:  'AR Synth'
         date:       'December 2016'
+    curriculum:
+      content:    'DigitalTextbook'
+      readme:     'DigitalTextbookReadme'
+      meta:
+        tags: ['All', 'UI Design', 'App Dev.']
+        bannerImg:  'boulder.svg'
+        shortTitle: 'Digital Textbook'
+        realTitle:  'Choices Group Digital Curriculum'
+        date:       'June 2016'
+    whereyaat:
+      content:    'DigitalTextbook'
+      readme:     'DigitalTextbookReadme'
+      meta:
+        tags: ['All', 'UI Design', 'App Dev.', 'AR']
+        bannerImg:  'boulder.svg'
+        shortTitle: 'Whereyaat'
+        realTitle:  'Whereyaat Geographic Social App'
+        date:       'Ongoing'
+    walkthrough:
+      content:    'VideoPortal'
+      readme:     'VideoPortalReadme'
+      meta:
+        tags: ['All', 'VR', 'App Dev.']
+        bannerImg:  'stick-figure.svg'
+        shortTitle: 'Walkthrough'
+        realTitle:  'Occulus VR - Stage Walkthrough'
+        date:       'January 2017'
+    video:
+      content:    'VideoPortal'
+      readme:     'VideoPortalReadme'
+      meta:
+        tags: ['All', 'UI Design', 'App Dev.']
+        bannerImg:  'stick-figure.svg'
+        shortTitle: 'Video Portal'
+        realTitle:  'Choices Group Video Portal'
+        date:       'May 2016'
+    translation:
+      content:    'VideoPortal'
+      readme:     'VideoPortalReadme'
+      meta:
+        tags: ['All', 'UI Design', 'App Dev.']
+        bannerImg:  'stick-figure.svg'
+        shortTitle: 'Translation'
+        realTitle:  'Lizzie Davis Translation Portfolio'
+        date:       'January 2017'
+    ibes:
+      content:    'VideoPortal'
+      readme:     'VideoPortalReadme'
+      meta:
+        tags: ['All', 'UI Design']
+        bannerImg:  'stick-figure.svg'
+        shortTitle: 'IBES'
+        realTitle:  'Environment and Society Redesign'
+        date:       'March 2016'
 
 
 mutations =

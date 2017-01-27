@@ -59,6 +59,7 @@ module.exports =
     .group
       width: 100px
       height: 100px
+      margin-bottom: 100px
       .portfolio-image
         width: 100%
         border: 2px solid $console_black
