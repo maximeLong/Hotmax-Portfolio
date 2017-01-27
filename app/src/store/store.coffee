@@ -13,18 +13,60 @@ state =
   # project, navigator, and overlay window statuses
   projectWindowIsOpen: false
   activeProjectWindow: {}
-
   navigatorWindowIsOpen: false
   activeNavigatorWindow: {}
-
   overlayIsOpen: false
   activeOverlay: {}
+  overlays:
+    readme:
+      title: 'readme.txt'
+    resume:
+      title: 'resume.txt'
+    asteroids:
+      title: 'asteroids.exe'
+
+  # portfolio options
+  activePortfolioOption: 'All'
+  portfolioOptions: [ 'All', 'UI Design', 'Sound Design', 'App Dev.', 'VR', 'AR' ]
+
+  # projects
+  projectWindows:
+    curriculum:
+      content:    'DigitalTextbook'
+      readme:     'DigitalTextbookReadme'
+      meta:
+        tags: ['All', 'UI Design', 'App Dev.']
+        bannerImg:  'boulder.svg'
+        shortTitle: 'Digital Textbook'
+        realTitle:  'Choices Group Digital Curriculum'
+        date:       'June 2016'
+    video:
+      content:    'VideoPortal'
+      readme:     'VideoPortalReadme'
+      meta:
+        tags: ['All', 'UI Design', 'App Dev.']
+        bannerImg:  'stick-figure.svg'
+        shortTitle: 'Video Portal'
+        realTitle:  'Choices Scholars Video Portal'
+        date:       'May 2016'
+    arSynth:
+      content:    'VideoPortal'
+      readme:     'VideoPortalReadme'
+      meta:
+        tags: ['All', 'Sound Design', 'App Dev.', 'AR']
+        bannerImg:  'stick-figure.svg'
+        shortTitle: 'AR Synth'
+        realTitle:  'AR Synth'
+        date:       'December 2016'
 
 
 mutations =
+  SET_ACTIVE_PORTFOLIO_OPTION: (state, opt)->
+    state.activePortfolioOption = opt
+
   SET_WEBGL_IS_WORKING: (state, status)->
     state.webGlIsWorking = status
-    
+
   SET_ENTRY_IS_OPEN: (state, status)->
     state.entryIsOpen = status
   SET_PROJECT_PANEL_VISIBILITY: (state, status)->

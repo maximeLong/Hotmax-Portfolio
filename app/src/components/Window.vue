@@ -8,20 +8,17 @@
         </div>
         <div class="line-group"><div class="line" v-for="n in 4"></div></div>
       </div>
-
       <div class="short-title">{{shortTitle}}</div>
 
-      <!-- <div class="real-title-container" v-if="realTitle">
-        <div class="real-title">{{realTitle}}</div>
+      <div class="toggle-container" v-if="toggleContainer">
+        <div class="title">::Sort</div>
         <div class="portfolio-toggle">
-          <div class="toggle-btn"
-               @click="portfolioOption = 'technical'"
-               :class="{ active: portfolioOption == 'technical' }">> Technical</div>
-          <div class="toggle-btn"
-               @click="portfolioOption = 'aesthetic'"
-               :class="{ active: portfolioOption == 'aesthetic' }">> Aesthetic</div>
+          <div class="toggle-btn" v-for="option in portfolioOptions"
+             @click="changeActiveOption(option)"
+             :class="{ active: activePortfolioOption == option }">> {{option}}
+          </div>
         </div>
-      </div> -->
+      </div>
 
       <div class="window-content">
         <slot></slot>
@@ -36,15 +33,19 @@ module.exports =
   name: 'window'
 
   props:
-    shortTitle: type: String
-    realTitle:  type: String
-    canClose:   type: Boolean
-    type:       type: String
+    shortTitle:      type: String
+    canClose:        type: Boolean
+    toggleContainer: {type: Boolean, default: false}
+    type:            type: String
 
-  data: ->
-    portfolioOption: 'aesthetic'
+  computed:
+    portfolioOptions: ->        return @$store.state.portfolioOptions
+    activePortfolioOption: ->   return @$store.state.activePortfolioOption
 
   methods:
+    changeActiveOption: (option)->
+      @$store.commit 'SET_ACTIVE_PORTFOLIO_OPTION', option
+
     closeWindow: ->
       if @type is 'overlay'
         @$store.commit 'SET_OVERLAY_IS_OPEN', false
@@ -52,7 +53,6 @@ module.exports =
         @$store.commit 'SET_NAVIGATOR_WINDOW_IS_OPEN', false
       if @type is 'portfolio'
         @$store.commit 'SET_PROJECT_WINDOW_IS_OPEN', false
-
 
 </script>
 
@@ -107,28 +107,40 @@ module.exports =
         background-color: $action_color
         +transition(.35s ease all)
 
-  .short-title, .real-title-container
+  .short-title
     padding: 10px 30px
     border-bottom: 1px solid $window_border
-  .short-title
     +systemType
     font-weight: normal
     font-size: 11px
     letter-spacing: 1px
     color: #4f4f4f
     text-transform: uppercase
-  .real-title-container
-    padding: 15px 30px
-    .real-title
-      +systemType
-      font-size: 17px
-      color: $ink_black
+
+
+  .toggle-container
+    padding: 0 0 20px 30px
+    border-bottom: 1px solid $window_border
+
+    .title
       font-weight: bold
+      margin-bottom: 10px
+      display: inline-block
+      +systemType
+      font-weight: normal
+      font-size: 11px
+      letter-spacing: 1px
+      color: #4f4f4f
+      text-transform: uppercase
+      margin-right: 5px
     .portfolio-toggle
-      display: block
-      margin: 15px 0 5px 0
+      display: inline-block
       .toggle-btn
-        padding: 8px 14px
+        text-transform: uppercase
+        color: #595959
+        margin-right: 5px
+        margin-top: 20px
+        padding: 8px 11px
         display: inline-block
         border-top: 1px solid white
         border-left: 1px solid white
@@ -137,6 +149,7 @@ module.exports =
         box-shadow: 1px 1px 0px $window_border
         +clickable
         +transition(.20s ease all)
+
       .toggle-btn.active
         border-top: 1px solid grey
         border-left: 1px solid grey
@@ -144,9 +157,9 @@ module.exports =
         border-bottom: 1px solid white
         box-shadow: inset 1px 1px 0px $window_border
         background-color: #ececec
+        color: $ink_black
         cursor: default
         +transition(.20s ease all)
-
 
 
   .window-content

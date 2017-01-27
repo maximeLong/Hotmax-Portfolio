@@ -9,20 +9,20 @@
             <div class="intro-top" v-if="!projectWindowIsOpen && windowCount < 1">
               <!-- <div class="intro">Welcome back to work [ <span>MAXIME LONG</span> ].</div> -->
               <typed class="line"
-                :str="'Welcome back to work [EMPLOYEE].'"
+                :str="'Welcome [NEW EMPLOYEE] to the Afternoon Indians work terminal.'"
                 :cleanCursor="true"
                 :delay="2000"
                 v-on:done="lineDone">
               </typed>
               <typed class="line"
-                :str="'You have ' + taskNumber + ' overdue tasks assigned to your employment card.'"
+                :str="'Please read through the company information at your leisure.'"
                 :cleanCursor="true"
                 :delay="500"
                 v-on:done="lineDone"
                 v-if="sentenceIndex > 0">
               </typed>
               <typed class="line"
-                :str="'Please contact your supervisor.'"
+                :str="'Contact a supervisor on completion, you have [' + taskNumber + '] tasks waiting.'"
                 :cleanCursor="true"
                 :delay="500"
                 v-on:done="lineDone"
@@ -38,14 +38,18 @@
             v-if="sentenceIndex > 2 || windowCount > 0"
           ></typed>
           <typed class="inline cd"
-            :str="'CD ' + activeProjectWindow.shortTitle + ' && RUN .README'"
+            :str="'CD ' + activeProjectWindow.meta.shortTitle + ' && RUN .README'"
             v-if="projectWindowIsOpen">
           </typed>
           <transition name="fadedown">
-            <div class="readme" v-if="projectWindowIsOpen">
-              {{activeProjectWindow.readme}}
-            </div>
+
+            <component
+              v-bind:is="activeProjectWindow.readme"
+              v-if="projectWindowIsOpen">
+            </component>
+
           </transition>
+
 
           <!-- aesthetic bottom -->
           <transition name="fadeup" appear>
@@ -71,6 +75,11 @@ module.exports =
     Typed: require './Typed'
     Ascii: require './Ascii'
 
+    #project components
+    DigitalTextbookReadme: require '../projects/DigitalTextbook/DigitalTextbookReadme'
+    VideoPortalReadme: require '../projects/VideoPortal/VideoPortalReadme'
+
+
   mounted: ->
     @$watch 'projectWindowIsOpen', (newVal, oldVal)->
       if newVal is true then @windowCount = @windowCount + 1
@@ -90,29 +99,6 @@ module.exports =
   methods:
     lineDone: ->
       @sentenceIndex += 1
-
-  # created: ->
-  #   interact('.console-container')
-  #     .styleCursor(false)
-  #     .draggable({
-  #       inertia: true,
-  #       restrict: {
-  #         restriction: "#body-container",
-  #         endOnly: true,
-  #         elementRect: { top: 0, left: 0, bottom: 1, right: 1 }
-  #       }
-  #       autoScroll: true,
-  #       onmove: (event)->
-  #         target = event.target
-  #         x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx
-  #         y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy
-  #         target.style.webkitTransform = 'translate3d(' + x + 'px, ' + y + 'px, 0)'
-  #         target.style.transform =       'translate3d(' + x + 'px, ' + y + 'px, 0)'
-  #         target.setAttribute('data-x', x)
-  #         target.setAttribute('data-y', y)
-  #     })
-
-
 
 </script>
 
@@ -166,10 +152,6 @@ module.exports =
       &::first-letter
         margin-right: 5px
 
-    .readme
-      border: 1px solid white
-      padding: 20px
-      margin-top: 20px
     .graphs
       position: absolute
       bottom: 20px

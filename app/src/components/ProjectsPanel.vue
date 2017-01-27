@@ -6,9 +6,9 @@
         <img src="../assets/rubbish-icon.svg">
         <div class="caption">Rubbish Bin</div>
       </div>
-      <div @click="openOverlay(overlays.readme)" class="icon file">
-        <img src="../assets/file-icon.svg">
-        <div class="caption">readme.pdf</div>
+      <div @click="openNavigatorWindow(navigatorWindows.portfolio)" class="icon folder">
+        <img src="../assets/folder-icon.svg">
+        <div class="caption">Our Work</div>
       </div>
       <div @click="openProjectWindow(projectWindows.curriculum)" class="icon folder">
         <img src="../assets/folder-icon.svg">
@@ -28,39 +28,24 @@
     <div class="window-container" v-if="projectWindowIsOpen">
       <window
         :canClose="true"
-        :shortTitle="'::Our Work >> ' + activeProjectWindow.shortTitle"
-        :realTitle="activeProjectWindow.realTitle"
+        :shortTitle="'::Our Work >> ' + activeProjectWindow.meta.shortTitle"
         :type="'portfolio'">
 
-        <div class="banner">
-          <img :src="'../static/banners/' + activeProjectWindow.bannerImg">
-          <div class="title">{{activeProjectWindow.realTitle}}</div>
-        </div>
-        <div class="content">
-          <component v-bind:is="activeProjectWindow.component"></component>
-        </div>
+        <component v-bind:is="activeProjectWindow.content"></component>
 
       </window>
     </div>
 
-    <!-- navigator window TODO: make more general -->
-    <div class="window-container navigator" v-if="navigatorWindowIsOpen">
+    <!-- navigator window -->
+    <div class="window-container navigator" :class="activeNavigatorWindow.content" v-if="navigatorWindowIsOpen">
       <window
         :canClose="true"
         :shortTitle="'::' + activeNavigatorWindow.shortTitle"
-        :type="'navigator'">
-        <div class="content icon-grid">
+        :type="'navigator'"
+        :toggleContainer="activeNavigatorWindow.content == 'Portfolio' ? true : false">
 
-          <div @click="openOverlay(overlays.resume)" class="icon file">
-            <img src="../assets/file-icon.svg">
-            <div class="caption">resume.pdf</div>
-          </div>
-          <div @click="openOverlay(overlays.asteroids)" class="icon file">
-            <img src="../assets/file-icon.svg">
-            <div class="caption">asteroids.exe</div>
-          </div>
+        <component v-bind:is="activeNavigatorWindow.content"></component>
 
-        </div>
       </window>
     </div>
 
@@ -77,37 +62,23 @@ module.exports =
     Window: require './Window'
 
     #content components
-    DigitalTextbook: require '../projects/DigitalTextbook'
-    VideoPortal: require '../projects/VideoPortal'
+    DigitalTextbook:  require '../projects/DigitalTextbook/DigitalTextbook'
+    VideoPortal:      require '../projects/VideoPortal/VideoPortal'
+    RubbishBin:       require './RubbishBin'
+    Portfolio:        require './Portfolio'
 
 
   data: ->
-    projectWindows:
-      curriculum:
-        bannerImg:  'boulder.svg'
-        component:  'DigitalTextbook'
-        shortTitle: 'Digital Textbook'
-        realTitle:  'Choices Group Digital Curriculum'
-        readme:     'some description about the choices textbook site'
-      video:
-        bannerImg:  'stick-figure.svg'
-        component:  'VideoPortal'
-        shortTitle: 'Video Portal'
-        realTitle:  'Choices Group Video Portal'
-        readme:     'some description about the choices video portal'
-
     navigatorWindows:
       rubbish:
+        content:    'RubbishBin'
         shortTitle: 'Rubbish Bin'
         readMe: ''
+      portfolio:
+        content:    'Portfolio'
+        shortTitle: 'Afternoon Indians >> Portfolio'
+        readMe: ''
 
-    overlays:
-      readme:
-        title: 'readme.txt'
-      resume:
-        title: 'resume.txt'
-      asteroids:
-        title: 'asteroids.exe'
 
   methods:
     openProjectWindow: (view)->
@@ -119,12 +90,15 @@ module.exports =
     openNavigatorWindow: (view)->
       @$store.commit 'SET_NAVIGATOR_WINDOW_IS_OPEN', true
       @$store.commit 'SET_ACTIVE_NAVIGATOR_WINDOW', view
+
   computed:
     #vuex
-    projectWindowIsOpen: -> return @$store.state.projectWindowIsOpen
-    activeProjectWindow: -> return @$store.state.activeProjectWindow
+    projectWindowIsOpen: ->   return @$store.state.projectWindowIsOpen
+    activeProjectWindow: ->   return @$store.state.activeProjectWindow
     navigatorWindowIsOpen: -> return @$store.state.navigatorWindowIsOpen
     activeNavigatorWindow: -> return @$store.state.activeNavigatorWindow
+    overlays: ->              return @$store.state.overlays
+    projectWindows: ->        return @$store.state.projectWindows
 
 
 
@@ -148,41 +122,16 @@ module.exports =
     z-index: 99
     background-color: white
     position: relative
-    .banner
-      width: 100%
-      height: 150px
-      position: relative
-      +flexbox
-      +justify-content(middle)
-      +align-items(center)
-      img
-        position: absolute
-        height: 100%
-        width: 100%
-        background-color: $action_color
-      .title
-        z-index: 99
-        text-align: center
-        margin: 0 auto
-        background-color: $ink_black
-        padding: 20px
-        color: white
-
-    .content
-      padding: 30px
-      height: calc(100% - 150px)
-      width: 100%
     &.navigator
       position: absolute
-      +translate3d(-30px, -60px, 0)
+    &.RubbishBin
       width: 60%
       height: 50%
-      .icon-grid
-        .icon
-          &:nth-child(1)
-            +translate3d(0px, 40px, 0)
-          &:nth-child(2)
-            +translate3d(180px, 80px, 0)
+      +translate3d(-30px, -60px, 0)
+    &.Portfolio
+      width: 85%
+      height: 70%
+
 
   .icon-grid
     position: absolute
