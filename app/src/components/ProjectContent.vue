@@ -2,7 +2,9 @@
   <div id="project-content">
 
     <div class="banner">
-      <img :src="'../static/banners/' + activeProjectWindow.meta.bannerImg">
+      <div class="portfolio-image">
+        <img :src="'../static/banners/' + activeProjectWindow.meta.bannerImg">
+      </div>
       <div class="title">{{activeProjectWindow.meta.realTitle}}</div>
     </div>
 
@@ -35,11 +37,26 @@ module.exports =
     +flexbox
     +justify-content(middle)
     +align-items(center)
-    img
-      position: absolute
-      height: 100%
+    .portfolio-image
       width: 100%
-      background-color: $action_color
+      height: 100%
+      position: absolute
+      overflow: hidden
+      &::before
+        content: ''
+        display: block
+        position: absolute
+        top: 0
+        left: 0
+        bottom: 0
+        right: 0
+        background: linear-gradient(transparentize($screen-background,1) 50%, transparentize(darken($screen-background,10),0.75) 50%), linear-gradient(90deg,transparentize(#ff0000,0.94),transparentize(#00ff00,0.98),transparentize(#0000ff,0.94))
+        z-index: 2
+        background-size: 100% 3px, 2px 100%
+        pointer-events: none
+      img
+        width: 100%
+        height: 100%
     .title
       z-index: 99
       text-align: center

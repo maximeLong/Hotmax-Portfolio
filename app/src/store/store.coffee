@@ -52,8 +52,8 @@ state =
       meta:
         tags: ['All', 'UI Design', 'App Dev.']
         bannerImg:  'boulder.svg'
-        shortTitle: 'Digital Textbook'
-        realTitle:  'Choices Group Digital Curriculum'
+        shortTitle: 'Interactive Textbook'
+        realTitle:  'Choices Interactive Textbook'
         date:       'June 2016'
     whereyaat:
       content:    'Whereyaat'
@@ -70,8 +70,8 @@ state =
       meta:
         tags: ['All', 'VR', 'App Dev.']
         bannerImg:  'stick-figure.svg'
-        shortTitle: 'Walkthrough'
-        realTitle:  'Occulus VR - Stage Walkthrough'
+        shortTitle: 'VR Walkthrough'
+        realTitle:  'Occulus VR - Immersive Stage Design'
         date:       'January 2017'
     video:
       content:    'VideoPortal'
@@ -79,8 +79,8 @@ state =
       meta:
         tags: ['All', 'UI Design', 'App Dev.']
         bannerImg:  'stick-figure.svg'
-        shortTitle: 'Video Portal'
-        realTitle:  'Choices Group Video Portal'
+        shortTitle: 'Academic Video'
+        realTitle:  'Academic Video Portal'
         date:       'May 2016'
     translation:
       content:    'Translation'
@@ -88,8 +88,8 @@ state =
       meta:
         tags: ['All', 'UI Design', 'App Dev.']
         bannerImg:  'stick-figure.svg'
-        shortTitle: 'Translation'
-        realTitle:  'Lizzie Davis Translation Portfolio'
+        shortTitle: 'Translation Portfolio'
+        realTitle:  'Personal Translation Portfolio'
         date:       'January 2017'
     ibes:
       content:    'Ibes'
@@ -98,7 +98,7 @@ state =
         tags: ['All', 'UI Design']
         bannerImg:  'stick-figure.svg'
         shortTitle: 'IBES'
-        realTitle:  'Environment and Society Redesign'
+        realTitle:  'Environmental Group Landing Redesign'
         date:       'March 2016'
 
 

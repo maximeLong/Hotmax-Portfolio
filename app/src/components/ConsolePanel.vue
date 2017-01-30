@@ -38,7 +38,7 @@
             v-if="sentenceIndex > 2 || windowCount > 0"
           ></typed>
           <typed class="inline cd"
-            :str="'CD ' + activeProjectWindow.meta.shortTitle + ' && RUN .README'"
+            :str="'OPEN ' + activeProjectWindow.meta.shortTitle + ' && Run .README'"
             v-if="projectWindowIsOpen">
           </typed>
           <transition name="fadedown">

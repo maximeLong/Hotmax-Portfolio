@@ -82,7 +82,7 @@ module.exports =
         readMe: ''
       portfolio:
         content:    'Portfolio'
-        shortTitle: 'Afternoon Indians >> Portfolio'
+        shortTitle: 'Portfolio'
         readMe: ''
 
 
