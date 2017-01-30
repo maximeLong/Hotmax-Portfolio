@@ -15,6 +15,7 @@ state =
   activeProjectWindow: {}
   navigatorWindowIsOpen: false
   activeNavigatorWindow: {}
+
   overlayIsOpen: false
   activeOverlay: {}
   overlays:
@@ -51,9 +52,10 @@ state =
       readme:     'DigitalTextbookReadme'
       meta:
         tags: ['All', 'UI Design', 'App Dev.']
-        bannerImg:  'boulder.svg'
+        bannerImg:  'textbook.png'
         shortTitle: 'Interactive Textbook'
         realTitle:  'Choices Interactive Textbook'
+        client: 'The Choices Program at Brown University'
         date:       'June 2016'
     whereyaat:
       content:    'Whereyaat'
@@ -89,7 +91,7 @@ state =
         tags: ['All', 'UI Design', 'App Dev.']
         bannerImg:  'stick-figure.svg'
         shortTitle: 'Translation Portfolio'
-        realTitle:  'Personal Translation Portfolio'
+        realTitle:  'CMS Translation Portfolio'
         date:       'January 2017'
     ibes:
       content:    'Ibes'

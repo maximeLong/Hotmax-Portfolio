@@ -1,7 +1,18 @@
 <template>
   <project-content>
 
-    digital textbook content or something else
+    <project-image
+      :banner="'video/home.png'"
+      :orientation="'portrait'">
+      image caption stuff
+    </project-image>
+
+    <project-image
+      :banner="'video/scholar_page.png'"
+      :orientation="'portrait'">
+      some other caption
+    </project-image>
+
 
   </project-content>
 </template>
@@ -11,5 +22,6 @@ module.exports =
   name: 'digitalTextbook'
   components:
     ProjectContent: require '../../components/ProjectContent'
+    ProjectImage: require '../../components/ProjectImage'
 
 </script>

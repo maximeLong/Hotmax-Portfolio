@@ -5,8 +5,10 @@
       <div class="portfolio-item" v-for="project in tagFiltered" :key="project.key">
 
         <div @click="openProjectWindow(project)" class="group">
-          <div class="portfolio-image">
-            <img :src="'../static/banners/' + project.meta.bannerImg">
+          <div class="portfolio-image-container">
+            <div class="portfolio-image">
+              <img :src="'../static/banners/' + project.meta.bannerImg">
+            </div>
           </div>
           <div class="caption">{{project.meta.realTitle}}</div>
         </div>
@@ -69,10 +71,19 @@ module.exports =
       width: 100px
       height: 100px
       margin-bottom: 100px
-      .portfolio-image
-        width: 100%
-        height: 100%
+      .portfolio-image-container
+        width: 100px
+        height: 100px
         position: relative
+        .portfolio-image
+          width: 100%
+          height: 100%
+          position: relative
+          overflow: hidden
+          +translate3d(10px, -10px, 0)
+          img
+            height: 100%
+            width: auto
         &::before
           content: ''
           display: block
@@ -85,19 +96,6 @@ module.exports =
           z-index: 2
           background-size: 100% 3px, 2px 100%
           pointer-events: none
-        // &::after
-        //   content: ''
-        //   display: block
-        //   position: absolute
-        //   top: 0
-        //   left: 0
-        //   bottom: 0
-        //   right: 0
-        //   background: transparentize($screen-background,0.97)
-        //   opacity: 0
-        //   z-index: 2
-        //   pointer-events: none
-        //   animation: flicker 0.3s infinite
 
       .caption
         width: calc(100% + 20px)

@@ -1,7 +1,12 @@
 <template>
   <div id="readme">
-    <div class="title">{{activeProjectWindow.meta.realTitle}}</div>
-    <slot></slot>
+    <div class="overview">
+      <div class="title">{{activeProjectWindow.meta.shortTitle}}</div>
+      <div class="client">{{activeProjectWindow.meta.client}}</div>
+    </div>
+    <div class="content">
+      <slot></slot>
+    </div>
   </div>
 </template>
 
@@ -18,14 +23,22 @@ module.exports =
 @import src/styles/main
 
 #readme
-  border: 1px solid white
   padding: 20px
   margin-top: 20px
 
-  .title
-    +systemType
-    color: white
-    margin-bottom: 20px
+  .overview
+    border-left: 1px solid white
+    border-right: 1px solid white
+    padding: 5px 20px
+    .title
+      +showyType
+      font-size: 15px
+      color: white
+      margin-bottom: 10px
+  .content
+    margin-top: 30px
+    padding: 20px
+    border: 1px solid white
 
 
 </style>

@@ -2,12 +2,22 @@
   <div id="project-content">
 
     <div class="banner">
-      <div class="portfolio-image">
-        <img :src="'../static/banners/' + activeProjectWindow.meta.bannerImg">
-      </div>
-      <div class="title">{{activeProjectWindow.meta.realTitle}}</div>
-    </div>
 
+      <div class="info-container">
+        <div class="title">{{activeProjectWindow.meta.realTitle}}</div>
+        <div class="client">{{activeProjectWindow.meta.client}}</div>
+      </div>
+
+      <div class="image-mega-container">
+        <div class="image-container">
+          <img :src="'../static/banners/' + activeProjectWindow.meta.bannerImg">
+        </div>
+      </div>
+
+      <div class="date">Date completed ---->  {{activeProjectWindow.meta.date}}</div>
+
+
+    </div>
     <div class="content">
       <slot></slot>
     </div>
@@ -28,42 +38,91 @@ module.exports =
 <style lang="sass">
 @import src/styles/main
 
+@keyframes flicker
+  $steps: 20
+  @for $i from 0 through $steps
+    #{percentage($i*(1/$steps))}
+      opacity: random()
+
 #project-content
 
   .banner
     width: 100%
-    height: 150px
+    height: 250px
     position: relative
-    +flexbox
-    +justify-content(middle)
-    +align-items(center)
-    .portfolio-image
-      width: 100%
-      height: 100%
+    border: 30px solid white
+    background-color: $window_background
+    .info-container
       position: absolute
-      overflow: hidden
-      &::before
+      top: 30px
+      bottom: 30px
+      left: 45px
+      width: calc(100% - 200px)
+      +flexbox
+      +flex-direction(column)
+      +justify-content(center)
+      z-index: 9999
+      &::after
         content: ''
+        width: 100%
+        height: 20px
         display: block
         position: absolute
-        top: 0
-        left: 0
         bottom: 0
-        right: 0
         background: linear-gradient(transparentize($screen-background,1) 50%, transparentize(darken($screen-background,10),0.75) 50%), linear-gradient(90deg,transparentize(#ff0000,0.94),transparentize(#00ff00,0.98),transparentize(#0000ff,0.94))
         z-index: 2
         background-size: 100% 3px, 2px 100%
         pointer-events: none
-      img
-        width: 100%
+
+
+      .title
+        +showyType
+        font-size: 25px
+        margin-bottom: 10px
+      .client
+        text-transform: inherit
+        font-size: 17px
+        letter-spacing: 1px
+        font-style: italic
+        span
+          color: $window_border
+
+
+    .date
+      color: $ink_black
+      position: absolute
+      top: 95px
+      right: -85px
+      +rotate(90deg)
+
+    .image-mega-container
+      width: 150px
+      height: 150px
+      position: absolute
+      top: 20px
+      right: 60px
+      +flexbox
+      +flex-direction(column)
+      +align-content(center)
+      .image-container
+        border-radius: 100%
+        overflow: hidden
         height: 100%
-    .title
-      z-index: 99
-      text-align: center
-      margin: 0 auto
-      background-color: $ink_black
-      padding: 20px
-      color: white
+        width: 100%
+        &::after
+          top: 0
+          margin-left: -15px
+          position: absolute
+          content: ''
+          height: 150px
+          width: 150px
+          display: block
+          border: 1px solid $window_border
+          border-radius: 100%
+        img
+          width: auto
+          height: 100%
+
 
   .content
     padding: 30px
