@@ -4,7 +4,7 @@ Vuex = require('vuex')
 state =
   # entry to desktop toggles
   webGlIsWorking: true
-  entryIsOpen: true
+  entryIndex: 0
   showThreeGlitch: false
 
   projectPanelVisibility: false
@@ -111,8 +111,8 @@ mutations =
   SET_WEBGL_IS_WORKING: (state, status)->
     state.webGlIsWorking = status
 
-  SET_ENTRY_IS_OPEN: (state, status)->
-    state.entryIsOpen = status
+  SET_ENTRY_INDEX: (state, index)->
+    state.entryIndex = index
   SET_PROJECT_PANEL_VISIBILITY: (state, status)->
     state.projectPanelVisibility = status
   SET_CONSOLE_PANEL_VISIBILITY: (state, status)->

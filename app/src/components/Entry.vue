@@ -2,7 +2,7 @@
   <div id="entry">
 
     <transition name="fade">
-      <div id="start-entry" v-if="entryIndex < 2">
+      <div id="start-entry" v-if="lineIndex < 2">
         <div class="type-container">
           <typed class="line intro"
             :str="'you find an old terminal...'"
@@ -12,20 +12,16 @@
             v-on:done="lineDone">
           </typed>
         </div>
+
         <div class="choice-container">
           <transition name="fade">
-            <div class="choices" v-if="entryIndex == 1">
-              <div class="choice" @click="lineDone">turn it on...</div>
-              <div class="choice">leave it alone...</div>
+            <div class="choices" v-if="lineIndex == 1">
+              <div class="choice" @click="setEntryIndex(1)">turn it on...</div>
+              <div class="choice" @click="setEntryIndex(1)">leave it alone...</div>
             </div>
           </transition>
         </div>
-      </div>
-    </transition>
 
-    <transition name="glitch">
-      <div id="login-entry" v-if="entryIndex > 1">
-        <three v-if="webGlIsWorking"></three>
       </div>
     </transition>
 
@@ -40,15 +36,17 @@ module.exports =
     Three: require './Three'
 
   data: ->
-    entryIndex: 0
+    lineIndex: 0
 
   methods:
     lineDone: ->
-      @entryIndex += 1
-      console.log @entryIndex
+      @lineIndex += 1
+
+    setEntryIndex: (index)-> @$store.commit 'SET_ENTRY_INDEX', index
 
   computed:
-    webGlIsWorking: -> return @$store.state.webGlIsWorking
+    webGlIsWorking: ->  return @$store.state.webGlIsWorking
+    entryIndex: ->     return @$store.state.entryIndex
 
 
 

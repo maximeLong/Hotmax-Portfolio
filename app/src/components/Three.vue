@@ -224,11 +224,16 @@ module.exports =
       #update the mouse ray with the camera and mouse position
       raycaster.setFromCamera( mouse, @camera )
       intersects = raycaster.intersectObjects( @map.children )
-      # if intersects.length > 0
-      #   #intersects[0].object?
-      #   # do something
-      # else
-      #   # do something else
+      if intersects.length > 0
+        # console.log intersects[0].object
+        if intersects[0].object.material.name is 'sun'
+          @runSunSound()
+        else
+          @runLineSound(intersects[0].object)
+        @setColor(intersects[0].object)
+      else
+        for line in @orbitTracks
+          line.material.color.setHex('0xffffff')
 
       # rotation of orbit tracks and sun
       for line,i in @orbitTracks
@@ -258,9 +263,33 @@ module.exports =
 
 
   methods:
-    turnGlitchOn: ()->
-      @glitch = true
-      # intersect.object?.material.color.setHex( Math.random() * 0xffffff )
+    setColor: _.throttle (currentLine)->
+      for line in @orbitTracks
+        line.material.color.setHex('0xffffff')
+      if currentLine.material.name is 'sun'
+        currentLine.material.color.setHex( Math.random() * 0xffffff )
+      else
+        currentLine.material.color.setHex('0xb98a5b')
+
+    , 125
+
+    runSunSound: _.throttle ()->
+      audio = new Audio("/static/wavs/sun/sunSound.wav");
+      audio.play()
+    , 250
+
+    runLineSound: _.throttle (object)->
+      id = object.id
+      trackNumber = switch
+        when id is 16 then '1'
+        when id is 15 then '2'
+        when id is 14 then '3'
+        when id is 13 then '4'
+      if trackNumber
+        audio = new Audio("/static/wavs/orbitTracks/planetTrack#{trackNumber}.wav");
+        audio.play()
+    , 125
+
 
     # camera methods for testing
     changeCameraPosition: (axis, direction)->

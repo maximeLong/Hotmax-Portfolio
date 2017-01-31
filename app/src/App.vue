@@ -1,12 +1,12 @@
 <template>
   <div id="app">
 
-    <div id="entry-experience" v-if="entryIsOpen">
+    <div id="entry-experience" v-if="entryIndex == 0">
       <entry></entry>
     </div>
 
     <transition appear name="fadedown">
-      <div id="desktop-experience" v-if="!entryIsOpen" v-bind:class="{ entry: entryIsOpen, desktop: !entryIsOpen }">
+      <div id="desktop-experience" v-if="entryIndex > 1">
 
         <div id="header-container">
           <transition appear v-on:enter="beginShowingDesktop()" name="fadedown">
@@ -24,11 +24,16 @@
       </div>
     </transition>
 
-    <button v-on:click="setEntry(false)" v-if="entryIsOpen" class="entry-btn">close entry</button>
+    <button v-on:click="setEntryIndex(2)" v-if="entryIndex < 2" class="entry-btn">close entry</button>
+
     <div class="three-container">
-      <div class="growth-container">
-        <three :mode="threeMode" :glitch="showThreeGlitch" v-if="webGlIsWorking"></three>
-      </div>
+
+      <transition name="glitch">
+        <div class="growth-container" v-if="entryIndex > 0" :class="{ entry: entryIndex == 1, desktop: entryIndex > 1 }">
+            <three :mode="threeMode" :glitch="showThreeGlitch" v-if="webGlIsWorking"></three>
+        </div>
+      </transition>
+
     </div>
 
   </div>
@@ -62,9 +67,9 @@ module.exports =
         @overlayHeight = 100
         @overlayWidth = 50
 
-    # pass entryIsOpen info down into three.js component
-    @$watch 'entryIsOpen', (mode)->
-      if mode is false
+    # pass entryIndex info down into three.js component
+    @$watch 'entryIndex', (index)->
+      if index is 2
         @threeMode = 'desktop'
         @$store.commit 'SET_THREE_GLITCH', true
         setTimeout =>
@@ -75,7 +80,7 @@ module.exports =
 
   computed:
     # vuex store
-    entryIsOpen: -> return @$store.state.entryIsOpen
+    entryIndex: -> return @$store.state.entryIndex
     projectPanelVisibility: -> return @$store.state.projectPanelVisibility
     consolePanelVisibility: -> return @$store.state.consolePanelVisibility
 
@@ -95,7 +100,7 @@ module.exports =
         @$store.commit 'SET_CONSOLE_PANEL_VISIBILITY', true
       , 2500
 
-    setEntry: (status)-> @$store.commit 'SET_ENTRY_IS_OPEN', status
+    setEntryIndex: (index)-> @$store.commit 'SET_ENTRY_INDEX', index
 
 
 </script>
@@ -108,6 +113,8 @@ module.exports =
   width: 100vw
   height: 100vh
   overflow: hidden
+  background-color: $ink_black
+
 
   .entry-btn
     position: absolute
@@ -123,33 +130,34 @@ module.exports =
     +align-items(center)
     +justify-content(center)
     .growth-container
-      width: 500px
-      height: 500px
-      border-radius: 100%
-      background-color: $ink_black
       position: relative
       +flexbox
       +align-items(center)
       +justify-content(center)
-      &::after
-        content: ''
-        position: absolute
-        width: 108%
-        height: 108%
+      &.desktop
+        width: 500px
+        height: 500px
         border-radius: 100%
-        border: 2px solid $ink_black
-      &::before
-        +defaultType
-        content: 'Afternoon Indians Logo'
-        text-align: center
-        position: absolute
-        width: 100%
-        height: 125px
-        bottom: -200px
-        // background-image: url('assets/sisyphus-logo-small.svg')
-        // background-position: 50% 100%
-        // background-size: 100%
-        // background-repeat: no-repeat
+        background-color: $ink_black
+        &::after
+          content: ''
+          position: absolute
+          width: 108%
+          height: 108%
+          border-radius: 100%
+          border: 2px solid $ink_black
+        &::before
+          +defaultType
+          content: 'Afternoon Indians Logo'
+          text-align: center
+          position: absolute
+          width: 100%
+          height: 125px
+          bottom: -200px
+          // background-image: url('assets/sisyphus-logo-small.svg')
+          // background-position: 50% 100%
+          // background-size: 100%
+          // background-repeat: no-repeat
 
 
   #entry-experience
@@ -163,7 +171,7 @@ module.exports =
     +flex-direction(column)
     +align-items(center)
     +justify-content(center)
-    background-color: black
+    background-color: $ink_black
   #desktop-experience
     +defaultType
     position: absolute
