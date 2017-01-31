@@ -124,7 +124,7 @@ module.exports =
 
   .window-container
     width: 88%
-    height: 90%
+    height: 80%
     z-index: 999
     background-color: white
     position: relative

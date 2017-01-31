@@ -2,12 +2,17 @@
   <div id="overlay-panel">
     <window :canClose="true" :shortTitle="'::' + activeOverlay.title" :type="'overlay'">
 
-      <div class="content">
-        <img src="../assets/readme-image.png" v-if="activeOverlay.title !== 'asteroids.exe'">
-      </div>
 
       <div class="asteroids-content" v-if="activeOverlay.title == 'asteroids.exe'">
         <asteroids></asteroids>
+      </div>
+
+      <div class="content" v-if="activeOverlay.type == 'text'">
+        <!--TODO: text for text stuff -->
+      </div>
+
+      <div class="content" v-if="activeOverlay.type == 'image'">
+        <img :src="'../static/projects/' + activeOverlay.image"/>
       </div>
 
     </window>

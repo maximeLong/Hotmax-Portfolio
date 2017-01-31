@@ -3,10 +3,12 @@
 
     <div class="banner">
 
-      <div class="info-container">
-        <div class="title">{{activeProjectWindow.meta.realTitle}}</div>
-        <div class="client">{{activeProjectWindow.meta.client}}</div>
-      </div>
+      <transition appear name="fadeup">
+        <div class="info-container">
+          <div class="title">{{activeProjectWindow.meta.realTitle}}</div>
+          <div class="client">{{activeProjectWindow.meta.client}}</div>
+        </div>
+      </transition>
 
       <div class="image-mega-container">
         <div class="image-container">
@@ -74,14 +76,13 @@ module.exports =
         background-size: 100% 3px, 2px 100%
         pointer-events: none
 
-
       .title
         +showyType
         font-size: 25px
         margin-bottom: 10px
       .client
         text-transform: inherit
-        font-size: 17px
+        font-size: 15px
         letter-spacing: 1px
         font-style: italic
         span
@@ -122,7 +123,6 @@ module.exports =
         img
           width: auto
           height: 100%
-
 
   .content
     padding: 30px
