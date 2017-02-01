@@ -72,6 +72,8 @@ module.exports =
       if index is 2
         @threeMode = 'desktop'
         @$store.commit 'SET_THREE_GLITCH', true
+        audio = new Audio("/static/wavs/opening/tuning.wav");
+        audio.play()
         setTimeout =>
           @$store.commit 'SET_THREE_GLITCH', false
         , 3500
@@ -98,6 +100,8 @@ module.exports =
       , 1000
       setTimeout =>
         @$store.commit 'SET_CONSOLE_PANEL_VISIBILITY', true
+        audio = new Audio("/static/wavs/opening/consoleOpen.wav");
+        audio.play()
       , 2500
 
     setEntryIndex: (index)-> @$store.commit 'SET_ENTRY_INDEX', index

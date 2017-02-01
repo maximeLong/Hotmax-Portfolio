@@ -71,8 +71,8 @@ module.exports =
       padding: 8px 15px
       display: block
       position: absolute
-      bottom: 0
-      left: 0
+      bottom: 10px
+      left: 10px
       z-index: 999
       opacity: 0
       background-color: $action_color

@@ -11,20 +11,20 @@
               <typed class="line"
                 :str="'Welcome [NEW EMPLOYEE] to the Afternoon Indians work terminal.'"
                 :cleanCursor="true"
-                :delay="2000"
+                :delay="1500"
                 v-on:done="lineDone">
               </typed>
               <typed class="line"
                 :str="'Please read through the company information at your leisure.'"
                 :cleanCursor="true"
-                :delay="500"
+                :delay="0"
                 v-on:done="lineDone"
                 v-if="sentenceIndex > 0">
               </typed>
               <typed class="line"
                 :str="'Contact a supervisor on completion, you have [' + taskNumber + '] tasks waiting.'"
                 :cleanCursor="true"
-                :delay="500"
+                :delay="0"
                 v-on:done="lineDone"
                 v-if="sentenceIndex > 1">
               </typed>
@@ -38,7 +38,8 @@
             v-if="sentenceIndex > 2 || windowCount > 0"
           ></typed>
           <typed class="inline cd"
-            :str="'OPEN ' + activeProjectWindow.meta.shortTitle + ' && Run .README'"
+            :str="'OPEN [' + activeProjectWindow.meta.shortTitle + '] && Run .README'"
+            :delay="0"
             v-if="projectWindowIsOpen">
           </typed>
           <transition name="fadedown">
