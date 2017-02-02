@@ -26,11 +26,12 @@ module.exports =
     border-left: 1px solid white
     padding: 10px 20px
     .title
-      +consoleHeader
-      // font-size: 18px
-      // line-height: 26px
-      // color: white
+      +showyType
+      font-size: 20px
+      line-height: 28px
+      color: white
       margin-bottom: 10px
+      letter-spacing: 2px
     .subheader
       font-size: 14px
       line-height: 23px
@@ -41,9 +42,13 @@ module.exports =
     border-left: 1px solid white
     .title
       +showyType
-      font-size: 13px
+      font-size: 16px
+      letter-spacing: 2px
       color: white
       margin-bottom: 10px
+      &::after
+        content: '_'
+        padding-left: 4px
     .list
       div
         font-size: 15px

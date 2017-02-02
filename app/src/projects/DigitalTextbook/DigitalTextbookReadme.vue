@@ -3,10 +3,10 @@
 
     <div class="header">
       <div class="title">
-        some catchy way of describing this project in like a sentence or something..
+        Some catchy way of describing this project in like a sentence or something..
       </div>
       <div class="subheader">
-        fleshing out in a couple more sentences, just the minimal amount of stuff here.. can go into more detail later if needed.
+        Fleshing out in a couple more sentences, just the minimal amount of stuff here.. can go into more detail later if needed.
       </div>
     </div>
 

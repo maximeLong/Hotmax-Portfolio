@@ -28,7 +28,7 @@
     <div class="three-container">
 
       <transition name="glitch">
-        <div class="growth-container" v-if="entryIndex > 0" :class="{ entry: entryIndex == 1, desktop: entryIndex > 1 }">
+        <div class="growth-container" v-if="entryIndex > 0" :class="{ entry: entryIndex == 1, desktop: entryIndex > 1 }" :style="{ color: '#' + systemColor }">
             <three :mode="threeMode" :glitch="showThreeGlitch" v-if="webGlIsWorking"></three>
         </div>
       </transition>
@@ -84,6 +84,7 @@ module.exports =
     entryIndex: -> return @$store.state.entryIndex
     projectPanelVisibility: -> return @$store.state.projectPanelVisibility
     consolePanelVisibility: -> return @$store.state.consolePanelVisibility
+    systemColor: ->            return @$store.state.systemColor
 
     overlayIsOpen: -> return @$store.state.overlayIsOpen
     activeOverlay: -> return @$store.state.activeOverlay
@@ -118,7 +119,7 @@ module.exports =
   overflow: hidden
   background-color: $ink_black
   border: 10px solid $ink_black
-
+  +transition(.15s ease all)
 
   .entry-btn
     position: absolute
@@ -151,11 +152,13 @@ module.exports =
           border-radius: 100%
           border: 2px solid $ink_black
         &::before
-          +consoleHeader
-          content: '[*____*]'
+          +transition(.15s ease all)
+          opacity: .8
+          +defaultType
+          content: 'ᕕ( ᐛ )ᕗ'
           font-size: 60px
           line-height: 44px
-          color: $action_color
+          color: inherit
           text-align: center
           position: absolute
           width: 150%

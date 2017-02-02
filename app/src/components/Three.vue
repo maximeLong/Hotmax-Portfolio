@@ -268,6 +268,7 @@ module.exports =
         line.material.color.setHex('0xffffff')
       if currentLine.material.name is 'sun'
         currentLine.material.color.setHex( Math.random() * 0xffffff )
+        @$store.commit 'SET_SYSTEM_COLOR', currentLine.material.color.getHexString()
       else
         currentLine.material.color.setHex('0xb98a5b')
 

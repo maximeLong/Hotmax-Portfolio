@@ -191,13 +191,13 @@ module.exports =
         font-size: 15px
         line-height: 17px
       &.rubbish
-        width: 82px
-        +translate3d(30px, 400px, 0)
+        width: 77px
+        +translate3d(80px, 400px, 0)
       &.folder
-        width: 90px
+        width: 85px
         +translate3d(20px, 0, 0)
       &.file
-        width: 65px
+        width: 60px
 
 
 </style>

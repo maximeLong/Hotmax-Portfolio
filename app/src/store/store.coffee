@@ -6,6 +6,7 @@ state =
   webGlIsWorking: true
   entryIndex: 0
   showThreeGlitch: false
+  systemColor: ''
 
   projectPanelVisibility: false
   consolePanelVisibility: false
@@ -80,7 +81,7 @@ state =
         tags: ['All', 'VR', 'App Dev.']
         bannerImg:  'stick-figure.svg'
         shortTitle: 'VR Walkthrough'
-        realTitle:  'Occulus VR - Immersive Stage Design'
+        realTitle:  'Mobile VR - Immersive Stage Design'
         date:       'January 2017'
     video:
       content:    'VideoPortal'
@@ -112,6 +113,9 @@ state =
 
 
 mutations =
+  SET_SYSTEM_COLOR: (state, color)->
+    state.systemColor = color
+
   SET_ACTIVE_PORTFOLIO_OPTION: (state, opt)->
     state.activePortfolioOption = opt
 

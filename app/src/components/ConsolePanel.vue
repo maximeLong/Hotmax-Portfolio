@@ -1,13 +1,12 @@
 <template>
   <div id="console-panel">
-    <div class="console-container">
+    <div class="console-container" v-bind:style="containerStyle">
       <window :canClose="false" :shortTitle="'::Console.exe'">
         <div class="console">
 
           <!-- entry experience -->
           <transition name="fadedown" appear>
             <div class="intro-top" v-if="!projectWindowIsOpen && windowCount < 1">
-              <!-- <div class="intro">Welcome back to work [ <span>MAXIME LONG</span> ].</div> -->
               <typed class="line"
                 :str="'Welcome [NEW EMPLOYEE] to the Afternoon Indians work terminal.'"
                 :cleanCursor="true"
@@ -42,6 +41,7 @@
           <typed class="inline cd"
             :str="'OPEN [' + activeProjectWindow.meta.shortTitle + '] && Run .README'"
             :delay="0"
+            :cleanCursor="true"
             v-if="projectWindowIsOpen">
           </typed>
           <transition name="fadedown">
@@ -55,6 +55,7 @@
           <typed class="inline cd"
             :str="'OPEN [' + activeConsoleText.title + '] && Run .README'"
             :delay="0"
+            :cleanCursor="true"
             v-if="consoleTextIsOpen && !projectWindowIsOpen">
           </typed>
           <transition name="fadedown">
@@ -105,25 +106,42 @@ module.exports =
 
 
   mounted: ->
+    @containerWidth = '79%'
+    @containerX =     '50px'
+
     @$watch 'projectWindowIsOpen', (newVal, oldVal)->
       if newVal is true then @windowCount = @windowCount + 1
     @$watch 'consoleTextIsOpen', (newVal, oldVal)->
-      if newVal is true then @windowCount = @windowCount + 1
+      if newVal is true
+        @windowCount = @windowCount + 1
+
+        @containerStyle =
+          width: '95%'
+          transform: 'translate3d(-40px, 0, 0)'
+          '-webkit-transform': 'translate3d(-40px, 0, 0)'
+      else
+
+        @containerStyle =
+          width: '79%'
+          transform: 'translate3d(50px, 0, 0)'
+          '-webkit-transform': 'translate3d(50px, 0, 0)'
+
 
   data: ->
     sentenceIndex: 0
     windowCount: 0
 
-  computed:
+    containerStyle:
+      width: '79%'
+      transform: 'translate3d(50px, 0, 0)'
+      '-webkit-transform': 'translate3d(50px, 0, 0)'
 
-    # vuex
+  computed:
     consoleTextIsOpen: -> return @$store.state.consoleTextIsOpen
     activeConsoleText: -> return @$store.state.activeConsoleText
-
     projectWindowIsOpen: -> return @$store.state.projectWindowIsOpen
     activeProjectWindow: -> return @$store.state.activeProjectWindow
     taskNumber: -> return Math.floor((Math.random() * 10000) + 1)
-
 
   methods:
     lineDone: ->
@@ -146,6 +164,7 @@ module.exports =
     width: 79%
     height: 80%
     +translate3d(50px,0,0)
+    +transition(.35s ease all)
     z-index: 999
     position: relative
 
@@ -156,32 +175,34 @@ module.exports =
     height: 100%
     width: 100%
 
+    //console features shared
+    .header-container
+      padding: 30px 0
+      margin-bottom: 10px
+      &::after
+        content: ''
+        display: block
+        margin-top: 20px
+        width: 100px
+        height: 9px
+        background-color: white
+      .title
+        +showyType
+        color: white
+        line-height: 55px
+    .content
+      width: 100%
+
+    // intro and aesthetic features
     .intro-top
       margin-bottom: 20px
-      .intro
-        +systemType
-        font-weight: normal
-        font-size: 17px
-        line-height: 20px
-        letter-spacing: 3px
-        color: white
-        margin-bottom: 15px
-        padding-bottom: 10px
-        border-bottom: 1px solid white
-        text-align: center
-        span
-          color: #4ad39e
-          text-shadow: 0 0 7px #4ad39e
-          font-weight: bold
       .line
         display: block
         margin: 10px 0
         text-transform: uppercase
-
     .cd
       &::first-letter
         margin-right: 5px
-
     .graphs
       position: absolute
       bottom: 20px

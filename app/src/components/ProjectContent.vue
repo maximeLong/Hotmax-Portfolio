@@ -77,9 +77,8 @@ module.exports =
         pointer-events: none
 
       .title
-        +consoleHeader
+        +showyType
         color: $ink_black
-        font-size: 40px
         margin-bottom: 10px
       .client
         text-transform: inherit
