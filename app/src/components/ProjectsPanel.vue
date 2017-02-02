@@ -2,30 +2,32 @@
   <transition appear name="fade">
   <div id="projects-panel">
     <div class="icon-grid">
+      <div @click="openNavigatorWindow(navigatorWindows.portfolio)" class="icon folder">
+        <div class="rotation-container" v-bind:style="{ transform: 'rotationX(' + rotationX + 'deg)' }">
+          <img src="../assets/folder-icon.svg">
+        </div>
+        <div class="caption">Our Work</div>
+      </div>
       <div @click="openNavigatorWindow(navigatorWindows.rubbish)" class="icon rubbish">
         <img src="../assets/rubbish-icon.svg">
         <div class="caption">Rubbish Bin</div>
       </div>
-      <div @click="openNavigatorWindow(navigatorWindows.portfolio)" class="icon folder">
-        <img src="../assets/folder-icon.svg">
-        <div class="caption">Our Work</div>
-      </div>
-      <div @click="openOverlay(overlays.aboutUs)" class="icon file">
+      <div @click="openConsoleText(consoleTexts.aboutUs)" class="icon file">
         <img src="../assets/file-icon.svg">
         <div class="caption">About Us</div>
       </div>
-      <div @click="openOverlay(overlays.ourServices)" class="icon file">
+      <div @click="openConsoleText(consoleTexts.ourServices)" class="icon file">
         <img src="../assets/file-icon.svg">
         <div class="caption">Our Services</div>
       </div>
-      <div @click="openOverlay(overlays.contactUs)" class="icon file">
+      <div @click="openConsoleText(consoleTexts.contactUs)" class="icon file">
         <img src="../assets/file-icon.svg">
         <div class="caption">Contact Us</div>
       </div>
     </div>
 
     <!-- project window -->
-    <div class="window-container" v-if="projectWindowIsOpen">
+    <div class="window-container projectWindow" v-if="projectWindowIsOpen">
       <window
         :canClose="true"
         :shortTitle="'::Portfolio >> ' + activeProjectWindow.meta.shortTitle"
@@ -85,14 +87,17 @@ module.exports =
         shortTitle: 'Portfolio'
         readMe: ''
 
+    rotationX: 10
+    rotationY: 10
+
 
   methods:
-    openProjectWindow: (view)->
-      @$store.commit 'SET_PROJECT_WINDOW_IS_OPEN', true
-      @$store.commit 'SET_ACTIVE_PROJECT_WINDOW', view
     openOverlay: (view)->
       @$store.commit 'SET_OVERLAY_IS_OPEN', true
       @$store.commit 'SET_ACTIVE_OVERLAY', view
+    openConsoleText: (view)->
+      @$store.commit 'SET_CONSOLE_TEXT_IS_OPEN', true
+      @$store.commit 'SET_ACTIVE_CONSOLE_TEXT', view
     openNavigatorWindow: (view)->
       @$store.commit 'SET_NAVIGATOR_WINDOW_IS_OPEN', true
       @$store.commit 'SET_ACTIVE_NAVIGATOR_WINDOW', view
@@ -103,8 +108,10 @@ module.exports =
     activeProjectWindow: ->   return @$store.state.activeProjectWindow
     navigatorWindowIsOpen: -> return @$store.state.navigatorWindowIsOpen
     activeNavigatorWindow: -> return @$store.state.activeNavigatorWindow
+
     overlays: ->              return @$store.state.overlays
     projectWindows: ->        return @$store.state.projectWindows
+    consoleTexts: ->          return @$store.state.consoleTexts
 
 
 
@@ -121,13 +128,21 @@ module.exports =
   +align-items(center)
   +flex-direction(column)
   +justify-content(center)
+  z-index: 999
+
+  // testing matrix transform
+  -moz-perspective: 800px
+  -webkit-perspective: 800px
+  perspective: 800px
 
   .window-container
-    width: 88%
+    width: 110%
     height: 80%
     z-index: 999
     background-color: white
     position: relative
+    &.projectWindow
+      +translate3d(70px,0,0)
     &.navigator
       position: absolute
       z-index: 99
@@ -142,30 +157,47 @@ module.exports =
 
   .icon-grid
     position: absolute
-    top: 50px
-    left: 50px
+    top: 75px
+    left: 75px
     width: 50%
+
+    // testing matrix transform
+    -moz-transform-style: preserve-3d
+    -webkit-transform-style: preserve-3d
+    transform-style: preserve-3d
+    -moz-backface-visibility: hidden
+    -webkit-backface-visibility: hidden
+    backface-visibility: hidden
+    -moz-perspective: 800px
+    -webkit-perspective: 800px
+    perspective: 800px
+    -moz-transform-origin: 50% 50% 0
+    -webkit-transform-origin: 50% 50% 0
+    transform-origin: 50% 50% 0
+
+
     .icon
       position: absolute
       +clickable
-      &:nth-child(2)
-        +translate3d(130px, 50px, 0)
       &:nth-child(3)
-        +translate3d(0, 220px, 0)
+        +translate3d(0px, 150px, 0)
       &:nth-child(4)
-        +translate3d(130px, 250px, 0)
+        +translate3d(120px, 160px, 0)
       &:nth-child(5)
-        +translate3d(260px, 220px, 0)
+        +translate3d(240px, 170px, 0)
 
       .caption
         padding: 5px 0 0 10px
-        line-height: 16px
+        font-size: 15px
+        line-height: 17px
       &.rubbish
-        width: 65px
+        width: 82px
+        +translate3d(30px, 400px, 0)
       &.folder
-        width: 75px
+        width: 90px
+        +translate3d(20px, 0, 0)
       &.file
-        width: 57px
+        width: 65px
 
 
 </style>

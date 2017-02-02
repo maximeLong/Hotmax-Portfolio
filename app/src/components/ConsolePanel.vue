@@ -31,30 +31,43 @@
             </div>
           </transition>
 
-          <!-- readme experience -->
           <typed class="inline"
             :str="'>'"
-            :cleanCursor="projectWindowIsOpen ? true : false"
+            :cleanCursor="projectWindowIsOpen || consoleTextIsOpen ? true : false"
             v-if="sentenceIndex > 2 || windowCount > 0"
           ></typed>
+
+
+          <!-- project readme -->
           <typed class="inline cd"
             :str="'OPEN [' + activeProjectWindow.meta.shortTitle + '] && Run .README'"
             :delay="0"
             v-if="projectWindowIsOpen">
           </typed>
           <transition name="fadedown">
-
             <component
               v-bind:is="activeProjectWindow.readme"
               v-if="projectWindowIsOpen">
             </component>
+          </transition>
 
+          <!-- our info -->
+          <typed class="inline cd"
+            :str="'OPEN [' + activeConsoleText.title + '] && Run .README'"
+            :delay="0"
+            v-if="consoleTextIsOpen && !projectWindowIsOpen">
+          </typed>
+          <transition name="fadedown">
+            <component
+              v-bind:is="activeConsoleText.component"
+              v-if="consoleTextIsOpen && !projectWindowIsOpen">
+            </component>
           </transition>
 
 
           <!-- aesthetic bottom -->
           <transition name="fadeup" appear>
-            <div class="graphs" v-if="!projectWindowIsOpen">
+            <div class="graphs" v-if="!projectWindowIsOpen && !consoleTextIsOpen">
               version 1.7 -- copyright Afternoon Indians
             </div>
           </transition>
@@ -73,8 +86,13 @@ module.exports =
   name: 'consolePanel'
   components:
     Window: require './Window'
-    Typed: require './Typed'
-    Ascii: require './Ascii'
+    Typed:  require './Typed'
+    Ascii:  require './Ascii'
+
+    #our information components
+    OurServices:  require './OurServices'
+    OurStory:     require './OurStory'
+    OurContact:   require './OurContact'
 
     #project components
     DigitalTextbookReadme:  require '../projects/DigitalTextbook/DigitalTextbookReadme'
@@ -89,6 +107,8 @@ module.exports =
   mounted: ->
     @$watch 'projectWindowIsOpen', (newVal, oldVal)->
       if newVal is true then @windowCount = @windowCount + 1
+    @$watch 'consoleTextIsOpen', (newVal, oldVal)->
+      if newVal is true then @windowCount = @windowCount + 1
 
   data: ->
     sentenceIndex: 0
@@ -97,6 +117,9 @@ module.exports =
   computed:
 
     # vuex
+    consoleTextIsOpen: -> return @$store.state.consoleTextIsOpen
+    activeConsoleText: -> return @$store.state.activeConsoleText
+
     projectWindowIsOpen: -> return @$store.state.projectWindowIsOpen
     activeProjectWindow: -> return @$store.state.activeProjectWindow
     taskNumber: -> return Math.floor((Math.random() * 10000) + 1)
@@ -120,9 +143,10 @@ module.exports =
   // overflow: hidden
 
   .console-container
-    width: 75%
+    width: 79%
     height: 80%
-    z-index: 99
+    +translate3d(50px,0,0)
+    z-index: 999
     position: relative
 
   .console

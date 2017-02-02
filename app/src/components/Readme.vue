@@ -26,10 +26,10 @@ module.exports =
     border-left: 1px solid white
     padding: 10px 20px
     .title
-      +showyType
-      font-size: 18px
-      line-height: 26px
-      color: white
+      +consoleHeader
+      // font-size: 18px
+      // line-height: 26px
+      // color: white
       margin-bottom: 10px
     .subheader
       font-size: 14px

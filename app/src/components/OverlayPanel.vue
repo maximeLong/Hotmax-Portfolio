@@ -7,9 +7,6 @@
         <asteroids></asteroids>
       </div>
 
-      <div class="content" v-if="activeOverlay.type == 'text'">
-        <!--TODO: text for text stuff -->
-      </div>
 
       <div class="content" v-if="activeOverlay.type == 'image'">
         <img :src="'../static/projects/' + activeOverlay.image"/>
@@ -24,8 +21,9 @@ interact = require('interact.js')
 module.exports =
   name: 'overlayPanel'
   components:
-    Window: require './Window'
-    Asteroids: require './Asteroids'
+    Window:       require './Window'
+    Asteroids:    require './Asteroids'
+
 
   computed:
     activeOverlay: -> return @$store.state.activeOverlay

@@ -19,18 +19,25 @@ state =
   overlayIsOpen: false
   activeOverlay: {}
   overlays:
-    readme:
-      title: 'readme.txt'
-    aboutUs:
-      title: 'About Us.txt'
-    ourServices:
-      title: 'Our Services.txt'
-    contactUs:
-      title: 'Contact Us.txt'
-    resume:
-      title: 'resume.txt'
     asteroids:
       title: 'asteroids.exe'
+
+  consoleTextIsOpen: false
+  activeConsoleText: {}
+  consoleTexts:
+    aboutUs:
+      title:      'About Us.txt'
+      type:       'text'
+      component:  'OurStory'
+    ourServices:
+      title:      'Our Services.txt'
+      type:       'text'
+      component:  'OurServices'
+    contactUs:
+      title:      'Contact Us.txt'
+      type:       'text'
+      component:  'OurContact'
+
 
   # portfolio options
   activePortfolioOption: 'All'
@@ -122,6 +129,11 @@ mutations =
     state.projectWindowIsOpen = status
   SET_ACTIVE_PROJECT_WINDOW: (state, project)->
     state.activeProjectWindow = project
+
+  SET_CONSOLE_TEXT_IS_OPEN: (state, status)->
+    state.consoleTextIsOpen = status
+  SET_ACTIVE_CONSOLE_TEXT: (state, text)->
+    state.activeConsoleText = text
 
   SET_OVERLAY_IS_OPEN: (state, status)->
     state.overlayIsOpen = status

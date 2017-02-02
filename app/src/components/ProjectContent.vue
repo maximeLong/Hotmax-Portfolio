@@ -77,14 +77,14 @@ module.exports =
         pointer-events: none
 
       .title
-        +showyType
-        font-size: 25px
+        +consoleHeader
+        color: $ink_black
+        font-size: 40px
         margin-bottom: 10px
       .client
         text-transform: inherit
         font-size: 15px
         letter-spacing: 1px
-        font-style: italic
         span
           color: $window_border
 
@@ -97,7 +97,7 @@ module.exports =
       +rotate(90deg)
 
     .image-mega-container
-      width: 150px
+      width: 250px
       height: 150px
       position: absolute
       top: 20px
@@ -106,7 +106,6 @@ module.exports =
       +flex-direction(column)
       +align-content(center)
       .image-container
-        border-radius: 100%
         overflow: hidden
         height: 100%
         width: 100%
@@ -121,8 +120,8 @@ module.exports =
           border: 1px solid $window_border
           border-radius: 100%
         img
-          width: auto
-          height: 100%
+          width: 100%
+          height: auto
 
   .content
     padding: 30px

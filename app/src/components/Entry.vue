@@ -16,8 +16,8 @@
         <div class="choice-container">
           <transition name="fade">
             <div class="choices" v-if="lineIndex == 1">
-              <div class="choice" @click="setEntryIndex(1)">turn it on...</div>
-              <div class="choice" @click="setEntryIndex(1)">leave it alone...</div>
+              <div class="choice" @click="setEntryIndex(1)">turn it on carefully...</div>
+              <div class="choice" @click="setEntryIndex(2)">hack the mainframe...</div>
             </div>
           </transition>
         </div>

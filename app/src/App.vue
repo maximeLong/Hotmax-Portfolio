@@ -17,14 +17,13 @@
         <div id="body-container">
           <projects-panel v-if="projectPanelVisibility"></projects-panel>
           <console-panel v-if="consolePanelVisibility"></console-panel>
-          <div id="overlay-container" v-if="overlayIsOpen" v-bind:style="{ height: 'calc(' + overlayHeight + '% - 60px)', width: overlayWidth + '%' }">
+          <div id="overlay-container" v-if="overlayIsOpen" v-bind:style="{ height: overlayHeight + '%', width: overlayWidth + '%' }">
             <overlay-panel></overlay-panel>
           </div>
         </div>
       </div>
     </transition>
 
-    <button v-on:click="setEntryIndex(2)" v-if="entryIndex < 2" class="entry-btn">close entry</button>
 
     <div class="three-container">
 
@@ -65,7 +64,7 @@ module.exports =
         @overlayWidth = 70
       else
         @overlayHeight = 100
-        @overlayWidth = 50
+        @overlayWidth = 70
 
     # pass entryIndex info down into three.js component
     @$watch 'entryIndex', (index)->
@@ -118,6 +117,7 @@ module.exports =
   height: 100vh
   overflow: hidden
   background-color: $ink_black
+  border: 10px solid $ink_black
 
 
   .entry-btn
@@ -151,11 +151,14 @@ module.exports =
           border-radius: 100%
           border: 2px solid $ink_black
         &::before
-          +defaultType
-          content: 'Afternoon Indians Logo'
+          +consoleHeader
+          content: '[*____*]'
+          font-size: 60px
+          line-height: 44px
+          color: $action_color
           text-align: center
           position: absolute
-          width: 100%
+          width: 150%
           height: 125px
           bottom: -200px
           // background-image: url('assets/sisyphus-logo-small.svg')
@@ -199,9 +202,11 @@ module.exports =
       left: 0
       top: 0
       bottom: 0
-      width: 60%
+      width: 70%
       min-width: 500px
-      height: calc(100% - 60px)
+      max-width: 1200px
+      height: 100%
+      +translate3d(0,-50px,0)
       margin: 0 auto
       margin-top: 60px
       z-index: 999
