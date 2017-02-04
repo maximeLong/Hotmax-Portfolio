@@ -1,49 +1,29 @@
 <template>
   <div id="console-panel">
     <div class="console-container" v-bind:style="containerStyle">
-      <window :canClose="false" :shortTitle="'::Console.exe'">
+      <window :canClose="false" :shortTitle="'::Console.exe'" :type="'consoleWindow'">
+
         <div class="console">
 
           <!-- entry experience -->
           <transition name="fadedown" appear>
-            <div class="intro-top" v-if="!projectWindowIsOpen && windowCount < 1">
-              <typed class="line"
-                :str="'Welcome [NEW EMPLOYEE] to the Afternoon Indians work terminal.'"
-                :cleanCursor="true"
-                :delay="1500"
-                v-on:done="lineDone">
-              </typed>
-              <typed class="line"
-                :str="'Please read through the company information at your leisure.'"
-                :cleanCursor="true"
-                :delay="0"
-                v-on:done="lineDone"
-                v-if="sentenceIndex > 0">
-              </typed>
-              <typed class="line"
-                :str="'Contact a supervisor on completion, you have [' + taskNumber + '] tasks waiting.'"
-                :cleanCursor="true"
-                :delay="0"
-                v-on:done="lineDone"
-                v-if="sentenceIndex > 1">
-              </typed>
-            </div>
+            <intro-text
+              v-if="!hideIntro"
+              v-on:done="introDone = true">
+            </intro-text>
           </transition>
 
-          <typed class="inline"
-            :str="'>'"
-            :cleanCursor="projectWindowIsOpen || consoleTextIsOpen ? true : false"
-            v-if="sentenceIndex > 2 || windowCount > 0"
-          ></typed>
+          <!-- standby line -->
+          <!-- TODO: blow this up into something interesting -->
+          <transition name="consoletransition">
+            <typed class="inline"
+              :str="'>'"
+              :cleanCursor="projectWindowIsOpen || consoleTextIsOpen ? true : false"
+              v-if="introDone && !projectWindowIsOpen && !consoleTextIsOpen"
+            ></typed>
+          </transition>
 
-
-          <!-- project readme -->
-          <typed class="inline cd"
-            :str="'OPEN [' + activeProjectWindow.meta.shortTitle + '] && Run .README'"
-            :delay="0"
-            :cleanCursor="true"
-            v-if="projectWindowIsOpen">
-          </typed>
+          <!-- project window -->
           <transition name="fadedown">
             <component
               v-bind:is="activeProjectWindow.readme"
@@ -51,14 +31,8 @@
             </component>
           </transition>
 
-          <!-- our info -->
-          <typed class="inline cd"
-            :str="'OPEN [' + activeConsoleText.title + '] && Run .README'"
-            :delay="0"
-            :cleanCursor="true"
-            v-if="consoleTextIsOpen && !projectWindowIsOpen">
-          </typed>
-          <transition name="fadedown">
+          <!-- consoleText component -->
+          <transition name="consoletransition">
             <component
               v-bind:is="activeConsoleText.component"
               v-if="consoleTextIsOpen && !projectWindowIsOpen">
@@ -86,16 +60,12 @@ interact = require('interact.js')
 module.exports =
   name: 'consolePanel'
   components:
-    Window: require './Window'
-    Typed:  require './Typed'
-    Ascii:  require './Ascii'
-
-    #our information components
-    OurServices:  require './OurServices'
-    OurStory:     require './OurStory'
-    OurContact:   require './OurContact'
-
-    #project components
+    Window:     require './Window'
+    Typed:      require './Typed'
+    IntroText:  require './IntroText'
+    OurServices:    require './OurServices'
+    OurStory:       require './OurStory'
+    OurContact:     require './OurContact'
     DigitalTextbookReadme:  require '../projects/DigitalTextbook/DigitalTextbookReadme'
     VideoPortalReadme:      require '../projects/VideoPortal/VideoPortalReadme'
     WhereyaatReadme:        require '../projects/Whereyaat/WhereyaatReadme'
@@ -106,31 +76,25 @@ module.exports =
 
 
   mounted: ->
-    @containerWidth = '79%'
-    @containerX =     '50px'
-
     @$watch 'projectWindowIsOpen', (newVal, oldVal)->
-      if newVal is true then @windowCount = @windowCount + 1
+      if newVal is true then @hideIntro = true #hide intro after first open
+
     @$watch 'consoleTextIsOpen', (newVal, oldVal)->
-      if newVal is true
-        @windowCount = @windowCount + 1
-
+      if newVal is true #hide intro after first open
+        @hideIntro = true
         @containerStyle =
-          width: '95%'
-          transform: 'translate3d(-40px, 0, 0)'
-          '-webkit-transform': 'translate3d(-40px, 0, 0)'
+          width: '100%'
+          transform: 'translate3d(-55px, 0, 0)'
+          '-webkit-transform': 'translate3d(-55px, 0, 0)'
       else
-
         @containerStyle =
           width: '79%'
           transform: 'translate3d(50px, 0, 0)'
           '-webkit-transform': 'translate3d(50px, 0, 0)'
 
-
   data: ->
-    sentenceIndex: 0
-    windowCount: 0
-
+    hideIntro: false
+    introDone: false
     containerStyle:
       width: '79%'
       transform: 'translate3d(50px, 0, 0)'
@@ -141,11 +105,14 @@ module.exports =
     activeConsoleText: -> return @$store.state.activeConsoleText
     projectWindowIsOpen: -> return @$store.state.projectWindowIsOpen
     activeProjectWindow: -> return @$store.state.activeProjectWindow
-    taskNumber: -> return Math.floor((Math.random() * 10000) + 1)
+
 
   methods:
-    lineDone: ->
-      @sentenceIndex += 1
+    startWipe: ->
+      @wipeScreen = true
+      setTimeout =>
+        @wipeScreen = false
+      , 750
 
 </script>
 
@@ -174,10 +141,11 @@ module.exports =
     background-color: $console_black
     height: 100%
     width: 100%
+    position: relative
 
     //console features shared
     .header-container
-      padding: 30px 0
+      padding: 20px 0 30px 0
       margin-bottom: 10px
       &::after
         content: ''
@@ -185,7 +153,7 @@ module.exports =
         margin-top: 20px
         width: 100px
         height: 9px
-        background-color: white
+        background-color: #e45f60
       .title
         +showyType
         color: white
@@ -193,16 +161,7 @@ module.exports =
     .content
       width: 100%
 
-    // intro and aesthetic features
-    .intro-top
-      margin-bottom: 20px
-      .line
-        display: block
-        margin: 10px 0
-        text-transform: uppercase
-    .cd
-      &::first-letter
-        margin-right: 5px
+
     .graphs
       position: absolute
       bottom: 20px

@@ -19,8 +19,6 @@ module.exports =
 
 #header-panel
   position: relative
-  padding: 0 50px
-  // border-bottom: 2px solid $ink_black
   width: 100%
   height: 100%
   z-index: 9999
@@ -29,6 +27,8 @@ module.exports =
   +justify-content(space-between)
   +flex-direction(row)
   cursor: default
+  padding: 0 30px
+  border: 2px solid white
 
   .system
     +systemType

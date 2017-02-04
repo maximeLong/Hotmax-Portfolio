@@ -265,17 +265,17 @@ module.exports =
   methods:
     setColor: _.throttle (currentLine)->
       for line in @orbitTracks
-        line.material.color.setHex('0xffffff')
+        line.material.color.setHex('0xffffff') #set all orbit lines to white
+
       if currentLine.material.name is 'sun'
-        currentLine.material.color.setHex( Math.random() * 0xffffff )
+        currentLine.material.color.setHex( Math.random() * 0xffffff ) #do something with the color here
         @$store.commit 'SET_SYSTEM_COLOR', currentLine.material.color.getHexString()
       else
-        currentLine.material.color.setHex('0xb98a5b')
-
+        currentLine.material.color.setHex('0xb98a5b') #set orbit lines to action color
     , 125
 
     runSunSound: _.throttle ()->
-      audio = new Audio("/static/wavs/sun/sunSound.wav");
+      audio = new Audio("/static/wavs/orbitTracks/planetTrack1.wav");
       audio.play()
     , 250
 

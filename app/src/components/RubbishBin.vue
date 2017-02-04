@@ -2,10 +2,6 @@
   <div id="rubbish-bin">
 
     <div class="content icon-grid">
-      <div @click="openOverlay(overlays.resume)" class="icon file">
-        <img src="../assets/file-icon.svg">
-        <div class="caption">resume.pdf</div>
-      </div>
       <div @click="openOverlay(overlays.asteroids)" class="icon file">
         <img src="../assets/file-icon.svg">
         <div class="caption">asteroids.exe</div>
@@ -36,8 +32,6 @@ module.exports =
   .icon-grid
     .icon
       &:nth-child(1)
-        +translate3d(0px, 40px, 0)
-      &:nth-child(2)
-        +translate3d(180px, 80px, 0)
+        +translate3d(0px, -20px, 0)
 
 </style>

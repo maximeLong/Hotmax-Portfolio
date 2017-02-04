@@ -19,11 +19,8 @@ module.exports =
 @import src/styles/main
 
 #readme
-  padding: 20px 0
-  margin-top: 20px
 
   .header
-    border-left: 1px solid white
     padding: 10px 20px
     .title
       +showyType

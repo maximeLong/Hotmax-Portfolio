@@ -114,11 +114,13 @@ module.exports =
 
 #app
   position: relative
-  width: 100vw
-  height: 100vh
+  width: calc(100vw - 40px)
+  height: calc(100vh - 40px)
   overflow: hidden
-  background-color: $ink_black
-  border: 10px solid $ink_black
+  background-color: #0b3039
+  transition: 0.15s ease all
+  margin: 20px
+  box-shadow: 0 0 30px 9px rgb(245, 230, 227)
   +transition(.15s ease all)
 
   .entry-btn
@@ -155,7 +157,7 @@ module.exports =
           +transition(.15s ease all)
           opacity: .8
           +defaultType
-          content: 'ᕕ( ᐛ )ᕗ'
+          content: 'ホットマックス'
           font-size: 60px
           line-height: 44px
           color: inherit
@@ -187,13 +189,15 @@ module.exports =
     position: absolute
     top: 0
     left: 0
-    height: 100vh
-    width: 100vw
+    height: 100%
+    width: 100%
     overflow-x: hidden
     overflow-y: hidden
-    background-color: white
+    background-color: #f5e6e3
     #header-container
       height: 60px
+      padding: 0 30px
+      width: 100%
     #body-container
       height: calc(100% - 60px)
       +flexbox

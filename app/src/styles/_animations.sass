@@ -26,6 +26,23 @@
   opacity: 0
 
 
+.consoletransition-enter-active
+  +transition(.5s ease all)
+  -webkit-transition-delay: 1s
+  transition-delay: 1s
+.consoletransition-leave-active
+  -webkit-transition-delay: .75s
+  transition-delay: .75s
+.consoletransition-enter
+  opacity: 0
+  +transition(.5s ease all)
+  -webkit-transition-delay: 1s
+  transition-delay: 1s
+.consoletransition-leave-active
+  +transition(.5s ease all)
+  opacity: 0
+
+
 .glitch-enter-active, .glitch-leave-active
   animation: glitch-on 4s linear
 .glitch-enter, .glitch-leave-active

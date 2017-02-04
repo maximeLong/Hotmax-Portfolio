@@ -149,7 +149,6 @@ module.exports =
     &.RubbishBin
       width: 60%
       height: 50%
-      +translate3d(-30px, -60px, 0)
     &.Portfolio
       width: 85%
       height: 70%
@@ -157,9 +156,11 @@ module.exports =
 
   .icon-grid
     position: absolute
-    top: 75px
-    left: 75px
-    width: 50%
+    width: 90%
+    height: 100%
+    +flexbox
+    +align-items(center)
+    +justify-content(center)
 
     // testing matrix transform
     -moz-transform-style: preserve-3d
@@ -180,11 +181,11 @@ module.exports =
       position: absolute
       +clickable
       &:nth-child(3)
-        +translate3d(0px, 150px, 0)
+        +translate3d(0px, 0px, 0px)
       &:nth-child(4)
-        +translate3d(120px, 160px, 0)
+        +translate3d(100px, 20px, 0)
       &:nth-child(5)
-        +translate3d(240px, 170px, 0)
+        +translate3d(-100px, 30px, 0)
 
       .caption
         padding: 5px 0 0 10px
@@ -192,10 +193,11 @@ module.exports =
         line-height: 17px
       &.rubbish
         width: 77px
-        +translate3d(80px, 400px, 0)
+        left: 20px
+        bottom: 20px
       &.folder
         width: 85px
-        +translate3d(20px, 0, 0)
+        left: 20px
       &.file
         width: 60px
 

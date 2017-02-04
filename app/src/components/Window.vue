@@ -67,7 +67,7 @@ module.exports =
   height: 100%
   width: 100%
   border: 1px solid $window_border
-  box-shadow: 20px 20px 0 rgba(95, 166, 217, 0.18)
+  box-shadow: 20px 20px 0 rgba(253, 95, 96, 0.28)
   &.overlay
     cursor: move
 
@@ -169,7 +169,8 @@ module.exports =
     overflow-y: scroll
     width: 100%
     height: 100%
-
+  &.consoleWindow > .window-content
+    background-color: $console_black
 
 
 </style>

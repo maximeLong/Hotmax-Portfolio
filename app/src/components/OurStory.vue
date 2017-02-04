@@ -2,45 +2,57 @@
   <div id="our-story">
 
     <div class="header-container">
-      <div class="title">Just a couple of broskis</div>
+      <typed class="title"
+        :str="'The Team'"
+        :delay="2000"
+        :speed="200"
+        :cursorChar="'_'"
+        :cleanCursor="false"
+        v-on:done="showContent = true">
+      </typed>
     </div>
-    <div class="content">
+    <transition name="fadeup">
+      <div class="content" v-if="showContent">
 
-      <div class="portraits">
-        <div class="portrait">
+        <div class="portraits">
+          <div class="portrait">
 
-          <div class="image-container">
-            <img class="dark" src="../assets/portraits/portrait-dark.png">
-            <img class="normal" src="../assets/portraits/portrait-real.png">
+            <div class="header">
+              <div class="title">Co-Founder, Designer</div>
+              <div class="name">Max Long</div>
+            </div>
+            <div class="image-container">
+              <img src="../assets/portraits/max2.jpg">
+            </div>
+            <div class="about">
+              <div class="title">Background</div>
+              <div class="text">
+                <div>Studied Cognitive Neuroscience at Brown University, and graduated in 2014.</div>
+                <div>Max's goal is just to build tools, interfaces, and aesthetics that make people feel good.</div>
+                <div><a href="https://www.linkedin.com/in/maxime-long-7a886833/">LinkedIn</a>, <a href="https://www.instagram.com/neuraldoughnuts/">Instagram</a></div>
+              </div>
+            </div>
           </div>
 
-          <div class="svg"></div>
-
-          <!-- <svg width="200" height="300"
-            <g class="svg">
-              <polygon :points="points"></polygon>
-              <circle cx="100" cy="100" r="80"></circle>
-              <axis-label
-                v-for="(stat, index) in stats"
-                :stat="stat"
-                :index="index"
-                :total="stats.length">
-              </axis-label>
-            </g>
-          </svg> -->
-
-          <div class="about">about text</div>
+          <div class="portrait">
+            <div class="header">
+              <div class="title">Co-Founder</div>
+              <div class="name">Andy Katsikapes</div>
+            </div>
+            <div class="image-container"></div>
+            <div class="about">
+              <div class="title">Background</div>
+              <div class="text">
+                <div>Andy once ate like 20 nachos stuck together.</div>
+                <div>Andy likes to eat nachos but he's a good guy too.</div>
+                <div><a href="https://www.linkedin.com/in/maxime-long-7a886833/">LinkedIn</a>, <a href="https://www.instagram.com/neuraldoughnuts/">Instagram</a></div>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <div class="portrait">
-          <div class="image-container"></div>
-          <div class="svg"></div>
-          <div class="about">about text</div>
-        </div>
       </div>
-
-    </div>
-
+    </transition>
 
   </div>
 </template>
@@ -48,36 +60,15 @@
 <script lang="coffee">
 module.exports =
   name: 'ourStory'
+  components:
+    Typed: require './Typed'
+
+  mounted: ->
+    @$emit('done')
 
   data: ->
-    stats: [
-      { value: 100 },
-      { value: 100 },
-      { value: 100 },
-      { value: 100 },
-      { value: 100 },
-      { value: 100 }
-    ]
+    showContent: false
 
-  computed:
-    #a computed property for the polygon's points
-    points: ()->
-      total = @stats.length
-      @stats.map (stat, i)=>
-        point = @valueToPoint(stat.value, i, total)
-        return point.x + ',' + point.y
-      .join(' ')
-
-  methods:
-    valueToPoint: (value, index, total)->
-      x     = 0
-      y     = -value * 0.8
-      angle = Math.PI * 2 / total * index
-      cos   = Math.cos(angle)
-      sin   = Math.sin(angle)
-      tx    = x * cos - y * sin + 100
-      ty    = x * sin + y * cos + 100
-      return { x: tx, y: ty }
 
 
 </script>
@@ -87,9 +78,10 @@ module.exports =
 
 #our-story
 
+  padding-bottom: 50px
+
   .portraits
     width: 100%
-    padding: 0 50px
     +flexbox
     +align-content(row)
     +justify-content(space-between)
@@ -97,42 +89,81 @@ module.exports =
       vertical-align: top
       display: inline-block
       position: relative
-      width: 250px
+      width: 50%
+      border: 1px solid white
+      padding: 30px
+      position: relative
+      z-index: 99
+      &::before
+        content: ''
+        display: block
+        position: absolute
+        top: 20px
+        bottom: 20px
+        left: -5px
+        width: calc(100% + 10px)
+        background-color: $console_black
+      &::after
+        content: ''
+        display: block
+        position: absolute
+        left: 20px
+        right: 20px
+        top: -5px
+        height: calc(100% + 10px)
+        background-color: $console_black
+
+
+      .header
+        margin-bottom: 30px
+        position: relative
+        z-index: 9
+        .title
+          +defaultType
+          font-size: 14px
+          color: white
+          margin-bottom: 10px
+          &::after
+            content: '_'
+            padding-left: 4px
+        .name
+          +showyType
+          color: white
+          font-size: 27px
+          letter-spacing: 2px
 
       .image-container
+        position: relative
+        z-index: 9
         width: 100%
-        height: 300px
+        height: 250px
         border: 1px solid white
         overflow: hidden
-        position: relative
-        &::after
-          content: ''
-          width: 100%
-          height: 100%
-          display: block
-          position: absolute
-          bottom: 0
-          background: linear-gradient(transparentize($screen-background,1) 50%, transparentize(darken($screen-background,10),0.75) 50%), linear-gradient(90deg,transparentize(#ff0000,0.94),transparentize(#00ff00,0.98),transparentize(#0000ff,0.94))
-          z-index: 9999
-          background-size: 100% 3px, 2px 100%
-          pointer-events: none
-        &:hover > img.normal
-          opacity: 0
-          +transition(.5s ease all)
         img
-          position: absolute
-          top: 0
-          left: 0
-          cursor: pointer
-          &.normal
-            opacity: 1
-            z-index: 99
-            +transition(.5s ease all)
-          &.dark
-            z-index: 9
+          width: 100%
+          height: auto
 
       .about
-        margin-top: 20px
+        font-size: 16px
+        line-height: 23px
+        position: relative
+        z-index: 9
+        margin-top: 30px
+        div
+          margin-bottom: 5px
+          &:nth-last-of-type(1)
+            margin-top: 15px
+        a
+          color: $action_color
+          font-style: italic
+        .title
+          +defaultType
+          font-size: 14px
+          color: white
+          margin-bottom: 10px
+          &::after
+            content: '_'
+            padding-left: 4px
 
 
 </style>
