@@ -23,7 +23,7 @@ git subtree push --prefix app/dist heroku master (makes git subtree repo of serv
 
 ```
 
-## If dist folder doesn't contain package.json and server.js(express server), you'll have to create those as well for heroku deployment.
+## If dist folder doesn't contain package.json and server.js, you'll have to create those as well for heroku deployment.
 ``` bash
 # package.json
 {
@@ -49,4 +49,5 @@ console.log('server started '+ port);
 ```
 
 Vue loader docs: [guide](http://vuejs-templates.github.io/webpack/)
+
 Guide to vue Cli/heroku deployment: [guide](https://medium.com/@sagarjauhari/quick-n-clean-way-to-deploy-vue-webpack-apps-on-heroku-b522d3904bc8#.n2by2m6ck)
