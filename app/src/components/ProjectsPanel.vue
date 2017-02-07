@@ -77,16 +77,6 @@ module.exports =
 
 
   data: ->
-    navigatorWindows:
-      rubbish:
-        content:    'RubbishBin'
-        shortTitle: 'Rubbish Bin'
-        readMe: ''
-      portfolio:
-        content:    'Portfolio'
-        shortTitle: 'Portfolio'
-        readMe: ''
-
     rotationX: 10
     rotationY: 10
 
@@ -111,6 +101,7 @@ module.exports =
 
     overlays: ->              return @$store.state.overlays
     projectWindows: ->        return @$store.state.projectWindows
+    navigatorWindows: ->      return @$store.state.navigatorWindows
     consoleTexts: ->          return @$store.state.consoleTexts
 
 
@@ -181,11 +172,11 @@ module.exports =
       position: absolute
       +clickable
       &:nth-child(3)
-        +translate3d(0px, 0px, 0px)
+        +translate3d(-60px, -20px, 0px)
       &:nth-child(4)
-        +translate3d(100px, 20px, 0)
+        +translate3d(40px, 0px, 0)
       &:nth-child(5)
-        +translate3d(-100px, 30px, 0)
+        +translate3d(-160px, 10px, 0)
 
       .caption
         padding: 5px 0 0 10px
@@ -193,11 +184,12 @@ module.exports =
         line-height: 17px
       &.rubbish
         width: 77px
-        left: 20px
-        bottom: 20px
+        left: 60px
+        +translate3d(0, 200px, 0)
       &.folder
         width: 85px
-        left: 20px
+        left: 60px
+        +translate3d(0, -200px, 0)
       &.file
         width: 60px
 

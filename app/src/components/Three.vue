@@ -68,6 +68,7 @@ module.exports =
   props:
     mode:   type: String
     glitch: type: Boolean
+    sound:  type: Boolean
 
   data: ->
     rotationalParents: []
@@ -275,8 +276,9 @@ module.exports =
     , 125
 
     runSunSound: _.throttle ()->
-      audio = new Audio("/static/wavs/orbitTracks/planetTrack1.wav");
-      audio.play()
+      if @sound
+        audio = new Audio("/static/wavs/orbitTracks/planetTrack1.wav");
+        audio.play()
     , 250
 
     runLineSound: _.throttle (object)->
@@ -286,7 +288,7 @@ module.exports =
         when id is 15 then '2'
         when id is 14 then '3'
         when id is 13 then '4'
-      if trackNumber
+      if trackNumber && @sound
         audio = new Audio("/static/wavs/orbitTracks/planetTrack#{trackNumber}.wav");
         audio.play()
     , 125

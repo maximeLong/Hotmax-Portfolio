@@ -7,21 +7,29 @@ state =
   entryIndex: 0
   showThreeGlitch: false
   systemColor: ''
+  soundIsOn: true
 
   projectPanelVisibility: false
   consolePanelVisibility: false
 
   # project, navigator, and overlay window statuses
-  projectWindowIsOpen: false
-  activeProjectWindow: {}
-  navigatorWindowIsOpen: false
-  activeNavigatorWindow: {}
-
   overlayIsOpen: false
   activeOverlay: {}
   overlays:
     asteroids:
       title: 'asteroids.exe'
+
+  navigatorWindowIsOpen: false
+  activeNavigatorWindow: {}
+  navigatorWindows:
+    rubbish:
+      content:    'RubbishBin'
+      shortTitle: 'Rubbish Bin'
+      readMe: ''
+    portfolio:
+      content:    'Portfolio'
+      shortTitle: 'Portfolio'
+      readMe: ''
 
   consoleTextIsOpen: false
   activeConsoleText: {}
@@ -45,6 +53,8 @@ state =
   portfolioOptions: [ 'All', 'UI Design', 'Sound Design', 'App Dev.', 'VR', 'AR' ]
 
   # projects
+  projectWindowIsOpen: false
+  activeProjectWindow: {}
   projectWindows:
     arSynth:
       content:    'ArSynth'
@@ -53,7 +63,7 @@ state =
         tags: ['All', 'Sound Design', 'App Dev.', 'AR']
         bannerImg:  'stick-figure.svg'
         shortTitle: 'AR Synth'
-        realTitle:  'AR Synth'
+        realTitle:  'AR Synth - Mixed Reality Music App'
         date:       'December 2016'
     curriculum:
       content:    'DigitalTextbook'
@@ -62,9 +72,19 @@ state =
         tags: ['All', 'UI Design', 'App Dev.']
         bannerImg:  'textbook.png'
         shortTitle: 'Interactive Textbook'
-        realTitle:  'Choices Interactive Textbook'
-        client: 'The Choices Program at Brown University'
+        realTitle:  'Interactive Textbook App'
+        client:     'The Choices Program at Brown University'
         date:       'June 2016'
+    video:
+      content:    'VideoPortal'
+      readme:     'VideoPortalReadme'
+      meta:
+        tags: ['All', 'UI Design', 'App Dev.']
+        bannerImg:  'video.png'
+        shortTitle: 'Scholar Video'
+        realTitle:  'Scholar Video Portal'
+        client:     'Brown University Web Services'
+        date:       'May 2016'
     whereyaat:
       content:    'Whereyaat'
       readme:     'WhereyaatReadme'
@@ -72,7 +92,8 @@ state =
         tags: ['All', 'UI Design', 'App Dev.', 'AR']
         bannerImg:  'boulder.svg'
         shortTitle: 'Whereyaat'
-        realTitle:  'Whereyaat Geographic Social App'
+        realTitle:  'Whereyaat - Social App'
+        client:     'The Choices Program at Brown University'
         date:       'Ongoing'
     walkthrough:
       content:    'Walkthrough'
@@ -81,17 +102,8 @@ state =
         tags: ['All', 'VR', 'App Dev.']
         bannerImg:  'stick-figure.svg'
         shortTitle: 'VR Walkthrough'
-        realTitle:  'Mobile VR - Immersive Stage Design'
+        realTitle:  'Gear VR - Immersive Stage Design'
         date:       'January 2017'
-    video:
-      content:    'VideoPortal'
-      readme:     'VideoPortalReadme'
-      meta:
-        tags: ['All', 'UI Design', 'App Dev.']
-        bannerImg:  'stick-figure.svg'
-        shortTitle: 'Academic Video'
-        realTitle:  'Academic Video Portal'
-        date:       'May 2016'
     translation:
       content:    'Translation'
       readme:     'TranslationReadme'
@@ -99,20 +111,14 @@ state =
         tags: ['All', 'UI Design', 'App Dev.']
         bannerImg:  'stick-figure.svg'
         shortTitle: 'Translation Portfolio'
-        realTitle:  'CMS Translation Portfolio'
+        realTitle:  'Node CMS - Portfolio'
         date:       'January 2017'
-    ibes:
-      content:    'Ibes'
-      readme:     'IbesReadme'
-      meta:
-        tags: ['All', 'UI Design']
-        bannerImg:  'stick-figure.svg'
-        shortTitle: 'IBES'
-        realTitle:  'Environmental Group Landing Redesign'
-        date:       'March 2016'
 
 
 mutations =
+  TOGGLE_SOUND: (state, sound)->
+    state.soundIsOn = sound
+
   SET_SYSTEM_COLOR: (state, color)->
     state.systemColor = color
 

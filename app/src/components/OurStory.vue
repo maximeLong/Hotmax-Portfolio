@@ -14,6 +14,9 @@
     <transition name="fadeup">
       <div class="content" v-if="showContent">
 
+        <div class="intro">hotmax is a small team of dedicated artists, designers, and thinkers based in Seattle, Washington.</div>
+        <div class="intro">Our collective background includes music, design, software development, and psychology.</div>
+
         <div class="portraits">
           <div class="portrait">
 
@@ -80,8 +83,14 @@ module.exports =
 
   padding-bottom: 50px
 
+  .intro
+    font-size: 15px
+    line-height: 20px
+    margin-bottom: 5px
+
   .portraits
     width: 100%
+    margin-top: 40px
     +flexbox
     +align-content(row)
     +justify-content(space-between)

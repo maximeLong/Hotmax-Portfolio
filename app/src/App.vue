@@ -29,7 +29,7 @@
 
       <transition name="glitch">
         <div class="growth-container" v-if="entryIndex > 0" :class="{ entry: entryIndex == 1, desktop: entryIndex > 1 }" :style="{ color: '#' + systemColor }">
-            <three :mode="threeMode" :glitch="showThreeGlitch" v-if="webGlIsWorking"></three>
+            <three :mode="threeMode" :glitch="showThreeGlitch" :sound="soundIsOn" v-if="webGlIsWorking"></three>
         </div>
       </transition>
 
@@ -71,8 +71,9 @@ module.exports =
       if index is 2
         @threeMode = 'desktop'
         @$store.commit 'SET_THREE_GLITCH', true
-        audio = new Audio("/static/wavs/opening/tuning.wav");
-        audio.play()
+        if @soundIsOn
+          audio = new Audio("/static/wavs/opening/tuning.wav");
+          audio.play()
         setTimeout =>
           @$store.commit 'SET_THREE_GLITCH', false
         , 3500
@@ -91,6 +92,7 @@ module.exports =
 
     showThreeGlitch: -> return @$store.state.showThreeGlitch
     webGlIsWorking:  -> return @$store.state.webGlIsWorking
+    soundIsOn:       -> return @$store.state.soundIsOn
 
   methods:
     # vuex mutators
@@ -100,8 +102,9 @@ module.exports =
       , 1000
       setTimeout =>
         @$store.commit 'SET_CONSOLE_PANEL_VISIBILITY', true
-        audio = new Audio("/static/wavs/opening/consoleOpen.wav");
-        audio.play()
+        if @soundIsOn
+          audio = new Audio("/static/wavs/opening/consoleOpen.wav");
+          audio.play()
       , 2500
 
     setEntryIndex: (index)-> @$store.commit 'SET_ENTRY_INDEX', index
@@ -166,10 +169,6 @@ module.exports =
           width: 150%
           height: 125px
           bottom: -200px
-          // background-image: url('assets/sisyphus-logo-small.svg')
-          // background-position: 50% 100%
-          // background-size: 100%
-          // background-repeat: no-repeat
 
 
   #entry-experience
@@ -194,6 +193,19 @@ module.exports =
     overflow-x: hidden
     overflow-y: hidden
     background-color: #f5e6e3
+    &::after
+      opacity: .5
+      position: absolute
+      left: 0
+      top: 0
+      content: ''
+      display: block
+      height: 100%
+      width: 100%
+      background-image: url('assets/left-grad.png')
+      background-position: 0% 0%
+      background-size: contain
+      background-repeat: no-repeat
     #header-container
       height: 60px
       padding: 0 30px
@@ -216,7 +228,7 @@ module.exports =
       +translate3d(0,-50px,0)
       margin: 0 auto
       margin-top: 60px
-      z-index: 999
+      z-index: 9999
       +flexbox
       +align-items(center)
       +justify-content(center)

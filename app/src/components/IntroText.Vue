@@ -2,7 +2,7 @@
   <div id="intro-text">
 
     <typed class="line"
-      :str="'Welcome [NEW EMPLOYEE] to the Afternoon Indians work terminal.'"
+      :str="'Welcome [POTENTIAL CANDIDATE] to the hotmax work station.'"
       :cleanCursor="true"
       :delay="1500"
       v-on:done="lineDone">
@@ -15,7 +15,7 @@
       v-if="sentenceIndex > 0">
     </typed>
     <typed class="line"
-      :str="'Contact a supervisor on completion, you have [' + taskNumber + '] tasks waiting.'"
+      :str="'Contact a supervisor on completion, you now have [' + taskNumber + '] tasks waiting.'"
       :cleanCursor="true"
       :delay="250"
       v-on:done="emitDone"

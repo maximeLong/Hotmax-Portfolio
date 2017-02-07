@@ -99,12 +99,12 @@ module.exports =
       margin: 0 5px
       position: relative
     .close-btn.active
-      border: 1px solid $action_color
+      border: 1px solid $action_red
       background-color: none
       +transition(.35s ease all)
       &:hover
         cursor: pointer
-        background-color: $action_color
+        background-color: $action_red
         +transition(.35s ease all)
 
   .short-title

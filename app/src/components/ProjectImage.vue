@@ -48,7 +48,7 @@ module.exports =
   margin-bottom: 40px
   border-bottom: 1px solid $window_border
   .caption
-    padding: 30px 0
+    padding: 25px 0
     font-style: italic
   .overflow-container
     position: relative

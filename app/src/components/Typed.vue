@@ -60,8 +60,8 @@ module.exports =
           if @str[@strIndex - 1] is '[' then @bracket = true
           if @str[@strIndex] is ']' then @bracket = false
 
-          if @str[@strIndex] is 'A' and @str[@strIndex + 1] is 'f' and @str[@strIndex + 2] is 't' then @logo = true
-          if @str[@strIndex] is ' ' and @str[@strIndex - 1] is 's' and @str[@strIndex - 2] is 'n' then @logo = false
+          if @str[@strIndex] is 'h' and @str[@strIndex + 1] is 'o' and @str[@strIndex + 2] is 't' then @logo = true
+          if @str[@strIndex] is ' ' and @str[@strIndex - 1] is 'x' and @str[@strIndex - 2] is 'a' then @logo = false
 
           if !@bracket and !@logo then typeClass = 'normal'
           if @bracket then typeClass = 'bracket'

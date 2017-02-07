@@ -1,9 +1,15 @@
 <template>
   <div id="header-panel">
-    <div class="system">
-      <!-- <div class="logo"><img src="../assets/stick-figure.svg"></div>
-      <div class="boulder"><img src="../assets/boulder.svg"></div> -->
-      <div class="title">Afternoon Indians Logo | employee terminal</div>
+    <div class="logo">
+      <img src="../assets/logo2.png">
+      <!-- <span>Interactive Design Agency</span> -->
+    </div>
+    <div class="other-stuff">
+      <div class="about"@click="openConsoleText(consoleTexts.ourServices)">:about</div>
+      <div class="work" @click="openNavigatorWindow(navigatorWindows.portfolio)">:our work</div>
+      <div class="sound" @click="toggleSound">
+        <span v-for="i in 5" :class="{soundOn: soundIsOn, soundOff: !soundIsOn}"></span>
+      </div>
     </div>
   </div>
 </template>
@@ -11,6 +17,22 @@
 <script lang="coffee">
 module.exports =
   name: 'headerPanel'
+
+  computed:
+    soundIsOn: ->             return @$store.state.soundIsOn
+    navigatorWindowIsOpen: -> return @$store.state.navigatorWindowIsOpen
+    activeNavigatorWindow: -> return @$store.state.activeNavigatorWindow
+    navigatorWindows: ->      return @$store.state.navigatorWindows
+    consoleTexts:     ->      return @$store.state.consoleTexts
+
+  methods:
+    toggleSound: -> @$store.commit 'TOGGLE_SOUND', !@soundIsOn
+    openNavigatorWindow: (view)->
+      @$store.commit 'SET_NAVIGATOR_WINDOW_IS_OPEN', true
+      @$store.commit 'SET_ACTIVE_NAVIGATOR_WINDOW', view
+    openConsoleText: (view)->
+      @$store.commit 'SET_CONSOLE_TEXT_IS_OPEN', true
+      @$store.commit 'SET_ACTIVE_CONSOLE_TEXT', view
 
 </script>
 
@@ -26,27 +48,69 @@ module.exports =
   +align-items(center)
   +justify-content(space-between)
   +flex-direction(row)
-  cursor: default
   padding: 0 30px
-  border: 2px solid white
+  border: 3px solid white
 
-  .system
-    +systemType
-    height: 40px
+  .logo
     +flexbox
+    +align-items(row)
     +align-items(center)
-    +flex-direction(row)
-    .logo
-      width: 40px
+    // width: 200px
+    height: 40px
+    span
+      margin-left: 20px
+      +showyType
+      font-size: 14px
+      letter-spacing: 1px
+    img
+      width: auto
       height: 100%
-      margin-right: -5px
-    .boulder
-      +animation(rotate 8s linear infinite)
-      height: 100%
+
+  .other-stuff
+    +flexbox
+    +align-items(row)
+    +align-items(center)
+    +justify-content(space-between)
+    width: 300px
+    font-size: 16px
+    font-weight: bold
+    color: $ink_black
+    .about
+      cursor: pointer
+    .work
+      cursor: pointer
+    .sound
+      cursor: pointer
       width: 40px
-    .title
-      padding-left: 10px
-      font-weight: normal
+      height: 20px
+      +flexbox
+      +flex-direction(row)
+      +align-items(flex-end)
+      +justify-content(space-between)
+      span
+        opacity: .9
+        height: 100%
+        width: 3px
+        background-color: $ink_black
+        display: block
+        +transition(.15s ease all)
+        &.soundOn
+          animation: sound-on 1s infinite
+          +transition(.15s ease all)
+          &:nth-last-of-type(1)
+            animation: sound-on 2s infinite
+          &:nth-last-of-type(2)
+            animation: sound-on 1.5s infinite
+          &:nth-last-of-type(3)
+            animation: sound-on 1s infinite
+          &:nth-last-of-type(5)
+            animation: sound-on 1.2s infinite
+        &.soundOff
+          height: 30%
+          opacity: .5
+          +transition(.15s ease all)
+
+
 
 
 

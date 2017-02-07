@@ -43,7 +43,7 @@
           <!-- aesthetic bottom -->
           <transition name="fadeup" appear>
             <div class="graphs" v-if="!projectWindowIsOpen && !consoleTextIsOpen">
-              version 1.7 -- copyright Afternoon Indians
+              version 1.7 -- copyright hotmax interactive division
             </div>
           </transition>
 
@@ -134,6 +134,19 @@ module.exports =
     +transition(.35s ease all)
     z-index: 999
     position: relative
+    // &::after
+    //   opacity: .7
+    //   position: absolute
+    //   left: 0
+    //   top: 0
+    //   content: ''
+    //   display: block
+    //   height: 100%
+    //   width: 100%
+    //   background-image: url('../assets/console-grad.png')
+    //   background-position: 0% 0%
+    //   background-size: 100%
+    //   background-repeat: no-repeat
 
   .console
     padding: 30px

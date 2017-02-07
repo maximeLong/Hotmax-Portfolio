@@ -119,6 +119,7 @@ module.exports =
           border: 1px solid $window_border
           border-radius: 100%
         img
+          opacity: .4
           width: 100%
           height: auto
 

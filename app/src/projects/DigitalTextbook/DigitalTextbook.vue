@@ -1,17 +1,12 @@
 <template>
   <project-content>
 
-    <project-image
-      :banner="'video/home.png'"
-      :orientation="'portrait'">
-      image caption stuff
+    <project-image v-for="n in 10"
+      :banner="'curriculum/cc' + n + '.png'"
+      :orientation="'landscape'">
     </project-image>
 
-    <project-image
-      :banner="'video/scholar_page.png'"
-      :orientation="'portrait'">
-      some other caption
-    </project-image>
+
 
 
   </project-content>
