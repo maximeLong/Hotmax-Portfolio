@@ -1,0 +1,10 @@
+{
+ "name": "hotmax",
+ "version": "1.0.0",
+ "description": "hotmax company site",
+ "author": "Maxime Long",
+ "private": true,
+ "scripts": {
+   "postinstall": "npm install express"
+ }
+}
