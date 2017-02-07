@@ -31,7 +31,7 @@
               <div class="title">Background</div>
               <div class="text">
                 <div>Studied Cognitive Neuroscience at Brown University, and graduated in 2014.</div>
-                <div>Max's goal is just to build tools, interfaces, and aesthetics that make people feel good.</div>
+                <div>Max's goal is to build tools, interfaces, and aesthetics that make people feel good.</div>
                 <div><a href="https://www.linkedin.com/in/maxime-long-7a886833/">LinkedIn</a>, <a href="https://www.instagram.com/neuraldoughnuts/">Instagram</a></div>
               </div>
             </div>
