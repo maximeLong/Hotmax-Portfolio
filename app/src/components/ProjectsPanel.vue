@@ -1,30 +1,6 @@
 <template>
   <transition appear name="fade">
   <div id="projects-panel">
-    <div class="icon-grid">
-      <div @click="openNavigatorWindow(navigatorWindows.portfolio)" class="icon folder">
-        <div class="rotation-container" v-bind:style="{ transform: 'rotationX(' + rotationX + 'deg)' }">
-          <img src="../assets/folder-icon.svg">
-        </div>
-        <div class="caption">Our Work</div>
-      </div>
-      <div @click="openNavigatorWindow(navigatorWindows.rubbish)" class="icon rubbish">
-        <img src="../assets/rubbish-icon.svg">
-        <div class="caption">Rubbish Bin</div>
-      </div>
-      <div @click="openConsoleText(consoleTexts.aboutUs)" class="icon file">
-        <img src="../assets/file-icon.svg">
-        <div class="caption">About Us</div>
-      </div>
-      <div @click="openConsoleText(consoleTexts.ourServices)" class="icon file">
-        <img src="../assets/file-icon.svg">
-        <div class="caption">Our Services</div>
-      </div>
-      <div @click="openConsoleText(consoleTexts.contactUs)" class="icon file">
-        <img src="../assets/file-icon.svg">
-        <div class="caption">Contact Us</div>
-      </div>
-    </div>
 
     <!-- project window -->
     <div class="window-container projectWindow" v-if="projectWindowIsOpen">
@@ -49,6 +25,32 @@
         <component v-bind:is="activeNavigatorWindow.content"></component>
 
       </window>
+    </div>
+
+
+    <div class="icon-grid">
+      <div @click="openNavigatorWindow(navigatorWindows.portfolio)" class="icon folder">
+        <div class="rotation-container" v-bind:style="{ transform: 'rotationX(' + rotationX + 'deg)' }">
+          <img src="../assets/folder-icon.svg">
+        </div>
+        <div class="caption">Our Work</div>
+      </div>
+      <div @click="openNavigatorWindow(navigatorWindows.rubbish)" class="icon rubbish">
+        <img src="../assets/rubbish-icon.svg">
+        <div class="caption">Rubbish Bin</div>
+      </div>
+      <div @click="openConsoleText(consoleTexts.aboutUs)" class="icon file">
+        <img src="../assets/file-icon.svg">
+        <div class="caption">About Us</div>
+      </div>
+      <div @click="openConsoleText(consoleTexts.ourServices)" class="icon file">
+        <img src="../assets/file-icon.svg">
+        <div class="caption">Our Services</div>
+      </div>
+      <div @click="openConsoleText(consoleTexts.contactUs)" class="icon file">
+        <img src="../assets/file-icon.svg">
+        <div class="caption">Contact Us</div>
+      </div>
     </div>
 
   </div>
@@ -120,7 +122,6 @@ module.exports =
   +flex-direction(column)
   +justify-content(center)
   z-index: 999
-
   // testing matrix transform
   -moz-perspective: 800px
   -webkit-perspective: 800px
@@ -134,12 +135,12 @@ module.exports =
     position: relative
     &.projectWindow
       +translate3d(70px,0,0)
+      z-index: 9999
     &.navigator
       position: absolute
-      z-index: 99
-      left: 0
-      right: 0
-      margin: 0 auto
+      top: 50%
+      left: 50%
+      +translate3d(-50%,-50%,0)
     &.RubbishBin
       width: 60%
       height: 50%
@@ -149,11 +150,13 @@ module.exports =
 
 
   .icon-grid
+    z-index: 9
     position: absolute
     width: 100%
     height: 100%
-    top: 0
-    left: 0
+    top: 50%
+    left: 50%
+    +translate3d(-50%,-50%,0)
     +flexbox
     +align-items(center)
     +justify-content(center)
@@ -175,6 +178,8 @@ module.exports =
 
     .icon
       position: absolute
+      top: 50%
+      left: 50%
       +clickable
       &:nth-child(3)
         +translate3d(-60px, -20px, 0px)

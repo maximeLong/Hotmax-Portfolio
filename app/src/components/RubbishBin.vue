@@ -29,6 +29,9 @@ module.exports =
 
 
 #rubbish-bin
+  position: relative
+  height: 100%
+  width: 100%
   .icon-grid
     .icon
       &:nth-child(1)
