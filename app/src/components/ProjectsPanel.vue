@@ -137,6 +137,9 @@ module.exports =
     &.navigator
       position: absolute
       z-index: 99
+      left: 0
+      right: 0
+      margin: 0 auto
     &.RubbishBin
       width: 60%
       height: 50%
@@ -147,8 +150,10 @@ module.exports =
 
   .icon-grid
     position: absolute
-    width: 90%
+    width: 100%
     height: 100%
+    top: 0
+    left: 0
     +flexbox
     +align-items(center)
     +justify-content(center)

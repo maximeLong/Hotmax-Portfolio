@@ -125,6 +125,7 @@ module.exports =
   +flexbox
   +justify-content(center)
   +align-items(center)
+  height: 100%
   // overflow: hidden
 
   .console-container

@@ -1,7 +1,7 @@
 <template>
   <project-content>
 
-    <project-image v-for="n in 5"
+    <project-image v-for="n in 6"
       :banner="'video/cv' + n + '.png'"
       :orientation="'portrait'">
     </project-image>
