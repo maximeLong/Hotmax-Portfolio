@@ -1,7 +1,6 @@
 <template>
-  <div id="overlay-panel">
+  <div id="overlay-panel" :class="{portrait: activeOverlay.orientation == 'portrait'}">
     <window :canClose="true" :shortTitle="'::' + activeOverlay.title" :type="'overlay'">
-
 
       <div class="asteroids-content" v-if="activeOverlay.title == 'asteroids.exe'">
         <asteroids></asteroids>
@@ -58,7 +57,8 @@ module.exports =
 
 #overlay-panel
   width: 100%
-  height: 90%
+  &.portrait
+    height: 90%
 
   .content
     background-color: $black_one_quarter

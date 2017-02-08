@@ -12,7 +12,7 @@
 
       <div class="image-mega-container">
         <div class="image-container">
-          <img :src="'../static/banners/' + activeProjectWindow.meta.bannerImg">
+          <!-- <img :src="'../static/banners/' + activeProjectWindow.meta.bannerImg"> -->
         </div>
       </div>
 
@@ -59,7 +59,7 @@ module.exports =
       top: 30px
       bottom: 30px
       left: 45px
-      width: calc(100% - 200px)
+      width: calc(100% - 100px)
       +flexbox
       +flex-direction(column)
       +justify-content(center)
@@ -70,7 +70,7 @@ module.exports =
         height: 20px
         display: block
         position: absolute
-        bottom: 0
+        bottom: -20px
         background: linear-gradient(transparentize($screen-background,1) 50%, transparentize(darken($screen-background,10),0.75) 50%), linear-gradient(90deg,transparentize(#ff0000,0.94),transparentize(#00ff00,0.98),transparentize(#0000ff,0.94))
         z-index: 2
         background-size: 100% 3px, 2px 100%

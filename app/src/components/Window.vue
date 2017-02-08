@@ -11,11 +11,11 @@
       <div class="short-title">{{shortTitle}}</div>
 
       <div class="toggle-container" v-if="toggleContainer">
-        <div class="title">::Sort</div>
         <div class="portfolio-toggle">
           <div class="toggle-btn" v-for="option in portfolioOptions"
              @click="changeActiveOption(option)"
-             :class="{ active: activePortfolioOption == option }">> {{option}}
+             :class="{ active: activePortfolioOption == option }">
+             {{option}}
           </div>
         </div>
       </div>
@@ -117,31 +117,21 @@ module.exports =
     color: #4f4f4f
     text-transform: uppercase
 
-
   .toggle-container
-    padding: 0 0 20px 30px
     border-bottom: 1px solid $window_border
-
-    .title
-      font-weight: bold
-      margin-bottom: 10px
-      display: inline-block
-      +systemType
-      font-weight: normal
-      font-size: 11px
-      letter-spacing: 1px
-      color: #4f4f4f
-      text-transform: uppercase
-      margin-right: 5px
     .portfolio-toggle
-      display: inline-block
+      +flexbox
+      +flex-direction(row)
+      +align-items(center)
+      +justify-content(flex-start)
+
       .toggle-btn
+        flex-grow: 1
         text-transform: uppercase
         color: #595959
-        margin-right: 5px
-        margin-top: 20px
         padding: 8px 11px
         display: inline-block
+        text-align: center
         border-top: 1px solid white
         border-left: 1px solid white
         border-right: 1px solid grey

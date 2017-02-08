@@ -66,7 +66,7 @@ module.exports =
 
   .portfolio-item
     display: inline-block
-    margin-right: 40px
+    margin: 0 20px
     vertical-align: top
     +transition(.5s ease all)
     +clickable

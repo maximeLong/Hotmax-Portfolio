@@ -28,7 +28,11 @@
     <div class="three-container">
 
       <transition name="glitch">
-        <div class="growth-container" v-if="entryIndex > 0" :class="{ entry: entryIndex == 1, desktop: entryIndex > 1 }" :style="{ color: '#' + systemColor }">
+        <div class="growth-container" ref="three"
+             v-if="entryIndex > 0"
+             :class="{ entry: entryIndex == 1, desktop: entryIndex > 1 }"
+             :style="{ color: '#' + systemColor, width: threeWidth + 'px' }"
+        >
             <three :mode="threeMode" :glitch="showThreeGlitch" :sound="soundIsOn" v-if="webGlIsWorking"></three>
         </div>
       </transition>
@@ -54,6 +58,7 @@ module.exports =
     threeMode: 'entry'
     overlayHeight: 90
     overlayWidth: 70
+    threeWidth: 50
 
 
   mounted: ->
@@ -69,7 +74,8 @@ module.exports =
     # pass entryIndex info down into three.js component
     @$watch 'entryIndex', (index)->
       if index is 2
-        @threeMode = 'desktop'
+        @threeMode = 'desktop' #set desktop mode to show everything
+        @threeWidth = @$refs.three?.clientHeight #set width of new three container
         @$store.commit 'SET_THREE_GLITCH', true
         if @soundIsOn
           audio = new Audio("/static/wavs/opening/tuning.wav");
@@ -78,18 +84,22 @@ module.exports =
           @$store.commit 'SET_THREE_GLITCH', false
         , 3500
 
+    window.addEventListener 'resize', ()=>
+      console.log 'yeah'
+      if @threeMode is 'desktop'
+        @threeWidth = @$refs.three?.clientHeight
+
 
 
   computed:
+
     # vuex store
     entryIndex: -> return @$store.state.entryIndex
     projectPanelVisibility: -> return @$store.state.projectPanelVisibility
     consolePanelVisibility: -> return @$store.state.consolePanelVisibility
     systemColor: ->            return @$store.state.systemColor
-
     overlayIsOpen: -> return @$store.state.overlayIsOpen
     activeOverlay: -> return @$store.state.activeOverlay
-
     showThreeGlitch: -> return @$store.state.showThreeGlitch
     webGlIsWorking:  -> return @$store.state.webGlIsWorking
     soundIsOn:       -> return @$store.state.soundIsOn
@@ -145,8 +155,9 @@ module.exports =
       +align-items(center)
       +justify-content(center)
       &.desktop
-        width: 500px
-        height: 500px
+        // width is overriden by vue
+        width: 50%
+        height: 50%
         border-radius: 100%
         background-color: $ink_black
         &::after
@@ -193,19 +204,19 @@ module.exports =
     overflow-x: hidden
     overflow-y: hidden
     background-color: #f5e6e3
-    &::after
-      opacity: .5
-      position: absolute
-      left: 0
-      top: 0
-      content: ''
-      display: block
-      height: 100%
-      width: 100%
-      background-image: url('assets/left-grad.png')
-      background-position: 0% 0%
-      background-size: contain
-      background-repeat: no-repeat
+    // &::after
+    //   opacity: .5
+    //   position: absolute
+    //   left: 0
+    //   top: 0
+    //   content: ''
+    //   display: block
+    //   height: 100%
+    //   width: 100%
+    //   background-image: url('assets/left-grad.png')
+    //   background-position: 0% 0%
+    //   background-size: contain
+    //   background-repeat: no-repeat
     #header-container
       height: 60px
       padding: 0 30px

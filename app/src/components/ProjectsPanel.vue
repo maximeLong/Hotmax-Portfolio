@@ -142,17 +142,17 @@ module.exports =
       left: 50%
       +translate3d(-50%,-50%,0)
     &.RubbishBin
-      width: 60%
+      width: 59%
       height: 50%
     &.Portfolio
-      width: 85%
+      width: 84%
       height: 70%
 
 
   .icon-grid
     z-index: 9
     position: absolute
-    width: 100%
+    width: 99%
     height: 100%
     top: 50%
     left: 50%
@@ -181,25 +181,25 @@ module.exports =
       top: 50%
       left: 50%
       +clickable
+
       &:nth-child(3)
         +translate3d(-60px, -20px, 0px)
       &:nth-child(4)
         +translate3d(40px, 0px, 0)
       &:nth-child(5)
         +translate3d(-160px, 10px, 0)
-
       .caption
         padding: 5px 0 0 10px
-        font-size: 15px
+        font-size: 16px
         line-height: 17px
       &.rubbish
         width: 77px
         left: 60px
-        +translate3d(0, 200px, 0)
+        +translate3d(50px, 150px, 0)
       &.folder
         width: 85px
         left: 60px
-        +translate3d(0, -200px, 0)
+        +translate3d(50px, -150px, 0)
       &.file
         width: 60px
 
