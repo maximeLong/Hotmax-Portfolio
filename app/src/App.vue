@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" :class="{ entryMode: entryIndex < 2 }">
 
     <div id="entry-experience" v-if="entryIndex == 0">
       <entry></entry>
@@ -31,7 +31,7 @@
         <div class="growth-container" ref="three"
              v-if="entryIndex > 0"
              :class="{ entry: entryIndex == 1, desktop: entryIndex > 1 }"
-             :style="{ color: '#' + systemColor, width: threeWidth + 'px' }"
+             :style="{ width: threeWidth + 'px' }"
         >
             <three :mode="threeMode" :glitch="showThreeGlitch" :sound="soundIsOn" v-if="webGlIsWorking"></three>
         </div>
@@ -58,7 +58,7 @@ module.exports =
     threeMode: 'entry'
     overlayHeight: 90
     overlayWidth: 70
-    threeWidth: 50
+    threeWidth: ''
 
 
   mounted: ->
@@ -85,7 +85,6 @@ module.exports =
         , 3500
 
     window.addEventListener 'resize', ()=>
-      console.log 'yeah'
       if @threeMode is 'desktop'
         @threeWidth = @$refs.three?.clientHeight
 
@@ -135,6 +134,9 @@ module.exports =
   margin: 20px
   box-shadow: 0 0 30px 9px rgb(245, 230, 227)
   +transition(.15s ease all)
+  &.entryMode
+    background-color: black
+    +transition(.15s ease all)
 
   .entry-btn
     position: absolute
@@ -193,7 +195,6 @@ module.exports =
     +flex-direction(column)
     +align-items(center)
     +justify-content(center)
-    background-color: $ink_black
   #desktop-experience
     +defaultType
     position: absolute

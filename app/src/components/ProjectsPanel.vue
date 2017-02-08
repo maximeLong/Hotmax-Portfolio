@@ -63,8 +63,9 @@ interact = require('interact.js')
 module.exports =
   name: 'projectsPanel'
   components:
-    Window: require './Window'
-
+    Window:       require './Window'
+    RubbishBin:   require './RubbishBin'
+    Portfolio:    require './Portfolio'
     #content components
     DigitalTextbook:  require '../projects/DigitalTextbook/DigitalTextbook'
     VideoPortal:      require '../projects/VideoPortal/VideoPortal'
@@ -73,9 +74,6 @@ module.exports =
     ArSynth:          require '../projects/ArSynth/ArSynth'
     Translation:      require '../projects/Translation/Translation'
     Walkthrough:      require '../projects/Walkthrough/Walkthrough'
-
-    RubbishBin:       require './RubbishBin'
-    Portfolio:        require './Portfolio'
 
 
   data: ->
@@ -136,17 +134,18 @@ module.exports =
     &.projectWindow
       +translate3d(70px,0,0)
       z-index: 9999
-    &.navigator
-      position: absolute
-      top: 50%
-      left: 50%
-      +translate3d(-50%,-50%,0)
+    // &.navigator
+    //   position: absolute
+    //   top: 50%
+    //   left: 50%
+    //   +translate3d(-50%,-50%,0)
     &.RubbishBin
       width: 59%
       height: 50%
     &.Portfolio
-      width: 84%
-      height: 70%
+      position: absolute
+      +translate3d(70px,0,0)
+
 
 
   .icon-grid
@@ -190,7 +189,7 @@ module.exports =
         +translate3d(-160px, 10px, 0)
       .caption
         padding: 5px 0 0 10px
-        font-size: 16px
+        font-size: 15px
         line-height: 17px
       &.rubbish
         width: 77px

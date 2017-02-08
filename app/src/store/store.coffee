@@ -18,6 +18,7 @@ state =
   overlays:
     asteroids:
       title: 'asteroids.exe'
+      orientation: 'portrait'
 
   navigatorWindowIsOpen: false
   activeNavigatorWindow: {}
@@ -61,7 +62,7 @@ state =
       readme:     'ArSynthReadme'
       meta:
         tags: ['All', 'Sound Design', 'App Dev.', 'AR']
-        bannerImg:  'stick-figure.svg'
+        bannerImg:  'video.png'
         shortTitle: 'AR Synth'
         realTitle:  'AR Synth - Mixed Reality Music App'
         date:       'December 2016'
@@ -70,7 +71,7 @@ state =
       readme:     'DigitalTextbookReadme'
       meta:
         tags: ['All', 'UI Design', 'App Dev.']
-        bannerImg:  'textbook.png'
+        bannerImg:  'video.png'
         shortTitle: 'Interactive Textbook'
         realTitle:  'Interactive Textbook App'
         client:     'The Choices Program at Brown University'
@@ -90,7 +91,7 @@ state =
       readme:     'WhereyaatReadme'
       meta:
         tags: ['All', 'UI Design', 'App Dev.', 'AR']
-        bannerImg:  'boulder.svg'
+        bannerImg:  'video.png'
         shortTitle: 'Whereyaat'
         realTitle:  'Whereyaat - Social App'
         client:     'The Choices Program at Brown University'
@@ -100,7 +101,7 @@ state =
       readme:     'WalkthroughReadme'
       meta:
         tags: ['All', 'VR', 'App Dev.']
-        bannerImg:  'stick-figure.svg'
+        bannerImg:  'video.png'
         shortTitle: 'VR Walkthrough'
         realTitle:  'Gear VR - Immersive Stage Design'
         date:       'January 2017'
@@ -109,7 +110,7 @@ state =
       readme:     'TranslationReadme'
       meta:
         tags: ['All', 'UI Design', 'App Dev.']
-        bannerImg:  'stick-figure.svg'
+        bannerImg:  'video.png'
         shortTitle: 'Translation Portfolio'
         realTitle:  'Node CMS - Portfolio'
         date:       'January 2017'

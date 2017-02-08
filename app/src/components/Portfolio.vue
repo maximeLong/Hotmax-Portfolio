@@ -2,16 +2,19 @@
   <div id="portfolio">
 
     <transition-group name="list">
-      <div class="portfolio-item" v-for="project in tagFiltered" :key="project.key">
+      <div class="portfolio-item"
+           v-for="project in tagFiltered"
+           :key="project.key"
+           @click="openProjectWindow(project)">
 
-        <div @click="openProjectWindow(project)" class="group">
-          <div class="portfolio-image-container">
-            <div class="portfolio-image">
-              <img :src="'../static/banners/' + project.meta.bannerImg">
+          <div class="margin-container">
+            <div class="portfolio-image" :style="{ backgroundImage: 'url(../static/banners/' + project.meta.bannerImg + ')' }" ></div>
+            <div class="info-container">
+              <div class="caption">
+                <div class="movement-container">{{project.meta.realTitle}}</div>
+              </div>
             </div>
           </div>
-          <div class="caption">{{project.meta.realTitle}}</div>
-        </div>
 
       </div>
     </transition-group>
@@ -53,58 +56,88 @@ module.exports =
 <style lang="sass">
 @import src/styles/main
 
-@keyframes flicker
-  $steps: 20
-  @for $i from 0 through $steps
-    #{percentage($i*(1/$steps))}
-      opacity: random()
-
-
 
 #portfolio
   padding: 30px
+  span
 
   .portfolio-item
     display: inline-block
-    margin: 0 20px
     vertical-align: top
+    width: 50%
+    height: 17vw
+    margin-left: -1px
+    margin-bottom: -1px
+    overflow: hidden
     +transition(.5s ease all)
     +clickable
-    .group
-      width: 100px
-      height: 100px
-      margin-bottom: 100px
-      .portfolio-image-container
-        width: 100px
-        height: 100px
+
+    .margin-container
+      height: 100%
+      width: 100%
+      position: relative
+
+      &:hover > .portfolio-image
+        +scale(1.05)
+        +transition(.9s ease all)
+      &:hover > .portfolio-image::after
+        opacity: .3
+        +transition(.6s linear opacity)
+      &:hover > .info-container .caption
+        opacity: 1
+        +transition(.6s ease opacity)
+      &:hover > .info-container .caption .movement-container
+        +translate3d(0,0,0)
+        +transition(.6s ease all)
+
+      .portfolio-image
+        width: 100%
+        height: 100%
+        background-repeat: no-repeat
+        background-size: cover
+        background-position: center center
+        +scale(1)
+        +transition(.9s ease all)
+        transition-delay: .5s
         position: relative
-        .portfolio-image
-          width: 100%
-          height: 100%
-          position: relative
-          overflow: hidden
-          +translate3d(10px, -10px, 0)
-          img
-            height: 100%
-            width: auto
-        &::before
+        &::after
           content: ''
-          display: block
           position: absolute
           top: 0
           left: 0
-          bottom: 0
-          right: 0
-          background: linear-gradient(transparentize($screen-background,1) 50%, transparentize(darken($screen-background,10),0.75) 50%), linear-gradient(90deg,transparentize(#ff0000,0.94),transparentize(#00ff00,0.98),transparentize(#0000ff,0.94))
-          z-index: 2
-          background-size: 100% 3px, 2px 100%
-          pointer-events: none
+          width: 100%
+          height: 100%
+          background-color: black
+          opacity: 0
+          +transition(.6s linear opacity)
 
-      .caption
-        width: calc(100% + 20px)
-        margin-top: 10px
-        padding-left: 7px
-        line-height: 16px
+
+      .info-container
+        position: absolute
+        top: 0
+        left: 0
+        width: 100%
+        height: 100%
+        padding: 0 10%
+        +flexbox
+        +align-items(center)
+        +justify-content(center)
+
+        .caption
+          opacity: 0
+          overflow: hidden
+          padding: 20px
+          +showyType
+          background-color: black
+          color: white
+          font-size: 30px
+          line-height: 40px
+          +transition(.6s linear opacity)
+          .movement-container
+            width: 100%
+            height: 100%
+            +translate3d(0, 120%,0)
+            +transition(.9s ease all)
 
 
 </style>

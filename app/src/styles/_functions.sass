@@ -98,6 +98,13 @@ $break-small: 700px
 	-ms-flex-direction: $value
 	flex-direction: $value
 
+=flex-flow($values: (row nowrap))
+	// No Webkit Box fallback.
+	-webkit-flex-flow: $values
+	-moz-flex-flow: $values
+	-ms-flex-flow: $values
+	flex-flow: $values
+
 =flex($fg: 1, $fs: null, $fb: null)
 	// Set a variable to be used by box-flex properties
 	$fg-boxflex: $fg
@@ -147,10 +154,10 @@ $break-small: 700px
 	transform: translate3d($trans)
 	-ms-transform: translate3d($trans)
 
-=scale3d($trans...)
-	-webkit-transform: scale3d($trans)
-	transform: scale3d($trans)
-	-ms-transform: scale3d($trans)
+=scale($trans...)
+	-webkit-transform: scale($trans)
+	transform: scale($trans)
+	-ms-transform: scale($trans)
 
 =rotate($trans...)
 	-webkit-transform: rotate($trans)

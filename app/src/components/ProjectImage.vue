@@ -47,6 +47,8 @@ module.exports =
   width: 100%
   margin-bottom: 40px
   border-bottom: 1px solid $window_border
+  &:last-of-type
+    margin-bottom: 0
   .caption
     padding: 25px 0
     font-style: italic

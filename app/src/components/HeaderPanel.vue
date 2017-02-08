@@ -87,6 +87,10 @@ module.exports =
       +flex-direction(row)
       +align-items(flex-end)
       +justify-content(space-between)
+      &:hover > span
+        height: 30%
+        opacity: .5
+        +transition(.15s ease all)
       span
         opacity: .9
         height: 100%

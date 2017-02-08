@@ -7,7 +7,9 @@
       </div>
 
 
-      <div class="content" v-if="activeOverlay.type == 'image'">
+      <div class="content"
+           v-if="activeOverlay.type == 'image'"
+           @click="closeOverlay">
         <img :src="'../static/projects/' + activeOverlay.image"/>
       </div>
 
@@ -15,7 +17,6 @@
 </template>
 
 <script lang="coffee">
-interact = require('interact.js')
 
 module.exports =
   name: 'overlayPanel'
@@ -23,31 +24,12 @@ module.exports =
     Window:       require './Window'
     Asteroids:    require './Asteroids'
 
-
   computed:
     activeOverlay: -> return @$store.state.activeOverlay
 
-  created: ->
-    interact('#overlay-panel')
-      .styleCursor(false)
-      .draggable({
-        inertia: true,
-        restrict: {
-          restriction: "#body-container",
-          endOnly: true,
-          elementRect: { top: 0, left: 0, bottom: 1, right: 1 }
-        }
-        autoScroll: true,
-        onmove: (event)->
-          target = event.target
-          x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx
-          y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy
-          target.style.webkitTransform = 'translate3d(' + x + 'px, ' + y + 'px, 0)'
-          target.style.transform =       'translate3d(' + x + 'px, ' + y + 'px, 0)'
-          target.setAttribute('data-x', x)
-          target.setAttribute('data-y', y)
-      })
-
+  methods:
+    closeOverlay: ->
+      @$store.commit 'SET_OVERLAY_IS_OPEN', false
 
 
 </script>
@@ -62,6 +44,7 @@ module.exports =
 
   .content
     background-color: $black_one_quarter
+    cursor: url('../assets/exit.png'), auto
 
   .asteroids-content
     height: 100%

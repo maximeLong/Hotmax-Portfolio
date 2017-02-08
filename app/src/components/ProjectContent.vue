@@ -124,7 +124,7 @@ module.exports =
           height: auto
 
   .content
-    padding: 30px
+    padding: 30px 30px 0 30px
     height: calc(100% - 150px)
     width: 100%
 

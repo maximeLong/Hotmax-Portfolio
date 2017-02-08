@@ -68,8 +68,6 @@ module.exports =
   width: 100%
   border: 1px solid $window_border
   box-shadow: 20px 20px 0 rgba(253, 95, 96, 0.28)
-  &.overlay
-    cursor: move
 
   .window-header
     padding: 10px 12px
