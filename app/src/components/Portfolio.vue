@@ -30,9 +30,8 @@ module.exports =
   methods:
     openProjectWindow: (view)->
       @$store.commit 'SET_PROJECT_WINDOW_IS_OPEN', true
-      @$store.commit 'SET_ACTIVE_PROJECT_WINDOW', view
-
       @$store.commit 'SET_PORTFOLIO_WINDOW_IS_OPEN', false
+      @$store.commit 'SET_ACTIVE_PROJECT_WINDOW', view
 
       @$store.commit 'SET_CONSOLE_TEXT_IS_OPEN', false
       @$store.commit 'SET_ACTIVE_CONSOLE_TEXT', {}
@@ -45,7 +44,6 @@ module.exports =
           project.key = k
           filteredCollection.push(project)
       return filteredCollection
-
 
     #vuex
     projectWindows: ->        return @$store.state.projectWindows

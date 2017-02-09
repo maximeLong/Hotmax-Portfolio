@@ -20,7 +20,7 @@
         </div>
       </div>
 
-      <div class="window-content">
+      <div class="window-content" ref="windowContent">
         <slot></slot>
       </div>
 
@@ -38,9 +38,14 @@ module.exports =
     toggleContainer: {type: Boolean, default: false}
     type:            type: String
 
+  mounted: ->
+    @$watch 'projectWindowIsOpen', (val)->
+      if val is true then @$refs.windowContent.scrollTop = 0
+
   computed:
     portfolioOptions: ->        return @$store.state.portfolioOptions
     activePortfolioOption: ->   return @$store.state.activePortfolioOption
+    projectWindowIsOpen: ->     return @$store.state.projectWindowIsOpen
 
   methods:
     changeActiveOption: (option)->
@@ -53,6 +58,8 @@ module.exports =
         @$store.commit 'SET_NAVIGATOR_WINDOW_IS_OPEN', false
       if @type is 'project'
         @$store.commit 'SET_PROJECT_WINDOW_IS_OPEN', false
+        @$store.commit 'SET_PORTFOLIO_WINDOW_IS_OPEN', true
+        @$refs.windowContent.scrollTop = 0
       if @type is 'portfolio'
         @$store.commit 'SET_PORTFOLIO_WINDOW_IS_OPEN', false
 
