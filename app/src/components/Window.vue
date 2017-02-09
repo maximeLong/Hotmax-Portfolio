@@ -51,8 +51,10 @@ module.exports =
         @$store.commit 'SET_OVERLAY_IS_OPEN', false
       if @type is 'navigator'
         @$store.commit 'SET_NAVIGATOR_WINDOW_IS_OPEN', false
-      if @type is 'portfolio'
+      if @type is 'project'
         @$store.commit 'SET_PROJECT_WINDOW_IS_OPEN', false
+      if @type is 'portfolio'
+        @$store.commit 'SET_PORTFOLIO_WINDOW_IS_OPEN', false
 
 </script>
 

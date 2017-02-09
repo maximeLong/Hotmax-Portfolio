@@ -12,7 +12,11 @@ state =
   projectPanelVisibility: false
   consolePanelVisibility: false
 
-  # project, navigator, and overlay window statuses
+
+
+  # portfolio, project, navigator, and overlay window statuses
+  portfolioWindowIsOpen: false
+
   overlayIsOpen: false
   activeOverlay: {}
   overlays:
@@ -26,10 +30,6 @@ state =
     rubbish:
       content:    'RubbishBin'
       shortTitle: 'Rubbish Bin'
-      readMe: ''
-    portfolio:
-      content:    'Portfolio'
-      shortTitle: 'Portfolio'
       readMe: ''
 
   consoleTextIsOpen: false
@@ -62,18 +62,18 @@ state =
       readme:     'ArSynthReadme'
       meta:
         tags: ['All', 'Sound Design', 'App Dev.', 'AR']
-        bannerImg:  'video.png'
+        bannerImg:  'synth.png'
         shortTitle: 'AR Synth'
-        realTitle:  'AR Synth - Mixed Reality Music App'
+        realTitle:  'Mixed Reality Synthesizer'
         date:       'December 2016'
     curriculum:
       content:    'DigitalTextbook'
       readme:     'DigitalTextbookReadme'
       meta:
         tags: ['All', 'UI Design', 'App Dev.']
-        bannerImg:  'video.png'
+        bannerImg:  'textbook.png'
         shortTitle: 'Interactive Textbook'
-        realTitle:  'Interactive Textbook App'
+        realTitle:  'Choices Interactive Textbook'
         client:     'The Choices Program at Brown University'
         date:       'June 2016'
     video:
@@ -83,7 +83,7 @@ state =
         tags: ['All', 'UI Design', 'App Dev.']
         bannerImg:  'video.png'
         shortTitle: 'Scholar Video'
-        realTitle:  'Scholar Video Portal'
+        realTitle:  'Academic Video App'
         client:     'Brown University Web Services'
         date:       'May 2016'
     whereyaat:
@@ -91,10 +91,10 @@ state =
       readme:     'WhereyaatReadme'
       meta:
         tags: ['All', 'UI Design', 'App Dev.', 'AR']
-        bannerImg:  'video.png'
+        bannerImg:  'whereyaat.png'
         shortTitle: 'Whereyaat'
-        realTitle:  'Whereyaat - Social App'
-        client:     'The Choices Program at Brown University'
+        realTitle:  'Whereyaat - Event Finder'
+        client:     'Self Published'
         date:       'Ongoing'
     walkthrough:
       content:    'Walkthrough'
@@ -103,7 +103,7 @@ state =
         tags: ['All', 'VR', 'App Dev.']
         bannerImg:  'video.png'
         shortTitle: 'VR Walkthrough'
-        realTitle:  'Gear VR - Immersive Stage Design'
+        realTitle:  'VR Stage Design Walkthrough'
         date:       'January 2017'
     translation:
       content:    'Translation'
@@ -112,7 +112,7 @@ state =
         tags: ['All', 'UI Design', 'App Dev.']
         bannerImg:  'video.png'
         shortTitle: 'Translation Portfolio'
-        realTitle:  'Node CMS - Portfolio'
+        realTitle:  'CMS Translation Portfolio'
         date:       'January 2017'
 
 
@@ -122,6 +122,9 @@ mutations =
 
   SET_SYSTEM_COLOR: (state, color)->
     state.systemColor = color
+
+  SET_PORTFOLIO_WINDOW_IS_OPEN: (state, status)->
+    state.portfolioWindowIsOpen = status
 
   SET_ACTIVE_PORTFOLIO_OPTION: (state, opt)->
     state.activePortfolioOption = opt

@@ -15,11 +15,14 @@
         </div>
 
         <div id="body-container">
+
           <projects-panel v-if="projectPanelVisibility"></projects-panel>
+
           <console-panel v-if="consolePanelVisibility"></console-panel>
           <div id="overlay-container" v-if="overlayIsOpen" v-bind:style="{ height: overlayHeight + '%', width: overlayWidth + '%' }">
             <overlay-panel></overlay-panel>
           </div>
+
         </div>
       </div>
     </transition>

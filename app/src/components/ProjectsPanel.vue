@@ -2,38 +2,38 @@
   <transition appear name="fade">
   <div id="projects-panel">
 
-    <!-- project window -->
-    <div class="window-container projectWindow" v-if="projectWindowIsOpen">
+    <!-- portfolio window -->
+    <div class="window-container projectWindow" v-if="projectWindowIsOpen || portfolioWindowIsOpen">
       <window
         :canClose="true"
-        :shortTitle="'::Portfolio >> ' + activeProjectWindow.meta.shortTitle"
-        :type="'portfolio'">
+        :shortTitle="'::Portfolio' + additionalTitle"
+        :type="portfolioWindowIsOpen ? 'portfolio' : 'project'"
+        :toggleContainer="portfolioWindowIsOpen ? true : false">
 
-        <component v-bind:is="activeProjectWindow.content"></component>
+        <portfolio v-if="portfolioWindowIsOpen"></portfolio>
+        <component v-bind:is="activeProjectWindow.content" v-if="projectWindowIsOpen"></component>
 
       </window>
     </div>
 
-    <!-- navigator window -->
+    <!-- navigator window, use for small navigations -->
     <div class="window-container navigator" :class="activeNavigatorWindow.content" v-if="navigatorWindowIsOpen">
       <window
         :canClose="true"
         :shortTitle="'::' + activeNavigatorWindow.shortTitle"
-        :type="'navigator'"
-        :toggleContainer="activeNavigatorWindow.content == 'Portfolio' ? true : false">
-
+        :type="'navigator'">
         <component v-bind:is="activeNavigatorWindow.content"></component>
-
       </window>
     </div>
 
 
+    <!-- desktop icon grid -->
     <div class="icon-grid">
-      <div @click="openNavigatorWindow(navigatorWindows.portfolio)" class="icon folder">
+      <div @click="openPortfolioWindow" class="icon folder">
         <div class="rotation-container" v-bind:style="{ transform: 'rotationX(' + rotationX + 'deg)' }">
           <img src="../assets/folder-icon.svg">
         </div>
-        <div class="caption">Our Work</div>
+        <div class="caption">Hotmax Portfolio</div>
       </div>
       <div @click="openNavigatorWindow(navigatorWindows.rubbish)" class="icon rubbish">
         <img src="../assets/rubbish-icon.svg">
@@ -52,6 +52,7 @@
         <div class="caption">Contact Us</div>
       </div>
     </div>
+
 
   </div>
   </transition>
@@ -85,6 +86,8 @@ module.exports =
     openOverlay: (view)->
       @$store.commit 'SET_OVERLAY_IS_OPEN', true
       @$store.commit 'SET_ACTIVE_OVERLAY', view
+    openPortfolioWindow: ()->
+      @$store.commit 'SET_PORTFOLIO_WINDOW_IS_OPEN', true
     openConsoleText: (view)->
       @$store.commit 'SET_CONSOLE_TEXT_IS_OPEN', true
       @$store.commit 'SET_ACTIVE_CONSOLE_TEXT', view
@@ -93,11 +96,18 @@ module.exports =
       @$store.commit 'SET_ACTIVE_NAVIGATOR_WINDOW', view
 
   computed:
+    additionalTitle: ->
+      if @projectWindowIsOpen
+        return " >> #{@activeProjectWindow.meta.shortTitle}"
+      else
+        return ''
+
     #vuex
     projectWindowIsOpen: ->   return @$store.state.projectWindowIsOpen
     activeProjectWindow: ->   return @$store.state.activeProjectWindow
     navigatorWindowIsOpen: -> return @$store.state.navigatorWindowIsOpen
     activeNavigatorWindow: -> return @$store.state.activeNavigatorWindow
+    portfolioWindowIsOpen: -> return @$store.state.portfolioWindowIsOpen
 
     overlays: ->              return @$store.state.overlays
     projectWindows: ->        return @$store.state.projectWindows
@@ -120,10 +130,6 @@ module.exports =
   +flex-direction(column)
   +justify-content(center)
   z-index: 999
-  // testing matrix transform
-  -moz-perspective: 800px
-  -webkit-perspective: 800px
-  perspective: 800px
 
   .window-container
     width: 110%
@@ -134,11 +140,11 @@ module.exports =
     &.projectWindow
       +translate3d(70px,0,0)
       z-index: 9999
-    // &.navigator
-    //   position: absolute
-    //   top: 50%
-    //   left: 50%
-    //   +translate3d(-50%,-50%,0)
+    &.navigator
+      position: absolute
+      top: 50%
+      left: 50%
+      +translate3d(-50%,-50%,0)
     &.RubbishBin
       width: 59%
       height: 50%
