@@ -146,7 +146,7 @@ module.exports =
       position: absolute
       top: 50%
       left: 50%
-      +translate3d(-50%,-50%,0)
+      +translateXY(-50%, -50%)
     &.RubbishBin
       width: 59%
       height: 50%
@@ -163,7 +163,7 @@ module.exports =
     height: 100%
     top: 50%
     left: 50%
-    +translate3d(-50%,-50%,0)
+    +translateXY(-50%, -50%)
     +flexbox
     +align-items(center)
     +justify-content(center)

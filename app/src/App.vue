@@ -5,7 +5,7 @@
       <entry></entry>
     </div>
 
-    <transition appear name="fadedown">
+    <transition appear name="slowfade">
       <div id="desktop-experience" v-if="entryIndex > 1">
 
         <div id="header-container">
@@ -30,6 +30,9 @@
     <button class="entry-btn"
       v-if="entryIndex == 1"
       @click="setEntryIndex(2)">open to desktop</button>
+    <button class="entry-btn"
+      v-if="entryIndex == 1"
+      @click="toggleSound()">sound: {{soundIsOn}}</button>
 
 
     <div class="three-container">
@@ -124,6 +127,7 @@ module.exports =
       , 2500
 
     setEntryIndex: (index)-> @$store.commit 'SET_ENTRY_INDEX', index
+    toggleSound: -> @$store.commit 'TOGGLE_SOUND', !@soundIsOn
 
 
 </script>
@@ -150,6 +154,8 @@ module.exports =
     top: 200px
     left: 300px
     z-index: 99999
+    &:nth-of-type(2)
+      top: 230px
 
   .three-container
     width: 100%
@@ -176,6 +182,9 @@ module.exports =
           height: 108%
           border-radius: 100%
           border: 2px solid $ink_black
+          top: 50%
+          left: 50%
+          +translateXY(-50%, -50%)
         &::before
           +transition(.15s ease all)
           opacity: .8
@@ -189,6 +198,8 @@ module.exports =
           width: 150%
           height: 125px
           bottom: -200px
+          right: 50%
+          +translateX(50%)
 
 
   #entry-experience

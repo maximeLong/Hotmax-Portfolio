@@ -154,6 +154,21 @@ $break-small: 700px
 	transform: translate3d($trans)
 	-ms-transform: translate3d($trans)
 
+=translateX($trans...)
+	-webkit-transform: translateX($trans)
+	transform: translateX($trans)
+	-ms-transform: translateX($trans)
+
+=translateY($trans...)
+	-webkit-transform: translateY($trans)
+	transform: translateY($trans)
+	-ms-transform: translateY($trans)
+
+=translateXY($x, $y)
+	-webkit-transform: translateX($x) translateY($y)
+	transform: translateX($x) translateY($y)
+	-ms-transform: translateX($x) translateY($y)
+
 =scale($trans...)
 	-webkit-transform: scale($trans)
 	transform: scale($trans)
