@@ -4,7 +4,7 @@
     <typed class="line"
       :str="'Make'"
       :cleanCursor="true"
-      :delay="initialDelay"
+      :delay="1500"
       :cursorChar="'_'"
       :typeSpeed="100"
       v-on:done="lineDone">
@@ -40,6 +40,7 @@ module.exports =
   data: ->
     sentenceIndex: 0
     windowCount: 0
+
 
   methods:
     lineDone: ->

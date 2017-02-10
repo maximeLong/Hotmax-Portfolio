@@ -27,6 +27,10 @@
       </div>
     </transition>
 
+    <button class="entry-btn"
+      v-if="entryIndex == 1"
+      @click="setEntryIndex(2)">open to desktop</button>
+
 
     <div class="three-container">
 
@@ -111,7 +115,7 @@ module.exports =
     beginShowingDesktop: ->
       setTimeout =>
         @$store.commit 'SET_PROJECT_PANEL_VISIBILITY', true
-      , 1000
+      , 2500
       setTimeout =>
         @$store.commit 'SET_CONSOLE_PANEL_VISIBILITY', true
         if @soundIsOn
