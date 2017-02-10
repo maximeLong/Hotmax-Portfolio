@@ -1,51 +1,46 @@
 <template>
   <div id="console-panel">
     <div class="console-container" v-bind:style="containerStyle">
-      <window :canClose="false" :shortTitle="'::Console.exe'" :type="'consoleWindow'">
+      <window :canClose="overflowConsoleIsOpen ? true : false"
+              :shortTitle="'::Console.exe'"
+              :type="'consoleWindow'">
 
         <div class="console">
 
-          <!-- entry experience -->
+
+          <!-- default console -->
           <transition name="fadedown" appear>
             <intro-text
-              v-if="!hideIntro"
+              v-if="showDefaultConsole"
               v-on:done="introDone = true">
             </intro-text>
           </transition>
 
-          <!-- standby line -->
-          <!-- TODO: blow this up into something interesting -->
-          <transition name="consoletransition">
-            <typed class="inline"
-              :str="'>'"
-              :cleanCursor="projectWindowIsOpen || consoleTextIsOpen ? true : false"
-              v-if="introDone && !projectWindowIsOpen && !consoleTextIsOpen"
-            ></typed>
-          </transition>
-
-          <!-- project window -->
+          <!-- normalConsoleIsOpen -->
           <transition name="fadedown">
-            <component
-              v-bind:is="activeProjectWindow.readme"
-              v-if="projectWindowIsOpen">
-            </component>
+
+            <component v-bind:is="normalConsoleText.component" v-if="portfolioWindowIsOpen"></component>
+            <component v-bind:is="normalConsoleText.readme" v-if="projectWindowIsOpen"></component>
+
           </transition>
 
-          <!-- consoleText component -->
+          <!-- overflowConsoleIsOpen -->
           <transition name="consoletransition">
+
             <component
-              v-bind:is="activeConsoleText.component"
-              v-if="consoleTextIsOpen && !projectWindowIsOpen">
+              v-bind:is="overflowConsoleText.component"
+              v-if="overflowConsoleIsOpen">
             </component>
+
           </transition>
 
 
           <!-- aesthetic bottom -->
-          <transition name="fadeup" appear>
+          <!-- <transition name="fadeup" appear>
             <div class="graphs" v-if="!projectWindowIsOpen && !consoleTextIsOpen">
               version 1.7 -- copyright hotmax interactive division
             </div>
-          </transition>
+          </transition> -->
 
 
 
@@ -62,10 +57,13 @@ module.exports =
   components:
     Window:     require './Window'
     Typed:      require './Typed'
-    IntroText:  require './IntroText'
+
     OurServices:    require './OurServices'
     OurStory:       require './OurStory'
     OurContact:     require './OurContact'
+    PortfolioText:  require './PortfolioText'
+    IntroText:      require './IntroText'
+
     DigitalTextbookReadme:  require '../projects/DigitalTextbook/DigitalTextbookReadme'
     VideoPortalReadme:      require '../projects/VideoPortal/VideoPortalReadme'
     WhereyaatReadme:        require '../projects/Whereyaat/WhereyaatReadme'
@@ -76,12 +74,8 @@ module.exports =
 
 
   mounted: ->
-    @$watch 'projectWindowIsOpen', (newVal, oldVal)->
-      if newVal is true then @hideIntro = true #hide intro after first open
-
-    @$watch 'consoleTextIsOpen', (newVal, oldVal)->
-      if newVal is true #hide intro after first open
-        @hideIntro = true
+    @$watch 'overflowConsoleIsOpen', (val)->
+      if val is true
         @containerStyle =
           width: '100%'
           transform: 'translate3d(-55px, 0, 0)'
@@ -93,7 +87,6 @@ module.exports =
           '-webkit-transform': 'translate3d(50px, 0, 0)'
 
   data: ->
-    hideIntro: false
     introDone: false
     containerStyle:
       width: '79%'
@@ -101,18 +94,20 @@ module.exports =
       '-webkit-transform': 'translate3d(50px, 0, 0)'
 
   computed:
-    consoleTextIsOpen: -> return @$store.state.consoleTextIsOpen
-    activeConsoleText: -> return @$store.state.activeConsoleText
+    showDefaultConsole: ->
+      if @portfolioWindowIsOpen or @overflowConsoleIsOpen or @projectWindowIsOpen
+        return false
+      else return true
+
+    normalConsoleIsOpen: ->   return @$store.state.normalConsoleIsOpen
+    overflowConsoleIsOpen: -> return @$store.state.overflowConsoleIsOpen
+    normalConsoleText: -> return @$store.state.normalConsoleText
+    overflowConsoleText: -> return @$store.state.overflowConsoleText
+
+    portfolioWindowIsOpen: -> return @$store.state.portfolioWindowIsOpen
     projectWindowIsOpen: -> return @$store.state.projectWindowIsOpen
     activeProjectWindow: -> return @$store.state.activeProjectWindow
 
-
-  methods:
-    startWipe: ->
-      @wipeScreen = true
-      setTimeout =>
-        @wipeScreen = false
-      , 750
 
 </script>
 
@@ -135,19 +130,6 @@ module.exports =
     +transition(.35s ease all)
     z-index: 999
     position: relative
-    // &::after
-    //   opacity: .7
-    //   position: absolute
-    //   left: 0
-    //   top: 0
-    //   content: ''
-    //   display: block
-    //   height: 100%
-    //   width: 100%
-    //   background-image: url('../assets/console-grad.png')
-    //   background-position: 0% 0%
-    //   background-size: 100%
-    //   background-repeat: no-repeat
 
   .console
     padding: 30px
@@ -174,7 +156,6 @@ module.exports =
         line-height: 55px
     .content
       width: 100%
-
 
     .graphs
       position: absolute

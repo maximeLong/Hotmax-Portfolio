@@ -10,7 +10,9 @@
         :type="portfolioWindowIsOpen ? 'portfolio' : 'project'"
         :toggleContainer="portfolioWindowIsOpen ? true : false">
 
-        <portfolio v-if="portfolioWindowIsOpen"></portfolio>
+        <transition name="fadeup">
+          <portfolio v-if="portfolioWindowIsOpen"></portfolio>
+        </transition>
         <component v-bind:is="activeProjectWindow.content" v-if="projectWindowIsOpen"></component>
 
       </window>
@@ -29,7 +31,7 @@
 
     <!-- desktop icon grid -->
     <div class="icon-grid">
-      <div @click="openPortfolioWindow" class="icon folder">
+      <div @click="openPortfolio" class="icon folder">
         <div class="rotation-container" v-bind:style="{ transform: 'rotationX(' + rotationX + 'deg)' }">
           <img src="../assets/folder-icon.svg">
         </div>
@@ -39,15 +41,15 @@
         <img src="../assets/rubbish-icon.svg">
         <div class="caption">Rubbish Bin</div>
       </div>
-      <div @click="openConsoleText(consoleTexts.aboutUs)" class="icon file">
+      <div @click="openOverflowConsole(consoleTexts.aboutUs)" class="icon file">
         <img src="../assets/file-icon.svg">
         <div class="caption">About Us</div>
       </div>
-      <div @click="openConsoleText(consoleTexts.ourServices)" class="icon file">
+      <div @click="openOverflowConsole(consoleTexts.ourServices)" class="icon file">
         <img src="../assets/file-icon.svg">
         <div class="caption">Our Services</div>
       </div>
-      <div @click="openConsoleText(consoleTexts.contactUs)" class="icon file">
+      <div @click="openOverflowConsole(consoleTexts.contactUs)" class="icon file">
         <img src="../assets/file-icon.svg">
         <div class="caption">Contact Us</div>
       </div>
@@ -83,14 +85,14 @@ module.exports =
 
 
   methods:
+    openPortfolio: ()->
+      @$store.dispatch 'openPortfolio'
+    openOverflowConsole: (view)->
+      @$store.dispatch 'openOverflowConsole', view
+
     openOverlay: (view)->
       @$store.commit 'SET_OVERLAY_IS_OPEN', true
       @$store.commit 'SET_ACTIVE_OVERLAY', view
-    openPortfolioWindow: ()->
-      @$store.commit 'SET_PORTFOLIO_WINDOW_IS_OPEN', true
-    openConsoleText: (view)->
-      @$store.commit 'SET_CONSOLE_TEXT_IS_OPEN', true
-      @$store.commit 'SET_ACTIVE_CONSOLE_TEXT', view
     openNavigatorWindow: (view)->
       @$store.commit 'SET_NAVIGATOR_WINDOW_IS_OPEN', true
       @$store.commit 'SET_ACTIVE_NAVIGATOR_WINDOW', view
@@ -102,7 +104,7 @@ module.exports =
       else
         return ''
 
-    #vuex
+    #vuex state
     projectWindowIsOpen: ->   return @$store.state.projectWindowIsOpen
     activeProjectWindow: ->   return @$store.state.activeProjectWindow
     navigatorWindowIsOpen: -> return @$store.state.navigatorWindowIsOpen

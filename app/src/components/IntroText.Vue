@@ -2,22 +2,28 @@
   <div id="intro-text">
 
     <typed class="line"
-      :str="'Welcome [POTENTIAL CANDIDATE] to the hotmax work station.'"
+      :str="'Make'"
       :cleanCursor="true"
-      :delay="1500"
+      :delay="initialDelay"
+      :cursorChar="'_'"
+      :typeSpeed="100"
       v-on:done="lineDone">
     </typed>
     <typed class="line"
-      :str="'Please read through the company information at your leisure.'"
+      :str="'Dope'"
       :cleanCursor="true"
-      :delay="250"
+      :delay="500"
+      :cursorChar="'_'"
+      :typeSpeed="100"
       v-on:done="lineDone"
       v-if="sentenceIndex > 0">
     </typed>
     <typed class="line"
-      :str="'Contact a supervisor on completion, you now have [' + taskNumber + '] tasks waiting.'"
-      :cleanCursor="true"
-      :delay="250"
+      :str="'Apps.'"
+      :cleanCursor="false"
+      :cursorChar="'_'"
+      :delay="500"
+      :typeSpeed="100"
       v-on:done="emitDone"
       v-if="sentenceIndex > 1">
     </typed>
@@ -52,8 +58,10 @@ module.exports =
 #intro-text
   margin-bottom: 20px
   .line
+    +showyType
+    color: white
     display: block
+    letter-spacing: 3px
     margin: 10px 0
-    text-transform: uppercase
 
 </style>

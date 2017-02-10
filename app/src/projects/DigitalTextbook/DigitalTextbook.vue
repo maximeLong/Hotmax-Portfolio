@@ -2,7 +2,7 @@
   <project-content>
 
     <project-image v-for="n in 10"
-      :banner="'curriculum/cc' + n + '.png'"
+      :imageUrl="'curriculum/cc' + n + '.png'"
       :orientation="'landscape'">
     </project-image>
 

@@ -1,7 +1,14 @@
 <template>
   <project-content>
 
-    ar synth pictures
+
+    <project-image
+      :videoUrl="'synth/arMovie.mp4'"
+      :imageUrl="'synth/videoThumb.png'"
+      :orientation="'landscape'"
+      :type="'video'">
+    </project-image>
+
 
   </project-content>
 </template>
@@ -11,5 +18,11 @@ module.exports =
   name: 'arSynth'
   components:
     ProjectContent: require '../../components/ProjectContent'
+    ProjectImage:   require '../../components/ProjectImage'
 
 </script>
+
+<style lang="sass">
+
+
+</style>

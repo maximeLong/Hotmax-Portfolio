@@ -3,7 +3,7 @@
 
     <div class="overflow-container" v-on:click="openOverlay()">
       <div class="image-container">
-        <img :src="'../static/projects/' + banner"/>
+        <img :src="'../static/projects/' + imageUrl"/>
       </div>
     </div>
 
@@ -19,16 +19,20 @@ module.exports =
   name: 'projectImage'
 
   props:
-    banner:       type: String
+    imageUrl:     type: String
+    videoUrl:     type: String
     orientation:  type: String
+    type:       { type: String, default: 'image' }
 
   methods:
     openOverlay: ()->
       overlay =
-        title:        "#{@projectTitle} >> #{@banner}"
+        title:        "#{@projectTitle} >> #{if @type is 'image' then @imageUrl else @videoUrl }"
         orientation:  @orientation
-        type:         "image"
-        image:        @banner
+        type:         @type
+
+      if @type is 'image' then overlay.image = @imageUrl
+      if @type is 'video' then overlay.video = @videoUrl
 
       @$store.commit 'SET_OVERLAY_IS_OPEN', true
       @$store.commit 'SET_ACTIVE_OVERLAY', overlay

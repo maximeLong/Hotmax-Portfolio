@@ -13,10 +13,7 @@ state =
   consolePanelVisibility: false
 
 
-
   # portfolio, project, navigator, and overlay window statuses
-  portfolioWindowIsOpen: false
-
   overlayIsOpen: false
   activeOverlay: {}
   overlays:
@@ -32,8 +29,12 @@ state =
       shortTitle: 'Rubbish Bin'
       readMe: ''
 
-  consoleTextIsOpen: false
-  activeConsoleText: {}
+
+  # console state
+  overflowConsoleIsOpen:  false
+  normalConsoleIsOpen:    false
+  normalConsoleText:    {}
+  overflowConsoleText:  {}
   consoleTexts:
     aboutUs:
       title:      'About Us.txt'
@@ -47,9 +48,14 @@ state =
       title:      'Contact Us.txt'
       type:       'text'
       component:  'OurContact'
+    portfolio:
+      title:      'Portfolio.txt'
+      type:       'text'
+      component:  'PortfolioText'
 
 
   # portfolio options
+  portfolioWindowIsOpen: false
   activePortfolioOption: 'All'
   portfolioOptions: [ 'All', 'UI Design', 'Sound Design', 'App Dev.', 'VR', 'AR' ]
 
@@ -64,7 +70,7 @@ state =
         tags: ['All', 'Sound Design', 'App Dev.', 'AR']
         bannerImg:  'synth.png'
         shortTitle: 'AR Synth'
-        realTitle:  'Mixed Reality Synthesizer'
+        realTitle:  'AR Synth - Mobile Synthesizer'
         date:       'December 2016'
     curriculum:
       content:    'DigitalTextbook'
@@ -117,37 +123,25 @@ state =
 
 
 mutations =
-  TOGGLE_SOUND: (state, sound)->
-    state.soundIsOn = sound
-
-  SET_SYSTEM_COLOR: (state, color)->
-    state.systemColor = color
 
   SET_PORTFOLIO_WINDOW_IS_OPEN: (state, status)->
     state.portfolioWindowIsOpen = status
-
   SET_ACTIVE_PORTFOLIO_OPTION: (state, opt)->
     state.activePortfolioOption = opt
-
-  SET_WEBGL_IS_WORKING: (state, status)->
-    state.webGlIsWorking = status
-
-  SET_ENTRY_INDEX: (state, index)->
-    state.entryIndex = index
-  SET_PROJECT_PANEL_VISIBILITY: (state, status)->
-    state.projectPanelVisibility = status
-  SET_CONSOLE_PANEL_VISIBILITY: (state, status)->
-    state.consolePanelVisibility = status
 
   SET_PROJECT_WINDOW_IS_OPEN: (state, status)->
     state.projectWindowIsOpen = status
   SET_ACTIVE_PROJECT_WINDOW: (state, project)->
     state.activeProjectWindow = project
 
-  SET_CONSOLE_TEXT_IS_OPEN: (state, status)->
-    state.consoleTextIsOpen = status
-  SET_ACTIVE_CONSOLE_TEXT: (state, text)->
-    state.activeConsoleText = text
+  SET_NORMAL_CONSOLE_IS_OPEN: (state, status)->
+    state.normalConsoleIsOpen = status
+  SET_NORMAL_CONSOLE_TEXT: (state, text)->
+    state.normalConsoleText = text
+  SET_OVERFLOW_CONSOLE_IS_OPEN: (state, status)->
+    state.overflowConsoleIsOpen = status
+  SET_OVERFLOW_CONSOLE_TEXT: (state, text)->
+    state.overflowConsoleText = text
 
   SET_OVERLAY_IS_OPEN: (state, status)->
     state.overlayIsOpen = status
@@ -159,8 +153,22 @@ mutations =
   SET_ACTIVE_NAVIGATOR_WINDOW: (state, project)->
     state.activeNavigatorWindow = project
 
+
   SET_THREE_GLITCH: (state, mode)->
     state.showThreeGlitch = mode
+  TOGGLE_SOUND: (state, sound)->
+    state.soundIsOn = sound
+  SET_SYSTEM_COLOR: (state, color)->
+    state.systemColor = color
+  SET_WEBGL_IS_WORKING: (state, status)->
+    state.webGlIsWorking = status
+
+  SET_ENTRY_INDEX: (state, index)->
+    state.entryIndex = index
+  SET_PROJECT_PANEL_VISIBILITY: (state, status)->
+    state.projectPanelVisibility = status
+  SET_CONSOLE_PANEL_VISIBILITY: (state, status)->
+    state.consolePanelVisibility = status
 
 
 module.exports = new Vuex.Store({

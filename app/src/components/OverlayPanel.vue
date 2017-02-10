@@ -7,10 +7,16 @@
       </div>
 
 
-      <div class="content"
-           v-if="activeOverlay.type == 'image'"
+      <div class="content" v-if="activeOverlay.type == 'image'"
            @click="closeOverlay">
         <img :src="'../static/projects/' + activeOverlay.image"/>
+      </div>
+
+      <div class="content" v-if="activeOverlay.type == 'video'">
+        <video controls autoplay="true">
+          <source :src="'../static/projects/' + activeOverlay.video" type="video/mp4">
+          Get a better browser, we living in the fast lane.
+        </video>
       </div>
 
     </window>
@@ -56,7 +62,7 @@ module.exports =
   .overlay
     .content
       padding: 0 30px
-      img
+      img, video
         width: 100%
 
 

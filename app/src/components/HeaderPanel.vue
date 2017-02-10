@@ -5,8 +5,8 @@
       <!-- <span>Interactive Design Agency</span> -->
     </div>
     <div class="other-stuff">
-      <div class="about"@click="openConsoleText(consoleTexts.ourServices)">:about</div>
-      <div class="work" @click="openNavigatorWindow(navigatorWindows.portfolio)">:our work</div>
+      <div class="about"@click="openOverflowConsole(consoleTexts.ourServices)">:about</div>
+      <div class="work" @click="openPortfolioWindow()">:our work</div>
       <div class="sound" @click="toggleSound">
         <span v-for="i in 5" :class="{soundOn: soundIsOn, soundOff: !soundIsOn}"></span>
       </div>
@@ -27,12 +27,11 @@ module.exports =
 
   methods:
     toggleSound: -> @$store.commit 'TOGGLE_SOUND', !@soundIsOn
-    openNavigatorWindow: (view)->
-      @$store.commit 'SET_NAVIGATOR_WINDOW_IS_OPEN', true
-      @$store.commit 'SET_ACTIVE_NAVIGATOR_WINDOW', view
-    openConsoleText: (view)->
-      @$store.commit 'SET_CONSOLE_TEXT_IS_OPEN', true
-      @$store.commit 'SET_ACTIVE_CONSOLE_TEXT', view
+
+    openPortfolioWindow: ()->
+      @$store.dispatch 'openPortfolio'
+    openOverflowConsole: (overflowView)->
+      @$store.dispatch 'openOverflowConsole', overflowView
 
 </script>
 

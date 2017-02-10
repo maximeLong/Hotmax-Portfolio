@@ -2,7 +2,7 @@
   <project-content>
 
     <project-image v-for="n in 4"
-      :banner="'whereyaat/wy' + n + '.png'"
+      :imageUrl="'whereyaat/wy' + n + '.png'"
       :orientation="'landscape'">
     </project-image>
 

@@ -145,7 +145,7 @@ module.exports =
         position: relative
         z-index: 9
         width: 100%
-        height: 250px
+        height: 17vw
         border: 1px solid white
         overflow: hidden
         img

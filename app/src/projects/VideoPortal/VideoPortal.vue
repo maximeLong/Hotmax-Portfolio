@@ -2,7 +2,7 @@
   <project-content>
 
     <project-image v-for="n in 6"
-      :banner="'video/cv' + n + '.png'"
+      :imageUrl="'video/cv' + n + '.png'"
       :orientation="'portrait'">
     </project-image>
 
