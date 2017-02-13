@@ -21,41 +21,49 @@ module.exports =
 #readme
 
   .header
-    padding: 10px 20px
     .title
-      +showyType
-      font-size: 20px
-      line-height: 28px
-      color: white
-      margin-bottom: 10px
-      letter-spacing: 2px
-    .subheader
-      font-size: 14px
-      line-height: 23px
+      +consoleHeader
+      text-transform: uppercase
+      color: $ink_black
+      background-color: white
+      padding: 10px 20px
+      letter-spacing: 1px
+    .readme-text
+      margin-top: 0
+      border: 1px solid white
+      padding: 15px 20px
+
 
   .readme-group
     margin: 30px 0
-    padding: 10px 20px
-    border-left: 1px solid white
-    .title
-      +showyType
-      font-size: 16px
-      letter-spacing: 2px
-      color: white
-      margin-bottom: 10px
-      &::after
-        content: '_'
-        padding-left: 4px
-    .list
-      div
-        font-size: 15px
-        margin-bottom: 8px
-        &:nth-last-of-type(1)
-          margin-bottom: 0
-        &::before
-          content: '—'
-          color: $action_red
-          padding-right: 10px
+    .intro-title
+      text-transform: uppercase
+      color: $action_color
+      font-weight: bold
+      font-size: 15px
+      letter-spacing: 3px
+  .readme-text
+    margin: 5px 0
+    font-size: 16px
+    line-height: 24px
+    a
+      color: $action_red
+      font-weight: bold
+
+    li
+      padding: 4px 0
+      position: relative
+      padding-left: 17px
+      span
+        font-weight: bold
+      &::before
+        height: 100%
+        position: absolute
+        left: 0
+        top: 5px
+        content: '—'
+        color: $action_color
+        padding-right: 5px
 
 
 </style>

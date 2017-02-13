@@ -4,9 +4,14 @@
 
     <project-image
       :videoUrl="'synth/arMovie.mp4'"
-      :imageUrl="'synth/videoThumb.png'"
+      :imageUrl="'synth/ar1.jpg'"
       :orientation="'landscape'"
       :type="'video'">
+    </project-image>
+
+    <project-image
+      :imageUrl="'synth/thumb.png'"
+      :orientation="'landscape'">
     </project-image>
 
 

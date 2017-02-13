@@ -3,8 +3,8 @@
 
     <div class="header-container">
       <typed class="title"
-        :str="'Our shit'"
-        :delay="2000"
+        :str="'Collected Work'"
+        :delay="500"
         :speed="200"
         :cursorChar="'_'"
         :cleanCursor="false"
@@ -14,7 +14,11 @@
     <transition name="fadeup">
       <div class="content" v-if="showContent">
 
-      check out our shit
+      <div class="main-text">
+        A collection of previous individual work by the two founders, work done under the hotmax brand, and projects that are currently in development in the hotmax labs.
+        <br><br>
+        Think of it as a showcase of our broad set of skills and interests in interactive media.
+      </div>
 
     </div>
   </transition>

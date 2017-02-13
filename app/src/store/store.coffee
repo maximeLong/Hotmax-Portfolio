@@ -66,15 +66,18 @@ state =
     arSynth:
       content:    'ArSynth'
       readme:     'ArSynthReadme'
+      key:        'arSynth'
       meta:
         tags: ['All', 'Sound Design', 'App Dev.', 'AR']
         bannerImg:  'synth.png'
         shortTitle: 'AR Synth'
         realTitle:  'AR Synth - Mobile Synthesizer'
         date:       'December 2016'
+        client:     'Self Published on iOS store'
     curriculum:
       content:    'DigitalTextbook'
       readme:     'DigitalTextbookReadme'
+      key:        'curriculum'
       meta:
         tags: ['All', 'UI Design', 'App Dev.']
         bannerImg:  'textbook.png'
@@ -85,6 +88,7 @@ state =
     video:
       content:    'VideoPortal'
       readme:     'VideoPortalReadme'
+      key:        'video'
       meta:
         tags: ['All', 'UI Design', 'App Dev.']
         bannerImg:  'video.png'
@@ -95,16 +99,18 @@ state =
     whereyaat:
       content:    'Whereyaat'
       readme:     'WhereyaatReadme'
+      key:        'whereyaat'
       meta:
         tags: ['All', 'UI Design', 'App Dev.', 'AR']
         bannerImg:  'whereyaat.png'
         shortTitle: 'Whereyaat'
-        realTitle:  'Whereyaat - Event Finder'
+        realTitle:  'Whereyaat - Geographic Social Network'
         client:     'Self Published'
         date:       'Ongoing'
     walkthrough:
       content:    'Walkthrough'
       readme:     'WalkthroughReadme'
+      key:        'walkthrough'
       meta:
         tags: ['All', 'VR', 'App Dev.']
         bannerImg:  'video.png'
@@ -114,11 +120,13 @@ state =
     translation:
       content:    'Translation'
       readme:     'TranslationReadme'
+      key:        'translation'
       meta:
         tags: ['All', 'UI Design', 'App Dev.']
         bannerImg:  'video.png'
         shortTitle: 'Translation Portfolio'
         realTitle:  'CMS Translation Portfolio'
+        client:     'Lizzie Davis, Coffee House Press'
         date:       'January 2017'
 
 

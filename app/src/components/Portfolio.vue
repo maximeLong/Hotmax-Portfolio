@@ -36,7 +36,6 @@ module.exports =
       filteredCollection = []
       for k,project of @projectWindows
         if _.includes(project.meta.tags, @activePortfolioOption)
-          project.key = k
           filteredCollection.push(project)
       return filteredCollection
 

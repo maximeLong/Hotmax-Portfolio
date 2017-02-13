@@ -12,6 +12,7 @@
           <transition name="fadedown" appear>
             <intro-text
               v-if="showDefaultConsole"
+              :secondTime="introDone ? true : false"
               v-on:done="introDone = true">
             </intro-text>
           </transition>
@@ -33,14 +34,6 @@
             </component>
 
           </transition>
-
-
-          <!-- aesthetic bottom -->
-          <!-- <transition name="fadeup" appear>
-            <div class="graphs" v-if="!projectWindowIsOpen && !consoleTextIsOpen">
-              version 1.7 -- copyright hotmax interactive division
-            </div>
-          </transition> -->
 
 
 
@@ -67,7 +60,6 @@ module.exports =
     DigitalTextbookReadme:  require '../projects/DigitalTextbook/DigitalTextbookReadme'
     VideoPortalReadme:      require '../projects/VideoPortal/VideoPortalReadme'
     WhereyaatReadme:        require '../projects/Whereyaat/WhereyaatReadme'
-    IbesReadme:             require '../projects/Ibes/IbesReadme'
     ArSynthReadme:          require '../projects/ArSynth/ArSynthReadme'
     TranslationReadme:      require '../projects/Translation/TranslationReadme'
     WalkthroughReadme:      require '../projects/Walkthrough/WalkthroughReadme'
@@ -156,10 +148,35 @@ module.exports =
         line-height: 55px
     .content
       width: 100%
+      .intro-title
+        text-transform: uppercase
+        color: $action_color
+        font-weight: bold
+        font-size: 15px
+        letter-spacing: 3px
+      .main-text
+        margin: 10px 0 37px 0
+        font-size: 16px
+        line-height: 24px
+        span
+          +clickable
+          text-decoration: underline
+          color: $vapor_blue
 
-    .graphs
-      position: absolute
-      bottom: 20px
+        li
+          padding: 4px 0
+          position: relative
+          padding-left: 17px
+          &::before
+            height: 100%
+            position: absolute
+            left: 0
+            top: 4px
+            content: '>'
+            color: $action_color
+            padding-right: 5px
+
+
 
 
 

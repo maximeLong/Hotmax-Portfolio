@@ -1,7 +1,7 @@
 <template>
   <div class="project-image">
 
-    <div class="overflow-container" v-on:click="openOverlay()">
+    <div class="overflow-container" v-on:click="openOverlay()" :class="type">
       <div class="image-container">
         <img :src="'../static/projects/' + imageUrl"/>
       </div>
@@ -59,6 +59,24 @@ module.exports =
   .overflow-container
     position: relative
     cursor: pointer
+    &.video
+      position: relative
+      &::after
+        content: ''
+        height: 8vw
+        width: 16%
+        display: block
+        position: absolute
+        top: 50%
+        left: 50%
+        +translateXY(-50%,-50%)
+        z-index: 999
+        opacity: 0
+        background-image: url('../assets/video.svg')
+        background-repeat: no-repeat
+        background-size: cover
+        background-position: 50% 50%
+        +transition(.35s ease all)
 
     &::before
       content: ''
@@ -85,8 +103,9 @@ module.exports =
       +transition(.35s ease all)
     &:hover
       &::after
-        opacity: .6
+        opacity: .7
         +transition(.35s ease all)
+
 
   .image-container
     width: 100%

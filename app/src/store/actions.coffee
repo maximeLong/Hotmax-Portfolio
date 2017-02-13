@@ -25,7 +25,6 @@ module.exports =
     store.commit 'SET_PROJECT_WINDOW_IS_OPEN', true
     store.commit 'SET_ACTIVE_PROJECT_WINDOW', projectView
     store.commit 'SET_NORMAL_CONSOLE_IS_OPEN', true
-    # console.log store.state.projectWindows, projectView
     store.commit 'SET_NORMAL_CONSOLE_TEXT', store.state.projectWindows[projectView.key]
 
     store.commit 'SET_PORTFOLIO_WINDOW_IS_OPEN', false

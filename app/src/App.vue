@@ -57,18 +57,18 @@ module.exports =
 
   name: 'app'
   components:
-    Entry: require './components/Entry'
-    ProjectsPanel: require './components/ProjectsPanel'
-    ConsolePanel: require './components/ConsolePanel'
-    HeaderPanel: require './components/HeaderPanel'
-    OverlayPanel: require './components/OverlayPanel'
-    Three: require './components/Three'
+    Entry:          require './components/Entry'
+    ProjectsPanel:  require './components/ProjectsPanel'
+    ConsolePanel:   require './components/ConsolePanel'
+    HeaderPanel:    require './components/HeaderPanel'
+    OverlayPanel:   require './components/OverlayPanel'
+    Three:          require './components/Three'
 
   data: ->
-    threeMode: 'entry'
+    threeMode:    'entry'
     overlayHeight: 90
-    overlayWidth: 70
-    threeWidth: ''
+    overlayWidth:  70
+    threeWidth:    ''
 
 
   mounted: ->
@@ -88,7 +88,7 @@ module.exports =
         @threeWidth = @$refs.three?.clientHeight #set width of new three container
         @$store.commit 'SET_THREE_GLITCH', true
         if @soundIsOn
-          audio = new Audio("/static/wavs/opening/tuning.wav");
+          audio = new Audio("/static/wavs/opening/start.wav");
           audio.play()
         setTimeout =>
           @$store.commit 'SET_THREE_GLITCH', false
@@ -121,9 +121,6 @@ module.exports =
       , 2500
       setTimeout =>
         @$store.commit 'SET_CONSOLE_PANEL_VISIBILITY', true
-        if @soundIsOn
-          audio = new Audio("/static/wavs/opening/consoleOpen.wav");
-          audio.play()
       , 2500
 
     setEntryIndex: (index)-> @$store.commit 'SET_ENTRY_INDEX', index

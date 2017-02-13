@@ -12,7 +12,7 @@
         <img :src="'../static/projects/' + activeOverlay.image"/>
       </div>
 
-      <div class="content" v-if="activeOverlay.type == 'video'">
+      <div class="content" v-if="activeOverlay.type == 'video'" @click="closeOverlay">
         <video controls autoplay="true">
           <source :src="'../static/projects/' + activeOverlay.video" type="video/mp4">
           Get a better browser, we living in the fast lane.

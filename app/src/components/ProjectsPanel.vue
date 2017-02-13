@@ -35,21 +35,21 @@
         <div class="rotation-container" v-bind:style="{ transform: 'rotationX(' + rotationX + 'deg)' }">
           <img src="../assets/folder-icon.svg">
         </div>
-        <div class="caption">Hotmax Portfolio</div>
+        <div class="caption">Collected Work</div>
       </div>
       <div @click="openNavigatorWindow(navigatorWindows.rubbish)" class="icon rubbish">
         <img src="../assets/rubbish-icon.svg">
         <div class="caption">Rubbish Bin</div>
       </div>
-      <div @click="openOverflowConsole(consoleTexts.aboutUs)" class="icon file">
+      <div @click="openOverflowConsole(consoleTexts.aboutUs)" class="icon file" :class="{ active: checkActive(consoleTexts.aboutUs)  }">
         <img src="../assets/file-icon.svg">
         <div class="caption">About Us</div>
       </div>
-      <div @click="openOverflowConsole(consoleTexts.ourServices)" class="icon file">
+      <div @click="openOverflowConsole(consoleTexts.ourServices)" class="icon file" :class="{ active: checkActive(consoleTexts.ourServices)  }">
         <img src="../assets/file-icon.svg">
         <div class="caption">Our Services</div>
       </div>
-      <div @click="openOverflowConsole(consoleTexts.contactUs)" class="icon file">
+      <div @click="openOverflowConsole(consoleTexts.contactUs)" class="icon file" :class="{ active: checkActive(consoleTexts.contactUs)  }">
         <img src="../assets/file-icon.svg">
         <div class="caption">Contact Us</div>
       </div>
@@ -73,7 +73,6 @@ module.exports =
     DigitalTextbook:  require '../projects/DigitalTextbook/DigitalTextbook'
     VideoPortal:      require '../projects/VideoPortal/VideoPortal'
     Whereyaat:        require '../projects/Whereyaat/Whereyaat'
-    Ibes:             require '../projects/Ibes/Ibes'
     ArSynth:          require '../projects/ArSynth/ArSynth'
     Translation:      require '../projects/Translation/Translation'
     Walkthrough:      require '../projects/Walkthrough/Walkthrough'
@@ -85,6 +84,11 @@ module.exports =
 
 
   methods:
+    checkActive: (icon)->
+      if @overflowConsoleIsOpen and @overflowConsoleText is icon
+        return true
+      else return false
+
     openPortfolio: ()->
       @$store.dispatch 'openPortfolio'
     openOverflowConsole: (view)->
@@ -110,6 +114,10 @@ module.exports =
     navigatorWindowIsOpen: -> return @$store.state.navigatorWindowIsOpen
     activeNavigatorWindow: -> return @$store.state.activeNavigatorWindow
     portfolioWindowIsOpen: -> return @$store.state.portfolioWindowIsOpen
+
+    overflowConsoleText: ->   return @$store.state.overflowConsoleText
+    overflowConsoleIsOpen: -> return @$store.state.overflowConsoleIsOpen
+
 
     overlays: ->              return @$store.state.overlays
     projectWindows: ->        return @$store.state.projectWindows
@@ -188,6 +196,36 @@ module.exports =
       top: 50%
       left: 50%
       +clickable
+      &::after
+        content: ''
+        width: 30px
+        height: 30px
+        background-image: url('../assets/exit.png')
+        background-position: 50% 50%
+        background-size: cover
+        background-repeat: no-repeat
+        position: absolute
+        top: 25%
+        left: 55%
+        opacity: 0
+        +translateXY(-50%,-150%)
+        +transition(.5s ease all)
+      &.active
+        &::after
+          content: ''
+          width: 30px
+          height: 30px
+          background-image: url('../assets/exit.png')
+          background-position: 50% 50%
+          background-size: cover
+          background-repeat: no-repeat
+          position: absolute
+          top: 25%
+          left: 55%
+          opacity: 1
+          +translateXY(-50%,-50%)
+          +transition(.5s ease all)
+
 
       &:nth-child(3)
         +translate3d(-60px, -20px, 0px)
