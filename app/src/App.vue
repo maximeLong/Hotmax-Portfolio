@@ -71,7 +71,6 @@ module.exports =
     window.addEventListener 'keydown', (e)=>
       if @entryIndex is 1 and e.code is 'Space'
         @$store.commit 'SET_THREE_GLITCH', true
-        console.log @entryTimer, 'down'
         if @entryTimer is null
           @entryTimer =
             setTimeout =>
@@ -83,7 +82,6 @@ module.exports =
         @$store.commit 'SET_THREE_GLITCH', false
         clearTimeout(@entryTimer)
         @entryTimer = null
-        console.log @entryTimer, 'up'
 
 
     # have to set overlay height and width outside of component
