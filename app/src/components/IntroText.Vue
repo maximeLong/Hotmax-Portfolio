@@ -19,7 +19,7 @@
       v-if="sentenceIndex > 0">
     </typed>
     <typed class="line header"
-      :str="'Agency.'"
+      :str="'Studio.'"
       :cleanCursor="true"
       :cursorChar="'_'"
       :delay="200"
@@ -40,7 +40,7 @@
       :cleanCursor="true"
       :cursorChar="'_'"
       :delay="500"
-      :typeSpeed="50"
+      :typeSpeed="75"
       v-on:done="lineDone"
       v-if="sentenceIndex > 3">
     </typed>
@@ -49,7 +49,7 @@
       :cleanCursor="true"
       :cursorChar="'_'"
       :delay="500"
-      :typeSpeed="50"
+      :typeSpeed="75"
       v-on:done="lineDone"
       v-if="sentenceIndex > 4">
     </typed>
@@ -58,7 +58,7 @@
       :cleanCursor="true"
       :cursorChar="'_'"
       :delay="500"
-      :typeSpeed="50"
+      :typeSpeed="75"
       v-on:done="lineDone"
       v-if="sentenceIndex > 5">
     </typed>
@@ -67,7 +67,7 @@
       :cleanCursor="false"
       :cursorChar="'_'"
       :delay="500"
-      :typeSpeed="50"
+      :typeSpeed="75"
       v-on:done="lineDone"
       v-if="sentenceIndex > 6">
     </typed>
@@ -159,7 +159,7 @@ module.exports =
     margin: 30px 0
     width: 30%
     height: 9px
-    background-color: #e45f60
+    background-color: $action_red
 
   .siteMap
     margin-top: 20px

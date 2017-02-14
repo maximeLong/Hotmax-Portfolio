@@ -176,19 +176,19 @@ module.exports =
     composer3.addPass(bloomPass)
     clock = new THREE.Clock()   # clock needed for pass
 
-    mouse = new THREE.Vector2()           # raycasting and mouse position
-    raycaster = new THREE.Raycaster()
+    mouse = new THREE.Vector2() #mouse position
     window.addEventListener 'mousemove', (e)=>
       mouse.x = ( event.clientX / @WIDTH ) * 2 - 1
       mouse.y = - ( event.clientY / @HEIGHT ) * 2 + 1
     , false
-    mousePoint = new THREE.Vector3()
+    raycaster = new THREE.Raycaster()
+
 
     # change pass on desktop mode change
-    @$watch 'mode', (mode)=>
-      if mode is 'desktop'
-        bloomPass.renderToScreen  = true
-        filmPass.renderToScreen   = false
+    # @$watch 'mode', (mode)=>
+    #   if mode is 'desktop'
+    #     bloomPass.renderToScreen  = true
+    #     filmPass.renderToScreen   = false
 
     @$watch 'glitch', (mode)=>
       if mode is true
@@ -225,16 +225,16 @@ module.exports =
       #update the mouse ray with the camera and mouse position
       raycaster.setFromCamera( mouse, @camera )
       intersects = raycaster.intersectObjects( @map.children )
-      if intersects.length > 0
-        # console.log intersects[0].object
-        if intersects[0].object.material.name is 'sun'
-          @runSunSound()
+      if @mode is 'desktop'
+        if intersects.length > 0
+          for intersect in intersects
+            if intersect.object.material.name is 'sun'
+              @setColor(intersect.object)
+              # @runSunSound()
+          @setColor(intersects[0].object)
         else
-          @runLineSound(intersects[0].object)
-        @setColor(intersects[0].object)
-      else
-        for line in @orbitTracks
-          line.material.color.setHex('0xffffff')
+          for line in @orbitTracks
+            line.material.color.setHex('0xffffff')
 
       # rotation of orbit tracks and sun
       for line,i in @orbitTracks

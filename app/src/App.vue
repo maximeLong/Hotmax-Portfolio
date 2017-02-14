@@ -72,6 +72,25 @@ module.exports =
 
 
   mounted: ->
+    @entryTimer = null
+    window.addEventListener 'keydown', (e)=>
+      if @entryIndex is 1 and e.code is 'Space'
+        @$store.commit 'SET_THREE_GLITCH', true
+        console.log @entryTimer, 'down'
+        if @entryTimer is null
+          @entryTimer =
+            setTimeout =>
+              @setEntryIndex(2)
+            , 3000
+
+    window.addEventListener 'keyup', (e)=>
+      if @entryIndex is 1 and e.code is 'Space'
+        @$store.commit 'SET_THREE_GLITCH', false
+        clearTimeout(@entryTimer)
+        @entryTimer = null
+        console.log @entryTimer, 'up'
+
+
     # have to set overlay height and width outside of component
     @$watch 'activeOverlay', (overlay)->
       if overlay.title is 'asteroids.exe'
@@ -86,7 +105,6 @@ module.exports =
       if index is 2
         @threeMode = 'desktop' #set desktop mode to show everything
         @threeWidth = @$refs.three?.clientHeight #set width of new three container
-        @$store.commit 'SET_THREE_GLITCH', true
         if @soundIsOn
           audio = new Audio("/static/wavs/opening/start.wav");
           audio.play()

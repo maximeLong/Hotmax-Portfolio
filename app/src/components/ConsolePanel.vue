@@ -141,7 +141,7 @@ module.exports =
         margin-top: 20px
         width: 100px
         height: 9px
-        background-color: #e45f60
+        background-color: $action_red
       .title
         +showyType
         color: white

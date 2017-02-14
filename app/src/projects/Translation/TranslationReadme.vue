@@ -31,7 +31,7 @@
       <div class="readme-text">
         <ul>
           <li><span>Client</span>: Lizzie Davis, Coffee House Press</li>
-          <li><span>Link</span>: <a href="http://herokuapp.lizziedavis.com" target="_blank">See Project</a></li>
+          <li><span>Status</span>: Currently in production</li>
         </ul>
       </div>
     </div>

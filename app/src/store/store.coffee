@@ -107,16 +107,16 @@ state =
         realTitle:  'Whereyaat - Geographic Social Network'
         client:     'Self Published'
         date:       'Ongoing'
-    walkthrough:
-      content:    'Walkthrough'
-      readme:     'WalkthroughReadme'
-      key:        'walkthrough'
-      meta:
-        tags: ['All', 'VR', 'App Dev.']
-        bannerImg:  'walkthrough.png'
-        shortTitle: 'VR Navigation'
-        realTitle:  'VR Stage Design Navigation'
-        date:       'January 2017'
+    # walkthrough:
+    #   content:    'Walkthrough'
+    #   readme:     'WalkthroughReadme'
+    #   key:        'walkthrough'
+    #   meta:
+    #     tags: ['All', 'VR', 'App Dev.']
+    #     bannerImg:  'walkthrough.png'
+    #     shortTitle: 'VR Navigation'
+    #     realTitle:  'VR Stage Design Navigation'
+    #     date:       'January 2017'
     translation:
       content:    'Translation'
       readme:     'TranslationReadme'

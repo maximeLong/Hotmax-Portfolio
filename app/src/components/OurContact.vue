@@ -22,7 +22,7 @@
         <div class="main-text">
           <ul>
             <li>Maxime Long : long.maxime@gmail.com</li>
-            <li>Andy Katsikapes: andyDude@gmail.com</li>
+            <li>Andy Katsikapes: andyrogerkats@gmail.com</li>
           </ul>
         </div>
     </div>
