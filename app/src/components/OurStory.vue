@@ -62,7 +62,9 @@
               <div class="intro-title">Co-Founder</div>
               <div class="name">Andy Katsikapes</div>
             </div>
-            <div class="image-container"></div>
+            <div class="image-container">
+              <img src="../assets/portraits/andy.png">
+            </div>
             <div class="about">
               <div class="intro-title">Background</div>
               <div class="main-text">

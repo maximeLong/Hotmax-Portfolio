@@ -1,10 +1,16 @@
 <template>
   <div id="app" :class="{ entryMode: entryIndex < 2 }">
 
+    <!-- entry text and logo -->
     <div id="entry-experience" v-if="entryIndex == 0">
       <entry></entry>
     </div>
+    <logo-entry
+      v-if="entryIndex == 1"
+      :entryTimer="entryTimer"
+    ></logo-entry>
 
+    <!-- main desktop container -->
     <transition appear name="slowfade">
       <div id="desktop-experience" v-if="entryIndex > 1">
 
@@ -15,31 +21,17 @@
         </div>
 
         <div id="body-container">
-
           <projects-panel v-if="projectPanelVisibility"></projects-panel>
-
           <console-panel v-if="consolePanelVisibility"></console-panel>
           <div id="overlay-container" v-if="overlayIsOpen" v-bind:style="{ height: overlayHeight + '%', width: overlayWidth + '%' }">
             <overlay-panel></overlay-panel>
           </div>
-
         </div>
       </div>
     </transition>
 
-
-    <button class="entry-btn"
-      v-if="entryIndex == 1"
-      @click="toggleSound()">sound: {{soundIsOn}}</button>
-
-    <div class="entry-directions" v-if="entryIndex == 1" :class="{ 'fade-out' : entryTimer != null }">
-      <div class="big-logo"></div>
-      <div class="directions">Press and hold [ space ] to log in.</div>
-    </div>
-
-
+    <!-- persistent three container -->
     <div class="three-container">
-
       <transition name="glitch">
         <div class="growth-container" ref="three"
              v-if="entryIndex > 0"
@@ -49,7 +41,6 @@
             <three :mode="threeMode" :glitch="showThreeGlitch" :sound="soundIsOn" v-if="webGlIsWorking"></three>
         </div>
       </transition>
-
     </div>
 
   </div>
@@ -61,6 +52,7 @@ module.exports =
   name: 'app'
   components:
     Entry:          require './components/Entry'
+    LogoEntry:      require './components/LogoEntry'
     ProjectsPanel:  require './components/ProjectsPanel'
     ConsolePanel:   require './components/ConsolePanel'
     HeaderPanel:    require './components/HeaderPanel'
@@ -167,30 +159,6 @@ module.exports =
     background-color: black
     +transition(.15s ease all)
 
-  .entry-directions
-    position: absolute
-    top: 20%
-    left: 50%
-    +translateXY(-50%, -50%)
-    z-index: 999
-    &.fade-out
-      opacity: 0
-      +transition(3s linear all)
-    .big-logo
-      background-image: url('assets/logo-big.png')
-      background-size: contain
-      background-position: 50% 50%
-      background-repeat: no-repeat
-      width: auto
-      height: 9vw
-    .directions
-      margin-top: 30px
-      border: 1px solid white
-      padding: 10px 20px
-      +defaultType
-      color: white
-      font-size: 20px
-
 
   .three-container
     width: 100%
@@ -210,6 +178,7 @@ module.exports =
         height: 50%
         border-radius: 100%
         background-color: $ink_black
+        +scale(1)
         &::after
           content: ''
           position: absolute

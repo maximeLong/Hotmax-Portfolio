@@ -17,7 +17,12 @@
           <transition name="fade">
             <div class="choices" v-if="lineIndex == 1">
               <div class="choice" @click="setEntryIndex(1)">turn it on carefully...</div>
-              <div class="choice" @click="setEntryIndex(2)">hack the mainframe...</div>
+              <div class="choice" @click="toggleSound()">
+                <transition name="fade" mode="out-in">
+                  <span v-if="soundIsOn">disable the sound board first...</span>
+                  <span v-if="!soundIsOn">reconnect the sound board...</span>
+                </transition>
+              </div>
             </div>
           </transition>
         </div>
@@ -43,10 +48,13 @@ module.exports =
       @lineIndex += 1
 
     setEntryIndex: (index)-> @$store.commit 'SET_ENTRY_INDEX', index
+    toggleSound: -> @$store.commit 'TOGGLE_SOUND', !@soundIsOn
+
 
   computed:
     webGlIsWorking: ->  return @$store.state.webGlIsWorking
     entryIndex: ->     return @$store.state.entryIndex
+    soundIsOn:       -> return @$store.state.soundIsOn
 
 
 
@@ -58,10 +66,12 @@ module.exports =
 #entry
   .type-container
     height: 50px
+    font-size: 18px
   .choice-container
     height: 100px
     .choices
       .choice
+        font-size: 18px
         +clickable
         color: $action_color
         padding: 4px 0
