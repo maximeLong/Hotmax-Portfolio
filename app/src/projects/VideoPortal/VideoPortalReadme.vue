@@ -6,13 +6,16 @@
         A video publishing app for Ivy League Academics
       </div>
       <div class="readme-text">
-        something about the video portal -- choices sponsored academics published their videos about certain subjects.
-        designed user interface and experience, and developed frontend codebase connecting to drupal api.
+        The Choices Program at Brown needed a repository for their published videos, and a landing page that acted as a showcasing of different material.
+        <br>
+        The application needed a fully featured CMS, but also a fast and responsive frontend experience.
+        <br>
+        Maxime Long, working alongside Brown Web Services built an Angular.js frontend connected to a Drupal CMS api to achieve these requirements.
       </div>
     </div>
 
     <div class="readme-group">
-      <div class="intro-title">Our Role</div>
+      <div class="intro-title">Maxime Long (Co-Founder)'s Role</div>
       <div class="readme-text">
         <ul>
           <li>Designed Academic Video Portal Aesthetic</li>

@@ -47,8 +47,8 @@ module.exports =
     font-size: 16px
     line-height: 24px
     a
-      color: $action_red
-      font-weight: bold
+      color: $vapor_blue
+      text-decoration: underline
 
     li
       padding: 4px 0

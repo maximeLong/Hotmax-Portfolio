@@ -13,13 +13,12 @@
     </div>
 
     <div class="readme-group">
-      <div class="intro-title">The Process</div>
+      <div class="intro-title">Project Details</div>
       <div class="readme-text">
         <ul>
-          <li>Sound Design</li>
-          <li>Unity development</li>
-          <li>UI design</li>
-          <li>Vuphoria AR SDK integration</li>
+          <li>Sound Design used multiple MIDI distortion effects</li>
+          <li>Developed using Unity game-engine</li>
+          <li>Built with Vuphoria AR integration</li>
         </ul>
       </div>
     </div>

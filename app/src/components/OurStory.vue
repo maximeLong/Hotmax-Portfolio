@@ -26,7 +26,7 @@
         <div class="main-text">
           We have a philosophy of exploration, connecting aspects of different interactive medias in novel ways. We're currently exploring two ideas in greater detail:
           <ul>
-            <li>The benefits AR and VR can provide in existing industry software.</li>
+            <li>The benefits that AR and VR can provide in existing industry software.</li>
             <li>How giving users meaningful choices and engaging them in intelligent ways, as formalized in video game design, can enhance user retention in other interactive medias.</li>
           </ul>
         </div>

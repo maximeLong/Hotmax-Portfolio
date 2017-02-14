@@ -29,7 +29,7 @@
       <div class="intro-title">Credits</div>
       <div class="readme-text">
         <ul>
-          <li><span>Collaborators</span>: John Snelgrove</li>
+          <li><span>Collaborators</span>: <a href="http://johnnysnelgrove.me/" target="_blank">Johnny Snelgrove</a></li>
           <li><span>Progress</span>: Still ongoing development</li>
         </ul>
       </div>

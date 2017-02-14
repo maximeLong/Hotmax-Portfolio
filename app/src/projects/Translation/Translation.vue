@@ -1,7 +1,10 @@
 <template>
   <project-content>
 
-    lizzie site pics
+    <project-image v-for="n in 3"
+      :imageUrl="'translation/tr' + n + '.png'"
+      :orientation="'landscape'">
+    </project-image>
 
   </project-content>
 </template>
@@ -11,5 +14,7 @@ module.exports =
   name: 'translation'
   components:
     ProjectContent: require '../../components/ProjectContent'
+    ProjectImage: require '../../components/ProjectImage'
+
 
 </script>

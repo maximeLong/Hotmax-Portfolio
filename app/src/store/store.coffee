@@ -113,9 +113,9 @@ state =
       key:        'walkthrough'
       meta:
         tags: ['All', 'VR', 'App Dev.']
-        bannerImg:  'video.png'
-        shortTitle: 'VR Walkthrough'
-        realTitle:  'VR Stage Design Walkthrough'
+        bannerImg:  'walkthrough.png'
+        shortTitle: 'VR Navigation'
+        realTitle:  'VR Stage Design Navigation'
         date:       'January 2017'
     translation:
       content:    'Translation'
@@ -123,7 +123,7 @@ state =
       key:        'translation'
       meta:
         tags: ['All', 'UI Design', 'App Dev.']
-        bannerImg:  'video.png'
+        bannerImg:  'translation.png'
         shortTitle: 'Translation Portfolio'
         realTitle:  'CMS Translation Portfolio'
         client:     'Lizzie Davis, Coffee House Press'

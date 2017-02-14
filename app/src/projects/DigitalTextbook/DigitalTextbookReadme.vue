@@ -6,12 +6,16 @@
         Creating an interactive textbook experience for students and teachers.
       </div>
       <div class="readme-text">
-        Fleshing out in a couple more sentences, just the minimal amount of stuff here.. can go into more detail later if needed.
+        Choices Digital Curriculum aimed to give teachers and students that were subscribed to the Choices Program at Brown a fully interactive experience.
+        <br>
+        The main benefit to teachers was the new ability to assign readings and homeworks at their discretion, as well as leave students notes in their readings.
+        <br>
+        Rapid prototyping of the teacher CMS and user permissions was accomplished using Angular.js and Firebase.
       </div>
     </div>
 
     <div class="readme-group">
-      <div class="intro-title">Our Role</div>
+      <div class="intro-title">Maxime Long (Co-Founder)'s Role</div>
       <div class="readme-text">
         <ul>
           <li>Designed New Textbook Aesthetic</li>
