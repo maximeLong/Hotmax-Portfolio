@@ -2,7 +2,7 @@
   <div id="intro-text">
 
     <typed class="line header"
-      :str="'Interactive'"
+      :str="'Hotmax'"
       :cleanCursor="true"
       :delay="secondTime ? 500 : 1500"
       :cursorChar="'_'"
@@ -10,7 +10,7 @@
       v-on:done="lineDone">
     </typed>
     <typed class="line header"
-      :str="'Design'"
+      :str="'Interactive'"
       :cleanCursor="true"
       :delay="100"
       :cursorChar="'_'"

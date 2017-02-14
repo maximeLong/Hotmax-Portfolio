@@ -36,7 +36,7 @@
             <li>3D and interactive development using Unity, Unreal, WebGl, or Three.js</li>
             <li>Exploratory web technologies in AR and VR </li>
             <li>AR and VR SDKs like - Vuphoria, Google Cardboard, Gear VR</li>
-            <li>Full service sound design and musical scoring</li>
+            <li>Sound design and musical scoring</li>
             <li>3D interface design</li>
             <li>Interactive storytelling design</li>
           </ul>

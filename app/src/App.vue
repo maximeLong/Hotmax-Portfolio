@@ -27,12 +27,15 @@
       </div>
     </transition>
 
-    <button class="entry-btn"
-      v-if="entryIndex == 1"
-      @click="setEntryIndex(2)">open to desktop</button>
+
     <button class="entry-btn"
       v-if="entryIndex == 1"
       @click="toggleSound()">sound: {{soundIsOn}}</button>
+
+    <div class="entry-directions" v-if="entryIndex == 1" :class="{ 'fade-out' : entryTimer != null }">
+      <div class="big-logo"></div>
+      <div class="directions">Press and hold [ space ] to log in.</div>
+    </div>
 
 
     <div class="three-container">
@@ -69,10 +72,10 @@ module.exports =
     overlayHeight: 90
     overlayWidth:  70
     threeWidth:    ''
+    entryTimer:   null
 
 
   mounted: ->
-    @entryTimer = null
     window.addEventListener 'keydown', (e)=>
       if @entryIndex is 1 and e.code is 'Space'
         @$store.commit 'SET_THREE_GLITCH', true
@@ -164,13 +167,30 @@ module.exports =
     background-color: black
     +transition(.15s ease all)
 
-  .entry-btn
+  .entry-directions
     position: absolute
-    top: 200px
-    left: 300px
-    z-index: 99999
-    &:nth-of-type(2)
-      top: 230px
+    top: 20%
+    left: 50%
+    +translateXY(-50%, -50%)
+    z-index: 999
+    &.fade-out
+      opacity: 0
+      +transition(3s linear all)
+    .big-logo
+      background-image: url('assets/logo-big.png')
+      background-size: contain
+      background-position: 50% 50%
+      background-repeat: no-repeat
+      width: auto
+      height: 9vw
+    .directions
+      margin-top: 30px
+      border: 1px solid white
+      padding: 10px 20px
+      +defaultType
+      color: white
+      font-size: 20px
+
 
   .three-container
     width: 100%
