@@ -63,7 +63,7 @@
               <div class="name">Andy Katsikapes</div>
             </div>
             <div class="image-container">
-              <img src="../assets/portraits/andy.png">
+              <img src="../assets/portraits/andy2.jpg">
             </div>
             <div class="about">
               <div class="intro-title">Background</div>
