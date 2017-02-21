@@ -205,14 +205,11 @@ module.exports =
 
 
   #entry-experience
-    +defaultType
-    color: white
-    height: 100vh
-    width: 100vw
+    height: 100%
+    width: 100%
     overflow-x: hidden
     overflow-y: hidden
     +flexbox
-    +flex-direction(column)
     +align-items(center)
     +justify-content(center)
   #desktop-experience
@@ -257,7 +254,7 @@ module.exports =
       min-width: 500px
       max-width: 1200px
       height: 100%
-      +translate3d(0,-50px,0)
+      +translateXY(0,-50px)
       margin: 0 auto
       margin-top: 60px
       z-index: 9999

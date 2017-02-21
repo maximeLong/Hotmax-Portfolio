@@ -35,6 +35,6 @@ module.exports =
   .icon-grid
     .icon
       &:nth-child(1)
-        +translate3d(-50%, -50%, 0)
+        +translateXY(-50%, -50%)
 
 </style>

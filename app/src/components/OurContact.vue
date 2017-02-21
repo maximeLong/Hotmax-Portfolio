@@ -15,14 +15,20 @@
       <div class="content" v-if="showContent">
 
         <div class="main-text">
-            <div>You can reach either one of the founders of hotmax anytime.</div>
+            <div>You can reach the founders of hotmax anytime by writing to our personal inboxes, or by writing to our general inquiries inbox.</div>
             <div>We'll get back to you the same day.</div>
+        </div>
+        <div class="intro-title">General Inquiries</div>
+        <div class="main-text">
+          <ul>
+            <li>contact@hotmax.co</li>
+          </ul>
         </div>
         <div class="intro-title">Co-founder emails</div>
         <div class="main-text">
           <ul>
-            <li>Maxime Long : long.maxime@gmail.com</li>
-            <li>Andy Katsikapes: andyrogerkats@gmail.com</li>
+            <li>Maxime Long : maxime@hotmax.co</li>
+            <li>Andy Katsikapes: andy@hotmax.co</li>
           </ul>
         </div>
     </div>

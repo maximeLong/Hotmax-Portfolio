@@ -148,7 +148,7 @@ module.exports =
     background-color: white
     position: relative
     &.projectWindow
-      +translate3d(70px,0,0)
+      +translateXY(70px,0)
       z-index: 9999
     &.navigator
       position: absolute
@@ -160,7 +160,7 @@ module.exports =
       height: 50%
     &.Portfolio
       position: absolute
-      +translate3d(70px,0,0)
+      +translateXY(70px,0)
 
 
 
@@ -228,11 +228,11 @@ module.exports =
 
 
       &:nth-child(3)
-        +translate3d(-60px, -20px, 0px)
+        +translateXY(-60px, -20px)
       &:nth-child(4)
-        +translate3d(40px, 0px, 0)
+        +translateXY(40px, 0px)
       &:nth-child(5)
-        +translate3d(-160px, 10px, 0)
+        +translateXY(-160px, 10px)
       .caption
         padding: 5px 0 0 10px
         font-size: 15px
@@ -240,11 +240,11 @@ module.exports =
       &.rubbish
         width: 77px
         left: 60px
-        +translate3d(50px, 150px, 0)
+        +translateXY(50px, 150px)
       &.folder
         width: 85px
         left: 60px
-        +translate3d(50px, -150px, 0)
+        +translateXY(50px, -150px)
       &.file
         width: 60px
 
