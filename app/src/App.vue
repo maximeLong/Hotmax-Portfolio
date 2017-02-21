@@ -43,6 +43,9 @@
       </transition>
     </div>
 
+    <!-- handles click sounds and shit -->
+    <click-handler></click-handler>
+
   </div>
 </template>
 
@@ -58,6 +61,7 @@ module.exports =
     HeaderPanel:    require './components/HeaderPanel'
     OverlayPanel:   require './components/OverlayPanel'
     Three:          require './components/Three'
+    ClickHandler:   require './components/ClickHandler'
 
   data: ->
     threeMode:    'entry'
