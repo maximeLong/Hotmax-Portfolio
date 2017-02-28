@@ -128,6 +128,8 @@ module.exports =
 
   .toggle-container
     border-bottom: 1px solid $window_border
+    +screen(mobile)
+      display: none
     .portfolio-toggle
       +flexbox
       +flex-direction(row)

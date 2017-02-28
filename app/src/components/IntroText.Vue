@@ -80,6 +80,7 @@ module.exports =
     border: 4px solid white
     padding: 20px 0
     width: 100%
+    +flex(1 1 auto)
     background-color: white
     .service
       +headerType(big)

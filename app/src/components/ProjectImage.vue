@@ -49,13 +49,17 @@ module.exports =
 
 .project-image
   width: 100%
-  margin-bottom: 40px
+  margin-bottom: 20px
   border-bottom: 1px solid $window_border
+  +screen(mobile)
+    margin-bottom: 10px
   &:last-of-type
     margin-bottom: 0
   .caption
-    padding: 25px 0
+    padding: 10px 0
     font-style: italic
+    +screen(mobile)
+      padding: 5px
   .overflow-container
     position: relative
     cursor: pointer
@@ -78,16 +82,6 @@ module.exports =
         background-position: 50% 50%
         +transition(.35s ease all)
 
-    &::before
-      content: ''
-      width: calc(100% + 10px)
-      height: 100%
-      display: block
-      position: absolute
-      right: -10px
-      background: linear-gradient(transparentize($screen-background,1) 50%, transparentize(darken($screen-background,10),0.75) 50%), linear-gradient(90deg,transparentize(#ff0000,0.94),transparentize(#00ff00,0.98),transparentize(#0000ff,0.94))
-      background-size: 100% 3px, 2px 100%
-      pointer-events: none
     &::after
       content: '+'
       color: white
@@ -112,8 +106,10 @@ module.exports =
     max-height: 450px
     overflow: hidden
     opacity: 1
-    border: 3px solid $ink_black
+    border: 2px solid $ink_black
     +transition(.35s ease all)
+    +screen(mobile)
+      border: 0
     &:hover
       opacity: .8
       // border: 3px solid $action_color

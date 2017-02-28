@@ -53,7 +53,8 @@ module.exports =
 
 #portfolio
   padding: 30px
-  span
+  +screen(mobile)
+    padding: 10px
 
   .portfolio-item
     display: inline-block
@@ -65,6 +66,11 @@ module.exports =
     overflow: hidden
     +transition(.5s ease all)
     +clickable
+    +screen(mobile)
+      width: 100%
+      height: 30vw
+    +screen(tablet)
+      height: 30vw
 
     .margin-container
       height: 100%
@@ -125,6 +131,8 @@ module.exports =
           background-color: black
           font-size: 30px
           +transition(.6s linear opacity)
+          +screen(mobile)
+            +headerType(small)
           .movement-container
             width: 100%
             height: 100%

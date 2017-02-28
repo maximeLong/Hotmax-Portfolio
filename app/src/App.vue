@@ -20,7 +20,7 @@
         <div id="body-container">
 
           <projects-panel v-if="projectPanelVisibility"></projects-panel>
-          <console-panel v-if="consolePanelVisibility && port != 'mobile'"></console-panel>
+          <console-panel v-if="handleConsoleVisibility"></console-panel>
 
           <div id="overlay-container" v-if="overlayIsOpen">
             <overlay-panel></overlay-panel>
@@ -79,8 +79,6 @@ module.exports =
           @introDownEvent(e, 'key')
         window.addEventListener 'keyup', (e)=>
           @introUpEvent(e, 'key')
-
-        #change to touch for mobile
         document.getElementById('thumbprint').addEventListener 'touchstart', (e)=>
           console.log 'down'
           @introDownEvent(e, 'touch')
@@ -88,14 +86,6 @@ module.exports =
           @introUpEvent(e, 'touch')
 
 
-    # have to set overlay height and width outside of component
-    # @$watch 'activeOverlay', (overlay)->
-    #   if overlay.title is 'asteroids.exe'
-    #     @overlayHeight = 90
-    #     @overlayWidth = 70
-    #   else
-    #     @overlayHeight = 100
-    #     @overlayWidth = 70
 
     # pass entryIndex info down into three.js component
     @$watch 'entryIndex', (index)->
@@ -116,10 +106,20 @@ module.exports =
 
 
   computed:
+    # show on desktop, not on mobile, on tablet only show on landing
+    handleConsoleVisibility: ->
+      if @consolePanelVisibility
+        if @port is 'tablet'
+          return false if @portfolioWindowIsOpen or @projectWindowIsOpen
+        if @port is 'mobile' then return false
+        else return true
 
     # vuex store
-    port: ->       return @$store.state.port
-    entryIndex: -> return @$store.state.entryIndex
+    port: ->        return @$store.state.port
+    portfolioWindowIsOpen: -> return @$store.state.portfolioWindowIsOpen
+    projectWindowIsOpen:   -> return @$store.state.projectWindowIsOpen
+
+    entryIndex: ->  return @$store.state.entryIndex
     projectPanelVisibility: -> return @$store.state.projectPanelVisibility
     consolePanelVisibility: -> return @$store.state.consolePanelVisibility
     systemColor: ->            return @$store.state.systemColor
@@ -274,8 +274,10 @@ module.exports =
       +screen(mobile)
         width: 100%
         max-width: 100%
+        min-width: 0
       +screen(tablet)
-        width: 100%
+        // padding: 0 30px
+        width: 80%
         max-width: 100%
 
 

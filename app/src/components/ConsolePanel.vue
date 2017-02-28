@@ -1,10 +1,8 @@
 <template>
   <div id="console-panel">
-    <div class="console-container" v-bind:style="containerStyle">
-      <window :canClose="overflowConsoleIsOpen ? true : false"
-              :shortTitle="'::Console.exe'"
-              :type="'consoleWindow'">
 
+    <div class="console-container">
+      <window :shortTitle="'::Console.exe'" :type="'consoleWindow'">
         <div class="console">
 
           <!-- default console -->
@@ -16,21 +14,12 @@
           <transition name="fadedown">
             <component v-bind:is="normalConsoleText.component" v-if="portfolioWindowIsOpen"></component>
             <component v-bind:is="normalConsoleText.readme" v-if="projectWindowIsOpen"></component>
-
           </transition>
-
-          <!-- overflowConsoleIsOpen -->
-          <!-- <transition name="consoletransition">
-            <component
-              v-bind:is="overflowConsoleText.component"
-              v-if="overflowConsoleIsOpen">
-            </component>
-          </transition> -->
-
-
 
         </div>
       </window>
+    </div>
+
   </div>
 </template>
 
@@ -43,10 +32,6 @@ module.exports =
     Window:     require './Window'
     Typed:      require './Typed'
 
-    # OurServices:    require './OurServices'
-    # OurStory:       require './OurStory'
-    # OurContact:     require './OurContact'
-
     PortfolioText:  require './PortfolioText'
     IntroText:      require './IntroText'
 
@@ -57,36 +42,14 @@ module.exports =
     TranslationReadme:      require '../projects/Translation/TranslationReadme'
     WalkthroughReadme:      require '../projects/Walkthrough/WalkthroughReadme'
 
-
-  mounted: ->
-    @$watch 'overflowConsoleIsOpen', (val)->
-      if val is true
-        @containerStyle =
-          width: '100%'
-          transform: 'translate3d(-55px, 0, 0)'
-          '-webkit-transform': 'translate3d(-55px, 0, 0)'
-      else
-        @containerStyle =
-          width: '79%'
-          transform: 'translate3d(50px, 0, 0)'
-          '-webkit-transform': 'translate3d(50px, 0, 0)'
-
-  data: ->
-    containerStyle:
-      width: '79%'
-      transform: 'translate3d(50px, 0, 0)'
-      '-webkit-transform': 'translate3d(50px, 0, 0)'
-
   computed:
     showDefaultConsole: ->
-      if @portfolioWindowIsOpen or @overflowConsoleIsOpen or @projectWindowIsOpen
+      if @portfolioWindowIsOpen or @projectWindowIsOpen
         return false
       else return true
 
     normalConsoleIsOpen: ->     return @$store.state.normalConsoleIsOpen
-    overflowConsoleIsOpen: ->   return @$store.state.overflowConsoleIsOpen
     normalConsoleText: ->       return @$store.state.normalConsoleText
-    overflowConsoleText: ->     return @$store.state.overflowConsoleText
 
     portfolioWindowIsOpen: ->   return @$store.state.portfolioWindowIsOpen
     projectWindowIsOpen: ->     return @$store.state.projectWindowIsOpen
@@ -110,10 +73,13 @@ module.exports =
   .console-container
     width: 79%
     height: 80%
-    +translate3d(50px,0,0)
+    +translateXY(50px, 0)
     +transition(.35s ease all)
     z-index: 999
     position: relative
+    +screen(tablet)
+      width: 100%
+      +translateXY(0,0)
 
   .console
     padding: 30px

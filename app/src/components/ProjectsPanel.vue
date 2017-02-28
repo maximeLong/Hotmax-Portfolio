@@ -150,6 +150,8 @@ module.exports =
   z-index: 999
   +screen(mobile)
     +flex(1 1 1)
+  +screen(tablet)
+    padding: 0 30px
 
   .window-container
     width: 110%
