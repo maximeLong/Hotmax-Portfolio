@@ -108,12 +108,11 @@ module.exports =
     opacity: 1
     border: 2px solid $ink_black
     +transition(.35s ease all)
-    +screen(mobile)
-      border: 0
     &:hover
       opacity: .8
-      // border: 3px solid $action_color
       +transition(.35s ease all)
+      +screen(mobile)
+        opacity: 1
     img
       z-index: 99
       position: relative
