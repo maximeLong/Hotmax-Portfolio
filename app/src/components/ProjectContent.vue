@@ -3,6 +3,8 @@
 
     <div class="banner">
 
+      <div class="logo"></div>
+
       <transition appear name="fadeup">
         <div class="info-container">
           <div class="title">{{activeProjectWindow.meta.realTitle}}</div>
@@ -16,7 +18,7 @@
         </div>
       </div>
 
-      <div class="date">Date completed ---->  {{activeProjectWindow.meta.date}}</div>
+      <div class="date">Completed >> {{activeProjectWindow.meta.date}}</div>
 
 
     </div>
@@ -53,7 +55,15 @@ module.exports =
     height: 250px
     position: relative
     border: 30px solid white
-    background-color: $window_background
+    .logo
+      position: absolute
+      top: 30px
+      left: 30px
+      width: 200px
+      height: 200px
+      z-index: 9999
+      // background-image: url()
+
     .info-container
       position: absolute
       top: 30px
@@ -77,7 +87,7 @@ module.exports =
         pointer-events: none
 
       .title
-        +showyType
+        +headerType(normal)
         color: $ink_black
         margin-bottom: 10px
       .client
@@ -87,12 +97,11 @@ module.exports =
         span
           color: $window_border
 
-
     .date
       color: $ink_black
       position: absolute
       top: 95px
-      right: -85px
+      right: -75px
       +rotate(90deg)
 
     .image-mega-container

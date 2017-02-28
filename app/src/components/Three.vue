@@ -76,7 +76,6 @@ module.exports =
     planetParents: []
     planets: []
 
-
   mounted: ->
     # set up scene and camera
     scene = new THREE.Scene()
@@ -270,7 +269,6 @@ module.exports =
 
       if currentLine.material.name is 'sun'
         currentLine.material.color.setHex( Math.random() * 0xffffff ) #do something with the color here
-        @$store.commit 'SET_SYSTEM_COLOR', currentLine.material.color.getHexString()
       else
         currentLine.material.color.setHex('0xb98a5b') #set orbit lines to action color
     , 125

@@ -22,12 +22,11 @@ module.exports =
 
   .header
     .title
-      +consoleHeader
+      +consoleType(big)
       text-transform: uppercase
       color: $ink_black
       background-color: white
       padding: 10px 20px
-      letter-spacing: 1px
     .readme-text
       margin-top: 0
       border: 1px solid white
@@ -40,12 +39,9 @@ module.exports =
       text-transform: uppercase
       color: $action_color
       font-weight: bold
-      font-size: 15px
       letter-spacing: 3px
   .readme-text
     margin: 5px 0
-    font-size: 16px
-    line-height: 24px
     a
       color: $vapor_blue
       text-decoration: underline

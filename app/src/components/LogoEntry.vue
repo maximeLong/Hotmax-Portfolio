@@ -3,11 +3,13 @@
 
     <div class="entry-directions" :class="{ 'fade-out' : entryTimer != null }">
 
-      <transition name="fadedelay" appear v-on:after-enter="logoDone = true">
+      <transition name="fadedelay" appear v-on:after-enter="emitLogoDone()">
         <div class="big-logo"></div>
       </transition>
       <transition name="fadeup">
-        <div class="directions" v-if="logoDone">Press and hold [ <span>space</span> ] to log in.</div>
+        <!-- <div class="directions" v-if="logoDone">Press and hold [ <span>space</span> ] to log in.</div> -->
+        <button id="thumbprint" v-if="logoDone">press this </button>
+
       </transition>
     </div>
 
@@ -23,8 +25,10 @@ module.exports =
   data: ->
     logoDone: false
 
-  mounted: ->
-    @$emit('done')
+  methods:
+    emitLogoDone: ->
+      @logoDone = true
+      @$emit('logoDone')
 
 
 </script>
@@ -41,7 +45,7 @@ module.exports =
     top: 0
     bottom: 0
     width: 50%
-    min-width: 200px
+    min-width: 300px
     max-width: 700px
     height: 100%
     +translate3d(0,-50px,0)
@@ -66,13 +70,22 @@ module.exports =
       background-size: contain
       background-position: 50% 50%
       background-repeat: no-repeat
+      &::after
+        content: 'hotmax Workstation v1.01'
+        display: block
+        position: absolute
+        bottom: 30px
+        width: 100%
+        text-align: center
+        +systemType
+        color: white
+
 
     .directions
       border: 1px solid white
       padding: 15px 25px
-      +defaultType
+      +systemType
       color: white
-      font-size: 16px
       background-color: rgba(0, 0, 0, 0.35)
       span
         // color: $action_color

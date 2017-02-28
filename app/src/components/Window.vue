@@ -136,7 +136,8 @@ module.exports =
 
       .toggle-btn
         flex-grow: 1
-        text-transform: uppercase
+        +systemType
+        letter-spacing: 1px
         color: #595959
         padding: 8px 11px
         display: inline-block

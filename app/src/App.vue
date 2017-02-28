@@ -1,13 +1,10 @@
 <template>
   <div id="app" :class="{ entryMode: entryIndex < 2 }">
 
-    <!-- entry text and logo -->
-    <div id="entry-experience" v-if="entryIndex == 0">
-      <entry></entry>
-    </div>
     <logo-entry
       v-if="entryIndex == 1"
       :entryTimer="entryTimer"
+      v-on:logoDone="logoDone = true"
     ></logo-entry>
 
     <!-- main desktop container -->
@@ -21,23 +18,24 @@
         </div>
 
         <div id="body-container">
+
           <projects-panel v-if="projectPanelVisibility"></projects-panel>
-          <console-panel v-if="consolePanelVisibility"></console-panel>
-          <div id="overlay-container" v-if="overlayIsOpen" v-bind:style="{ height: overlayHeight + '%', width: overlayWidth + '%' }">
+          <console-panel v-if="consolePanelVisibility && port != 'mobile'"></console-panel>
+
+          <div id="overlay-container" v-if="overlayIsOpen">
             <overlay-panel></overlay-panel>
           </div>
         </div>
       </div>
     </transition>
 
-    <!-- persistent three container -->
-    <div class="three-container">
+    <!-- persistent three container, only show on desktop -->
+    <div class="three-container" v-if="port != 'mobile'">
       <transition name="glitch">
         <div class="growth-container" ref="three"
              v-if="entryIndex > 0"
              :class="{ entry: entryIndex == 1, desktop: entryIndex > 1 }"
-             :style="{ width: threeWidth + 'px' }"
-        >
+             :style="{ width: threeWidth + 'px' }">
             <three :mode="threeMode" :glitch="showThreeGlitch" :sound="soundIsOn" v-if="webGlIsWorking"></three>
         </div>
       </transition>
@@ -68,34 +66,36 @@ module.exports =
     overlayHeight: 90
     overlayWidth:  70
     threeWidth:    ''
-    entryTimer:   null
+    entryTimer:    null
+    logoDone:      false
 
 
   mounted: ->
-    window.addEventListener 'keydown', (e)=>
-      if @entryIndex is 1 and e.code is 'Space'
-        @$store.commit 'SET_THREE_GLITCH', true
-        if @entryTimer is null
-          @entryTimer =
-            setTimeout =>
-              @setEntryIndex(2)
-            , 3000
 
-    window.addEventListener 'keyup', (e)=>
-      if @entryIndex is 1 and e.code is 'Space'
-        @$store.commit 'SET_THREE_GLITCH', false
-        clearTimeout(@entryTimer)
-        @entryTimer = null
+    #intro listeners
+    @$watch 'logoDone', (val)->
+      if val is true
+        window.addEventListener 'keydown', (e)=>
+          @introDownEvent(e, 'key')
+        window.addEventListener 'keyup', (e)=>
+          @introUpEvent(e, 'key')
+
+        #change to touch for mobile
+        document.getElementById('thumbprint').addEventListener 'touchstart', (e)=>
+          console.log 'down'
+          @introDownEvent(e, 'touch')
+        document.getElementById('thumbprint').addEventListener 'touchend', (e)=>
+          @introUpEvent(e, 'touch')
 
 
     # have to set overlay height and width outside of component
-    @$watch 'activeOverlay', (overlay)->
-      if overlay.title is 'asteroids.exe'
-        @overlayHeight = 90
-        @overlayWidth = 70
-      else
-        @overlayHeight = 100
-        @overlayWidth = 70
+    # @$watch 'activeOverlay', (overlay)->
+    #   if overlay.title is 'asteroids.exe'
+    #     @overlayHeight = 90
+    #     @overlayWidth = 70
+    #   else
+    #     @overlayHeight = 100
+    #     @overlayWidth = 70
 
     # pass entryIndex info down into three.js component
     @$watch 'entryIndex', (index)->
@@ -118,6 +118,7 @@ module.exports =
   computed:
 
     # vuex store
+    port: ->       return @$store.state.port
     entryIndex: -> return @$store.state.entryIndex
     projectPanelVisibility: -> return @$store.state.projectPanelVisibility
     consolePanelVisibility: -> return @$store.state.consolePanelVisibility
@@ -137,6 +138,22 @@ module.exports =
       setTimeout =>
         @$store.commit 'SET_CONSOLE_PANEL_VISIBILITY', true
       , 2500
+
+    introDownEvent: (e, type)->
+      if @entryIndex is 1
+        if (type is 'key' and e.code is 'Space') or type is 'touch'
+          @$store.commit 'SET_THREE_GLITCH', true
+          if @entryTimer is null
+            @entryTimer =
+              setTimeout =>
+                @setEntryIndex(2)
+              , 3000
+    introUpEvent: (e, type)->
+      if @entryIndex is 1
+        if (type is 'key' and e.code is 'Space') or type is 'touch'
+          @$store.commit 'SET_THREE_GLITCH', false
+          clearTimeout(@entryTimer)
+          @entryTimer = null
 
     setEntryIndex: (index)-> @$store.commit 'SET_ENTRY_INDEX', index
     toggleSound: -> @$store.commit 'TOGGLE_SOUND', !@soundIsOn
@@ -191,21 +208,22 @@ module.exports =
           top: 50%
           left: 50%
           +translateXY(-50%, -50%)
-        &::before
-          +transition(.15s ease all)
-          opacity: .8
-          +defaultType
-          content: 'ホットマックス'
-          font-size: 60px
-          line-height: 44px
-          color: inherit
-          text-align: center
-          position: absolute
-          width: 150%
-          height: 125px
-          bottom: -200px
-          right: 50%
-          +translateX(50%)
+        +screen(desktop)
+          &::before
+            +transition(.15s ease all)
+            opacity: .8
+            +defaultType(normal)
+            content: 'ホットマックス'
+            font-size: 60px
+            line-height: 44px
+            color: inherit
+            text-align: center
+            position: absolute
+            width: 150%
+            height: 125px
+            bottom: -200px
+            right: 50%
+            +translateX(50%)
 
 
   #entry-experience
@@ -217,7 +235,7 @@ module.exports =
     +align-items(center)
     +justify-content(center)
   #desktop-experience
-    +defaultType
+    +defaultType(normal)
     position: absolute
     top: 0
     left: 0
@@ -226,25 +244,15 @@ module.exports =
     overflow-x: hidden
     overflow-y: hidden
     background-color: #f5e6e3
-    // &::after
-    //   opacity: .5
-    //   position: absolute
-    //   left: 0
-    //   top: 0
-    //   content: ''
-    //   display: block
-    //   height: 100%
-    //   width: 100%
-    //   background-image: url('assets/left-grad.png')
-    //   background-position: 0% 0%
-    //   background-size: contain
-    //   background-repeat: no-repeat
+
     #header-container
-      height: 60px
-      padding: 0 30px
-      width: 100%
+      height: 70px
+      margin: 0 30px
+      width: calc(100% - 60px)
+      padding: 7px
+      border: 3px solid white
     #body-container
-      height: calc(100% - 60px)
+      height: calc(100% - 70px)
       +flexbox
       +flex-direction(row)
       +align-content(center)
@@ -258,13 +266,17 @@ module.exports =
       min-width: 500px
       max-width: 1200px
       height: 100%
-      +translateXY(0,-50px)
       margin: 0 auto
-      margin-top: 60px
       z-index: 9999
       +flexbox
       +align-items(center)
       +justify-content(center)
+      +screen(mobile)
+        width: 100%
+        max-width: 100%
+      +screen(tablet)
+        width: 100%
+        max-width: 100%
 
 
 

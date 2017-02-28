@@ -2,7 +2,6 @@
   <div id="header-panel">
     <div class="logo">
       <img src="../assets/logo2.png">
-      <!-- <span>Interactive Design Agency</span> -->
     </div>
     <div class="other-stuff">
       <div class="about"@click="openOverflowConsole(consoleTexts.ourServices)">:about</div>
@@ -26,7 +25,8 @@ module.exports =
     consoleTexts:     ->      return @$store.state.consoleTexts
 
   methods:
-    toggleSound: -> @$store.commit 'TOGGLE_SOUND', !@soundIsOn
+    toggleSound: ->
+      @$store.commit 'TOGGLE_SOUND', !@soundIsOn
 
     openPortfolioWindow: ()->
       @$store.dispatch 'openPortfolio'
@@ -47,20 +47,14 @@ module.exports =
   +align-items(center)
   +justify-content(space-between)
   +flex-direction(row)
-  padding: 0 30px
-  border: 3px solid white
+  background-color: $window_background
+  padding: 0 20px
 
   .logo
     +flexbox
     +align-items(row)
     +align-items(center)
-    // width: 200px
     height: 40px
-    span
-      margin-left: 20px
-      +showyType
-      font-size: 14px
-      letter-spacing: 1px
     img
       width: auto
       height: 100%
@@ -71,9 +65,10 @@ module.exports =
     +align-items(center)
     +justify-content(space-between)
     width: 300px
-    font-size: 16px
-    font-weight: bold
-    color: $ink_black
+    +headerType(small)
+    font-size: 13px
+    text-transform: uppercase
+    color: $action_red
     .about
       cursor: pointer
     .work
@@ -94,7 +89,7 @@ module.exports =
         opacity: .9
         height: 100%
         width: 3px
-        background-color: $ink_black
+        background-color: $black_three_quarters
         display: block
         +transition(.15s ease all)
         &.soundOn

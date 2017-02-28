@@ -7,9 +7,9 @@
 module.exports =
   name: 'clickHandler'
 
-  mounted: ->
-    window.addEventListener 'click', (e)->
-      console.log e.screenX, e.screenY
+  # mounted: ->
+  #   window.addEventListener 'click', (e)->
+  #     console.log e.screenX, e.screenY
 
 
   computed:

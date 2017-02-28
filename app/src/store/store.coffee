@@ -3,10 +3,11 @@ Vuex = require('vuex')
 
 state =
   # entry to desktop toggles
+  port: ''
+
   webGlIsWorking: true
-  entryIndex: 0
+  entryIndex: 1
   showThreeGlitch: false
-  systemColor: ''
   soundIsOn: true
 
   projectPanelVisibility: false
@@ -131,9 +132,12 @@ state =
 
 
 mutations =
+  SET_PORT: (state, type)->
+    state.port = type
 
   SET_PORTFOLIO_WINDOW_IS_OPEN: (state, status)->
     state.portfolioWindowIsOpen = status
+
   SET_ACTIVE_PORTFOLIO_OPTION: (state, opt)->
     state.activePortfolioOption = opt
 
@@ -161,13 +165,10 @@ mutations =
   SET_ACTIVE_NAVIGATOR_WINDOW: (state, project)->
     state.activeNavigatorWindow = project
 
-
   SET_THREE_GLITCH: (state, mode)->
     state.showThreeGlitch = mode
   TOGGLE_SOUND: (state, sound)->
     state.soundIsOn = sound
-  SET_SYSTEM_COLOR: (state, color)->
-    state.systemColor = color
   SET_WEBGL_IS_WORKING: (state, status)->
     state.webGlIsWorking = status
 

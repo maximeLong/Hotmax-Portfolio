@@ -24,7 +24,7 @@
 
   <div class="triangle" :class="{ 'rotate-off': loadingDone }"></div> -->
 
-  <!-- <button @click="setEntryIndex(1)">on</button> -->
+  <button @click="setEntryIndex(1)">on</button>
 
 
   </div>
@@ -37,10 +37,10 @@ module.exports =
     Typed: require './Typed'
     Three: require './Three'
 
-  mounted: ->
-    setTimeout =>
-      @setEntryIndex(1)
-    , 2000
+  # mounted: ->
+  #   setTimeout =>
+  #     @setEntryIndex(1)
+  #   , 2000
 
   data: ->
     loadingDone: false
@@ -54,8 +54,8 @@ module.exports =
 
   computed:
     webGlIsWorking: ->  return @$store.state.webGlIsWorking
-    entryIndex: ->     return @$store.state.entryIndex
-    soundIsOn:       -> return @$store.state.soundIsOn
+    entryIndex: ->      return @$store.state.entryIndex
+    soundIsOn: ->       return @$store.state.soundIsOn
 
 
 
@@ -71,7 +71,8 @@ module.exports =
     +rotate(90, 50, 50)
 
 #entry
-  +defaultType
+  background-color: white
+  +defaultType(normal)
   color: white
   width: 50%
   +flexbox

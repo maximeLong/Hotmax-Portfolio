@@ -7,33 +7,25 @@
 
         <div class="console">
 
-
           <!-- default console -->
           <transition name="fadedown" appear>
-            <intro-text
-              v-if="showDefaultConsole"
-              :secondTime="introDone ? true : false"
-              v-on:done="introDone = true">
-            </intro-text>
+            <intro-text v-if="showDefaultConsole"></intro-text>
           </transition>
 
           <!-- normalConsoleIsOpen -->
           <transition name="fadedown">
-
             <component v-bind:is="normalConsoleText.component" v-if="portfolioWindowIsOpen"></component>
             <component v-bind:is="normalConsoleText.readme" v-if="projectWindowIsOpen"></component>
 
           </transition>
 
           <!-- overflowConsoleIsOpen -->
-          <transition name="consoletransition">
-
+          <!-- <transition name="consoletransition">
             <component
               v-bind:is="overflowConsoleText.component"
               v-if="overflowConsoleIsOpen">
             </component>
-
-          </transition>
+          </transition> -->
 
 
 
@@ -51,9 +43,10 @@ module.exports =
     Window:     require './Window'
     Typed:      require './Typed'
 
-    OurServices:    require './OurServices'
-    OurStory:       require './OurStory'
-    OurContact:     require './OurContact'
+    # OurServices:    require './OurServices'
+    # OurStory:       require './OurStory'
+    # OurContact:     require './OurContact'
+
     PortfolioText:  require './PortfolioText'
     IntroText:      require './IntroText'
 
@@ -79,7 +72,6 @@ module.exports =
           '-webkit-transform': 'translate3d(50px, 0, 0)'
 
   data: ->
-    introDone: false
     containerStyle:
       width: '79%'
       transform: 'translate3d(50px, 0, 0)'
@@ -91,14 +83,14 @@ module.exports =
         return false
       else return true
 
-    normalConsoleIsOpen: ->   return @$store.state.normalConsoleIsOpen
-    overflowConsoleIsOpen: -> return @$store.state.overflowConsoleIsOpen
-    normalConsoleText: -> return @$store.state.normalConsoleText
-    overflowConsoleText: -> return @$store.state.overflowConsoleText
+    normalConsoleIsOpen: ->     return @$store.state.normalConsoleIsOpen
+    overflowConsoleIsOpen: ->   return @$store.state.overflowConsoleIsOpen
+    normalConsoleText: ->       return @$store.state.normalConsoleText
+    overflowConsoleText: ->     return @$store.state.overflowConsoleText
 
-    portfolioWindowIsOpen: -> return @$store.state.portfolioWindowIsOpen
-    projectWindowIsOpen: -> return @$store.state.projectWindowIsOpen
-    activeProjectWindow: -> return @$store.state.activeProjectWindow
+    portfolioWindowIsOpen: ->   return @$store.state.portfolioWindowIsOpen
+    projectWindowIsOpen: ->     return @$store.state.projectWindowIsOpen
+    activeProjectWindow: ->     return @$store.state.activeProjectWindow
 
 
 </script>
@@ -143,9 +135,7 @@ module.exports =
         height: 9px
         background-color: $action_red
       .title
-        +showyType
-        color: white
-        line-height: 55px
+        +headerType(normal)
     .content
       width: 100%
       .intro-title
@@ -156,8 +146,8 @@ module.exports =
         letter-spacing: 3px
       .main-text
         margin: 10px 0 37px 0
-        font-size: 16px
-        line-height: 24px
+        font-size: 18px
+        line-height: 29px
         span
           +clickable
           text-decoration: underline

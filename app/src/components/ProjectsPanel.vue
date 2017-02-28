@@ -31,28 +31,36 @@
 
     <!-- desktop icon grid -->
     <div class="icon-grid">
-      <div @click="openPortfolio" class="icon folder">
-        <div class="rotation-container" v-bind:style="{ transform: 'rotationX(' + rotationX + 'deg)' }">
+
+      <div class="icon-group">
+        <div @click="openPortfolio" class="icon folder">
           <img src="../assets/folder-icon.svg">
+          <div class="caption">Collected Work</div>
         </div>
-        <div class="caption">Collected Work</div>
+        <div @click="openOverlay(consoleTexts.contactUs)" class="icon file" :class="{ active: checkActive(consoleTexts.contactUs)  }">
+          <img src="../assets/file-icon.svg">
+          <div class="caption">Contact Us</div>
+        </div>
       </div>
-      <div @click="openNavigatorWindow(navigatorWindows.rubbish)" class="icon rubbish">
-        <img src="../assets/rubbish-icon.svg">
-        <div class="caption">Rubbish Bin</div>
+
+      <div class="icon-group">
+        <div @click="openOverlay(consoleTexts.aboutUs)" class="icon file" :class="{ active: checkActive(consoleTexts.aboutUs)  }">
+          <img src="../assets/file-icon.svg">
+          <div class="caption">About Us</div>
+        </div>
+        <div @click="openOverlay(consoleTexts.ourServices)" class="icon file" :class="{ active: checkActive(consoleTexts.ourServices)  }">
+          <img src="../assets/file-icon.svg">
+          <div class="caption">Our Services</div>
+        </div>
       </div>
-      <div @click="openOverflowConsole(consoleTexts.aboutUs)" class="icon file" :class="{ active: checkActive(consoleTexts.aboutUs)  }">
-        <img src="../assets/file-icon.svg">
-        <div class="caption">About Us</div>
+
+      <div class="icon-group">
+        <div @click="openNavigatorWindow(navigatorWindows.rubbish)" class="icon rubbish">
+          <img src="../assets/rubbish-icon.svg">
+          <div class="caption">Rubbish Bin</div>
+        </div>
       </div>
-      <div @click="openOverflowConsole(consoleTexts.ourServices)" class="icon file" :class="{ active: checkActive(consoleTexts.ourServices)  }">
-        <img src="../assets/file-icon.svg">
-        <div class="caption">Our Services</div>
-      </div>
-      <div @click="openOverflowConsole(consoleTexts.contactUs)" class="icon file" :class="{ active: checkActive(consoleTexts.contactUs)  }">
-        <img src="../assets/file-icon.svg">
-        <div class="caption">Contact Us</div>
-      </div>
+
     </div>
 
 
@@ -88,15 +96,16 @@ module.exports =
       if @overflowConsoleIsOpen and @overflowConsoleText is icon
         return true
       else return false
-
     openPortfolio: ()->
       @$store.dispatch 'openPortfolio'
     openOverflowConsole: (view)->
       @$store.dispatch 'openOverflowConsole', view
-
     openOverlay: (view)->
+      overlay = view
+      overlay.orientation = 'portrait'
       @$store.commit 'SET_OVERLAY_IS_OPEN', true
       @$store.commit 'SET_ACTIVE_OVERLAY', view
+
     openNavigatorWindow: (view)->
       @$store.commit 'SET_NAVIGATOR_WINDOW_IS_OPEN', true
       @$store.commit 'SET_ACTIVE_NAVIGATOR_WINDOW', view
@@ -117,7 +126,6 @@ module.exports =
 
     overflowConsoleText: ->   return @$store.state.overflowConsoleText
     overflowConsoleIsOpen: -> return @$store.state.overflowConsoleIsOpen
-
 
     overlays: ->              return @$store.state.overlays
     projectWindows: ->        return @$store.state.projectWindows
@@ -140,16 +148,24 @@ module.exports =
   +flex-direction(column)
   +justify-content(center)
   z-index: 999
+  +screen(mobile)
+    +flex(1 1 1)
 
   .window-container
     width: 110%
-    height: 80%
+    height: 90%
     z-index: 999
     background-color: white
     position: relative
     &.projectWindow
       +translateXY(70px,0)
       z-index: 9999
+      +screen(mobile)
+        +translateXY(0,0)
+        width: 100%
+      +screen(tablet)
+        +translateXY(0,0)
+        width: 100%
     &.navigator
       position: absolute
       top: 50%
@@ -158,95 +174,54 @@ module.exports =
     &.RubbishBin
       width: 59%
       height: 50%
+      z-index: 999
     &.Portfolio
       position: absolute
       +translateXY(70px,0)
+      +screen(mobile)
+        +translateXY(0,0)
+        width: 100%
+      +screen(tablet)
+        +translateXY(0,0)
+        width: 100%
 
 
 
   .icon-grid
-    z-index: 9
+    padding-left: 40px
+    align-self: flex-start
+    width: 90%
+    height: 80%
+    +transition(.35s ease all)
+    z-index: 99
     position: absolute
-    width: 99%
-    height: 100%
-    top: 50%
-    left: 50%
-    +translateXY(-50%, -50%)
-    +flexbox
-    +align-items(center)
-    +justify-content(center)
 
-    // testing matrix transform
-    -moz-transform-style: preserve-3d
-    -webkit-transform-style: preserve-3d
-    transform-style: preserve-3d
-    -moz-backface-visibility: hidden
-    -webkit-backface-visibility: hidden
-    backface-visibility: hidden
-    -moz-perspective: 800px
-    -webkit-perspective: 800px
-    perspective: 800px
-    -moz-transform-origin: 50% 50% 0
-    -webkit-transform-origin: 50% 50% 0
-    transform-origin: 50% 50% 0
-
-
-    .icon
-      position: absolute
-      top: 50%
-      left: 50%
-      +clickable
-      &::after
-        content: ''
-        width: 30px
-        height: 30px
-        background-image: url('../assets/exit.png')
-        background-position: 50% 50%
-        background-size: cover
-        background-repeat: no-repeat
+    .icon-group
+      width: 100%
+      +flexbox
+      +align-content(row)
+      +align-items(flex-end)
+      margin-bottom: 30px
+      &:nth-last-child(1)
         position: absolute
-        top: 25%
-        left: 55%
-        opacity: 0
-        +translateXY(-50%,-150%)
-        +transition(.5s ease all)
-      &.active
-        &::after
-          content: ''
-          width: 30px
-          height: 30px
-          background-image: url('../assets/exit.png')
-          background-position: 50% 50%
-          background-size: cover
-          background-repeat: no-repeat
-          position: absolute
-          top: 25%
-          left: 55%
-          opacity: 1
-          +translateXY(-50%,-50%)
-          +transition(.5s ease all)
+        margin-bottom: 0
+        bottom: 0
 
-
-      &:nth-child(3)
-        +translateXY(-60px, -20px)
-      &:nth-child(4)
-        +translateXY(40px, 0px)
-      &:nth-child(5)
-        +translateXY(-160px, 10px)
-      .caption
-        padding: 5px 0 0 10px
-        font-size: 15px
-        line-height: 17px
-      &.rubbish
-        width: 77px
-        left: 60px
-        +translateXY(50px, 150px)
-      &.folder
-        width: 85px
-        left: 60px
-        +translateXY(50px, -150px)
-      &.file
-        width: 60px
+      .icon
+        +clickable
+        margin-right: 30px
+        .caption
+          padding: 5px 0 0 10px
+          +systemType
+          color: $ink_black
+          letter-spacing: 1px
+        &.rubbish
+          width: 77px
+        &.folder
+          width: 85px
+        &.file
+          width: 60px
+          margin-right: 55px
 
 
 </style>

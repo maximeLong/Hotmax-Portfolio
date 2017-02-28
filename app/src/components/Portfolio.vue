@@ -121,11 +121,9 @@ module.exports =
           opacity: 0
           overflow: hidden
           padding: 20px
-          +showyType
+          +headerType(normal)
           background-color: black
-          color: white
           font-size: 30px
-          line-height: 40px
           +transition(.6s linear opacity)
           .movement-container
             width: 100%
