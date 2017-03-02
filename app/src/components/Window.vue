@@ -125,6 +125,8 @@ module.exports =
     letter-spacing: 1px
     color: #4f4f4f
     text-transform: uppercase
+    +screen(mobile)
+      display: none
 
   .toggle-container
     border-bottom: 1px solid $window_border

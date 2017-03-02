@@ -78,7 +78,7 @@ module.exports =
     z-index: 999
     position: relative
     +screen(tablet)
-      width: 100%
+      width: 95%
       +translateXY(0,0)
 
   .console
@@ -88,52 +88,5 @@ module.exports =
     height: 100%
     width: 100%
     position: relative
-
-    //console features shared
-    .header-container
-      padding: 20px 0 30px 0
-      margin-bottom: 10px
-      &::after
-        content: ''
-        display: block
-        margin-top: 20px
-        width: 100px
-        height: 9px
-        background-color: $action_red
-      .title
-        +headerType(normal)
-    .content
-      width: 100%
-      .intro-title
-        text-transform: uppercase
-        color: $action_color
-        font-weight: bold
-        font-size: 15px
-        letter-spacing: 3px
-      .main-text
-        margin: 10px 0 37px 0
-        font-size: 18px
-        line-height: 29px
-        span
-          +clickable
-          text-decoration: underline
-          color: $vapor_blue
-
-        li
-          padding: 4px 0
-          position: relative
-          padding-left: 17px
-          &::before
-            height: 100%
-            position: absolute
-            left: 0
-            top: 4px
-            content: '>'
-            color: $action_color
-            padding-right: 5px
-
-
-
-
 
 </style>

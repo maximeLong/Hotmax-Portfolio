@@ -39,24 +39,24 @@ module.exports =
       text-transform: uppercase
       color: $action_color
       font-weight: bold
+      font-size: 13px
       letter-spacing: 3px
   .readme-text
     margin: 5px 0
     a
       color: $vapor_blue
       text-decoration: underline
-
     li
       padding: 4px 0
       position: relative
-      padding-left: 17px
+      padding-left: 21px
       span
         font-weight: bold
       &::before
         height: 100%
         position: absolute
         left: 0
-        top: 5px
+        top: 4px
         content: '—'
         color: $action_color
         padding-right: 5px

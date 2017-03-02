@@ -15,10 +15,8 @@
         <div class="before-bar"></div>
         <div class="introduction">
           Hotmax is comprised of builders and designers in interactive media, who came together at the start of 2017 to create a lab where our ideas could be developed and published.
-          Collectively, we've built applications ranging from <span @click="openProjectWindow(projectWindows.curriculum)">interactive textbooks</span> to <span @click="openProjectWindow(projectWindows.arSynth)">augmented reality synthesizers</span>.
           <br>
-          Using our broad skillset in web and game development as well as user-interface and
-          sound design, we work with clients to bring their complex interactive ideas to life.
+          Collectively, we've built applications ranging from <span @click="openProjectWindow(projectWindows.curriculum)">interactive textbooks</span> to <span @click="openProjectWindow(projectWindows.arSynth)">augmented reality synthesizers</span>.
         </div>
       </div>
 
@@ -26,7 +24,6 @@
 
 
     <div class="service-panel">
-      <div class="icon"></div>
       <div class="panel-text">
         <div class="title">What sets us apart</div>
         <div class="text">
@@ -40,29 +37,45 @@
       </div>
     </div>
 
-    <div class="service-panel">
-      <div class="icon"></div>
+    <div class="service-panel centered the-team">
       <div class="panel-text">
         <div class="title">The team</div>
         <div class="text">
-          We make dope shit. You should hire us fools.
+          Hotmax was founded in 2017 by Andy Katsikapes and Maxime Long.
+          <br>
+          We have a revolving core of collaborators in design and development, depending on the project.
+        </div>
+      </div>
+      <div class="split-panels">
+        <div class="panel">
+          <div class="image" id="andy"></div>
+          <div class="sub-title">Andy Katsikapes</div>
+          <div class="text">
+            <div>Andy studied music at the Cornish College of the Arts and speaks fluent Japanese.  He has been designing sound for the better half of his life. When asked what his goal is for life he said, ”I want to make a mixed reality synthesizer that brings the musician into the machine”.</div>
+            <div>Hopefully someday we will actually know what that means.</div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="image" id="max"></div>
+          <div class="sub-title">Maxime Long</div>
+          <div class="text">
+            <div>Studied Cognitive Neuroscience at Brown University, and graduated in 2014.</div>
+            <div>Max uses his background in cognitive sciences to tackle design problems in a systematic and clear-minded way.</div>
+            <div>Max's goal is to build interactive experiences that help people live more beautiful lives.</div>
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- <img src="../assets/portraits/max2.jpg">
-    <div class="main-text">
-      <div>Studied Cognitive Neuroscience at Brown University, and graduated in 2014.</div>
-      <div>Max uses his background in cognitive sciences to tackle design problems in a systematic and clear-minded way.</div>
-      <div>Max's goal is to build interactive experiences that help people live more beautiful lives.</div>
-      <div><a href="https://www.linkedin.com/in/maxime-long-7a886833/">LinkedIn</a></div>
+    <div class="service-panel centered contact">
+      <div class="panel-text">
+        <div class="title">Contact Us</div>
+        <div class="text">
+          Want to meet us and see how we can help your organization?
+          <div class="contact-link">Drop us a line</div>
+        </div>
+      </div>
     </div>
-
-    <img src="../assets/portraits/andy2.jpg">
-    <div class="main-text">
-      <div>Andy studied music at the Cornish College of the Arts and speaks fluent Japanese.  He has been designing sound for the better half of his life. When asked what his goal is for life he said, ”I want to make a mixed reality synthesizer that brings the musician into the machine”.</div>
-      <div>Hopefully someday we will actually know what that means.</div>
-    </div> -->
 
 
   </div>
@@ -88,6 +101,46 @@ module.exports =
 @import src/styles/main
 
 #our-story
+  .service-panel.the-team
+    .text
+      +screen(mobile)
+        text-align: left
+    .split-panels
+      width: 100%
+      +flexbox
+      +flex-direction(row)
+      +screen(mobile)
+        +flex-direction(column)
+      .panel
+        padding: 20px
+        +flex(1 1 50%)
+        +screen(mobile)
+          padding: 20px 0
+
+        .image
+          width: 100%
+          height: 20vw
+          min-height: 200px
+          border: 1px solid $ink_black
+          background-position: 50% 25%
+          background-size: 100% auto
+          background-repeat: no-repeat
+          &#andy
+            background-image: url('../assets/portraits/andy2.jpg')
+          &#max
+            background-image: url('../assets/portraits/max2.jpg')
+
+
+
+        .sub-title
+          margin: 15px 0 5px 0
+          +headerType(normal)
+          font-size: 25px
+          color: $ink_black
+        .text
+          div
+            margin-top: 10px
+
 
 
 

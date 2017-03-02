@@ -11,21 +11,20 @@
     <transition appear name="slowfade">
       <div id="desktop-experience" v-if="entryIndex > 1">
 
-        <div id="header-container">
-          <transition appear v-on:enter="beginShowingDesktop()" name="fadedown">
-            <header-panel></header-panel>
-          </transition>
-        </div>
-
         <div id="body-container">
-
           <projects-panel v-if="projectPanelVisibility"></projects-panel>
           <console-panel v-if="handleConsoleVisibility"></console-panel>
-
           <div id="overlay-container" v-if="overlayIsOpen">
             <overlay-panel></overlay-panel>
           </div>
         </div>
+
+        <div id="header-container">
+          <transition appear v-on:enter="beginShowingDesktop()" name="fadeup">
+            <header-panel></header-panel>
+          </transition>
+        </div>
+
       </div>
     </transition>
 
@@ -75,15 +74,20 @@ module.exports =
     #intro listeners
     @$watch 'logoDone', (val)->
       if val is true
-        window.addEventListener 'keydown', (e)=>
-          @introDownEvent(e, 'key')
-        window.addEventListener 'keyup', (e)=>
-          @introUpEvent(e, 'key')
-        document.getElementById('thumbprint').addEventListener 'touchstart', (e)=>
-          console.log 'down'
-          @introDownEvent(e, 'touch')
-        document.getElementById('thumbprint').addEventListener 'touchend', (e)=>
-          @introUpEvent(e, 'touch')
+        if @port is 'desktop'
+          window.addEventListener 'keydown', (e)=>
+            @introDownEvent(e, 'key')
+          window.addEventListener 'keyup', (e)=>
+            @introUpEvent(e, 'key')
+        if @port != 'desktop'
+          document.getElementById('thumbprint').addEventListener 'touchstart', (e)=>
+            @introDownEvent(e, 'touch')
+          document.getElementById('thumbprint').addEventListener 'touchend', (e)=>
+            @introUpEvent(e, 'touch')
+          document.getElementById('thumbprint').addEventListener 'mousedown', (e)=>
+            @introDownEvent(e, 'touch')
+          document.getElementById('thumbprint').addEventListener 'mouseup', (e)=>
+            @introUpEvent(e, 'touch')
 
 
 
@@ -166,13 +170,11 @@ module.exports =
 
 #app
   position: relative
-  width: calc(100vw - 40px)
-  height: calc(100vh - 40px)
+  width: 100vw
+  height: 100vh
   overflow: hidden
   background-color: #0b3039
   transition: 0.15s ease all
-  margin: 20px
-  box-shadow: 0 0 30px 9px rgb(245, 230, 227)
   +transition(.15s ease all)
   &.entryMode
     background-color: black
@@ -208,22 +210,22 @@ module.exports =
           top: 50%
           left: 50%
           +translateXY(-50%, -50%)
-        +screen(desktop)
-          &::before
-            +transition(.15s ease all)
-            opacity: .8
-            +defaultType(normal)
-            content: 'ホットマックス'
-            font-size: 60px
-            line-height: 44px
-            color: inherit
-            text-align: center
-            position: absolute
-            width: 150%
-            height: 125px
-            bottom: -200px
-            right: 50%
-            +translateX(50%)
+        // +screen(desktop)
+        //   &::before
+        //     +transition(.15s ease all)
+        //     opacity: .8
+        //     +defaultType(normal)
+        //     content: 'ホットマックス'
+        //     font-size: 60px
+        //     line-height: 44px
+        //     color: inherit
+        //     text-align: center
+        //     position: absolute
+        //     width: 150%
+        //     height: 125px
+        //     bottom: -200px
+        //     right: 50%
+        //     +translateX(50%)
 
 
   #entry-experience
@@ -246,13 +248,10 @@ module.exports =
     background-color: #f5e6e3
 
     #header-container
-      height: 70px
-      margin: 0 30px
-      width: calc(100% - 60px)
-      padding: 7px
-      border: 3px solid white
+      height: 60px
+      width: 100%
     #body-container
-      height: calc(100% - 70px)
+      height: calc(100% - 60px)
       +flexbox
       +flex-direction(row)
       +align-content(center)
@@ -265,7 +264,7 @@ module.exports =
       width: 70%
       min-width: 500px
       max-width: 1200px
-      height: 100%
+      height: calc(100% - 60px)
       margin: 0 auto
       z-index: 9999
       +flexbox

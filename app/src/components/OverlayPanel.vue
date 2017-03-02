@@ -57,6 +57,8 @@ module.exports =
   width: 100%
   &.portrait
     height: 90%
+    +screen(mobile)
+      height: 100%
 
   .content
     background-color: $black_one_quarter
@@ -90,6 +92,8 @@ module.exports =
           +headerType(big)
         .link-container
           +headerType(small)
+          +screen(mobile)
+            display: none
           .link
             padding: 2px 0
             position: relative
@@ -102,6 +106,9 @@ module.exports =
               height: 1px
               width: 70px
               background-color: white
+              +screen(tablet)
+                left: -50%
+                width: 30px
       .introduction-container
         +defaultType(normal)
         color: white
@@ -109,6 +116,12 @@ module.exports =
         padding-left: 90px
         width: calc(100% - 150px)
         position: relative
+        +screen(tablet)
+          width: 100%
+          padding-left: 50px
+        +screen(mobile)
+          width: 100%
+          padding-left: 0
         &::before
           content: ''
           display: block
@@ -118,21 +131,68 @@ module.exports =
           height: 2px
           width: 70px
           background-color: $action_red
+          +screen(tablet)
+            width: 30px
+          +screen(mobile)
+            display: none
 
     .service-panel
       background-color: white
-      padding: 50px 40px 100px 40px
+      padding: 50px 40px 40px 40px
       +flexbox
       +align-items(flex-start)
+      +screen(mobile)
+        +flex-direction(column)
+        +align-items(center)
       .icon
         +flex(1 1 40%)
+        min-width: 300px
+        min-height: 200px
+        +screen(mobile)
+          max-width: 350px
       .panel-text
         +flex(1 1 60%)
         padding-left: 30px
+        +screen(mobile)
+          width: 100%
+          padding-left: 0
         .title
           +headerType(h2)
           color: #0b3039
           padding-bottom: 10px
+          +screen(mobile)
+            margin: 30px 0 5px 0
+            text-align: center
+
+      //permutation
+      &.reverse
+        +flex-direction(row-reverse)
+        +screen(mobile)
+          +flex-direction(column)
+        .panel-text
+          padding-left: 0
+          padding-right: 30px
+          +screen(mobile)
+            padding-right: 0px
+
+      &.centered
+        +flex-direction(column)
+        +align-items(center)
+        .title, .panel-text
+          text-align: center
+      &.contact
+        margin-bottom: 30px
+        +screen(mobile)
+          padding-top: 10px
+          margin-bottom: 40px
+        .contact-link
+          padding: 10px
+          margin-top: 10px
+          text-transform: uppercase
+          letter-spacing: 3px
+          font-size: 13px
+          border: 1px solid $ink_black
+          +clickable
 
 
 </style>

@@ -21,8 +21,7 @@
       </div>
     </div>
 
-    <div class="service-panel">
-      <div class="icon"></div>
+    <div class="service-panel centered">
       <div class="panel-text">
         <div class="title">General Inquiries</div>
         <div class="text">

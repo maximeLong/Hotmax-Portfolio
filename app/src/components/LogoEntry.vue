@@ -7,9 +7,8 @@
         <div class="big-logo"></div>
       </transition>
       <transition name="fadeup">
-        <!-- <div class="directions" v-if="logoDone">Press and hold [ <span>space</span> ] to log in.</div> -->
-        <button id="thumbprint" v-if="logoDone">press this </button>
-
+        <div class="directions" v-if="logoDone && port == 'desktop'">Press and hold [ <span>space</span> ] to log in.</div>
+        <button id="thumbprint" v-if="logoDone && port != 'desktop'">press this </button>
       </transition>
     </div>
 
@@ -29,6 +28,9 @@ module.exports =
     emitLogoDone: ->
       @logoDone = true
       @$emit('logoDone')
+
+  computed:
+    port: ->  return @$store.state.port
 
 
 </script>
@@ -71,7 +73,7 @@ module.exports =
       background-position: 50% 50%
       background-repeat: no-repeat
       &::after
-        content: 'hotmax Workstation v1.01'
+        content: 'hotmax Operating System V1.01'
         display: block
         position: absolute
         bottom: 30px

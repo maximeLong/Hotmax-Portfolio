@@ -1,26 +1,33 @@
 <template>
   <div id="intro-text">
+
     <typed class="line intro"
-      :str="'> Begin startup experience...'"
-      :cleanCursor="false"
+      :str="'> Opening hotmax OS V.1.01'"
+      :cleanCursor="true"
       :delay="500"
       :cursorChar="'_'"
       :typeSpeed="50"
       v-on:done="lineDone += 1">
     </typed>
-    <!-- <typed class="line header"
-      :str="'Hotmax'"
-      :cleanCursor="true"
-      :delay="1000"
+    <typed class="line intro"
+      :str="'> Begin profile experience...'"
+      :cleanCursor="false"
+      :delay="500"
       :cursorChar="'_'"
-      :typeSpeed="100"
-      v-on:done="lineDone += 1"
-      v-if="lineDone > 0">
-    </typed> -->
+      :typeSpeed="50"
+      v-if="lineDone > 0"
+      v-on:done="lineDone += 1">
+    </typed>
 
     <transition name="fadeup">
-      <div id="services-panel" v-if="lineDone == 1">
-        <div class="service">{{service}}</div>
+      <div id="services-panel" v-if="lineDone == startServiceId">
+        <!-- <div class="service">{{service}}</div> -->
+
+        <div class="service-container" v-if="service == 'Strategy'">
+          <div class="service">{{service}}</div>
+        </div>
+
+
       </div>
     </transition>
 
@@ -35,20 +42,21 @@ module.exports =
     Typed: require './Typed'
 
   data: ->
+    startServiceId: 2
     lineDone: 0
     currentServicePosition: 0
     currentService: 'Strategy'
-    services: ['Strategy', 'Design', 'Sound', 'VR', 'AR']
+    services: ['Strategy', 'Design', 'Sound', 'Virtual']
 
   mounted: ->
-    @$watch 'lineDone', (val)=>
-      if val is 1
-        setInterval ()=>
-          if @currentServicePosition == @services.length - 1
-            @currentServicePosition = 0
-          else
-            @currentServicePosition += 1
-        , 4000
+    # @$watch 'lineDone', (val)=>
+    #   if val is @startServiceId
+    #     setInterval ()=>
+    #       if @currentServicePosition == @services.length - 1
+    #         @currentServicePosition = 0
+    #       else
+    #         @currentServicePosition += 1
+    #     , 4000
 
   computed:
     service: -> return @services[@currentServicePosition]
@@ -63,10 +71,8 @@ module.exports =
   width: 100%
   +flexbox
   +flex-direction(column)
-  +align-items(flex-start)
-  // +justify-content(center)
   .line
-    margin: 10px 0
+    margin: 3px 0
     display: block
     &.intro
       +consoleType(normal)
@@ -76,12 +82,13 @@ module.exports =
       line-height: 70px
 
   #services-panel
-    margin: 10px 0
+    margin-top: 30px
     border: 4px solid white
     padding: 20px 0
     width: 100%
-    +flex(1 1 auto)
     background-color: white
+    align-self: flex-end
+    position: relative
     .service
       +headerType(big)
       color: $console_black
@@ -89,6 +96,13 @@ module.exports =
       line-height: 80px
       text-align: center
 
+      -webkit-background-clip: text
+      color: transparent
+
+      background-position: 50% 50%
+      background-size: 100% auto
+      background-repeat: no-repeat
+      background-image: url('../assets/flower-bloom.gif')
 
 
 

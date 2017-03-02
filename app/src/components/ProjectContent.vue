@@ -11,7 +11,7 @@
     </div>
 
     <div class="mobile-text" v-if="port != 'desktop'">
-      <button @click="showMobileText = !showMobileText">showMobileText</button>
+      <button @click="showMobileText = !showMobileText">{{showMobileText ? 'hide project facts' : 'show project facts'}}</button>
       <component v-bind:is="normalConsoleText.readme" v-if="showMobileText"></component>
     </div>
 
@@ -55,38 +55,63 @@ module.exports =
       opacity: random()
 
 #project-content
-  padding: 30px
-  +screen(mobile)
-    padding: 20px 15px
-
   .banner
-    margin-bottom: 40px
-
+    padding: 30px
+    background-color: #0b3039
+    +screen(mobile)
+      padding: 20px 15px
     .info-container
       width: 100%
       +flexbox
       +flex-direction(column)
       +justify-content(center)
       z-index: 9999
-
       .title
         +headerType(big)
-        color: $ink_black
         margin-bottom: 10px
         +screen(mobile)
           +headerType(normal)
           font-size: 30px
           line-height: 35px
-          color: $ink_black
-
       .client
         text-transform: inherit
-        font-size: 15px
         letter-spacing: 1px
+        color: white
+        padding-left: 90px
+        font-size: 15px
+        width: calc(100% - 90px)
+        position: relative
+        &::before
+          content: ''
+          display: block
+          top: 50%
+          left: 0
+          position: absolute
+          height: 1px
+          width: 70px
+          background-color: $action_red
+          // +screen(tablet)
+          //   left: -50%
+          //   width: 30px
+
+  .mobile-text
+    button
+      width: 100%
+      padding: 15px 0
+      border: 2px solid $action_red
+      margin-bottom: 20px
+      background-color: white
+      +systemType
+      color: $action_red
+      outline: 0
+      +clickable
 
   .content
-    height: calc(100% - 150px)
+    padding: 30px
+    height: 100%
     width: 100%
+    +screen(mobile)
+      padding: 20px 15px
 
 
 </style>

@@ -14,6 +14,7 @@
     "coffee-script": "^1.11.1",
     "interact.js": "^1.2.6",
     "lodash": "^4.17.2",
+    "pixi-filters": "^1.0.6",
     "pixi.js": "^4.4.0",
     "postprocessing": "^1.1.6",
     "three": "^0.82.1",
