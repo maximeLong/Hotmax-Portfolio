@@ -62,9 +62,7 @@ module.exports =
         @$refs.windowContent.scrollTop = 0
       if @type is 'portfolio'
         @$store.commit 'SET_PORTFOLIO_WINDOW_IS_OPEN', false
-      if @type is 'consoleWindow'
-        @$store.commit 'SET_OVERFLOW_CONSOLE_IS_OPEN', false
-
+        
 </script>
 
 <style lang="sass">

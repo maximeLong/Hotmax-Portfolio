@@ -119,13 +119,18 @@ module.exports =
 @import src/styles/main
 
 #icon-grid
-  padding-left: 40px
+  padding-left: 50px
+  padding-top: 60px
   align-self: flex-start
   width: 90%
   height: 80%
   +transition(.35s ease all)
   z-index: 99
   position: absolute
+  top: 0
+  left: 0
+  +screen(mobile)
+    padding-top: 30px
 
   .icon-group
     width: 100%
@@ -169,8 +174,8 @@ module.exports =
         border-radius: 100%
         display: block
         position: absolute
-        top: 5px
-        left: 25px
+        top: 65px
+        left: 35px
         z-index: 999
         background-color: $action_red
         +transition(.35s ease all)

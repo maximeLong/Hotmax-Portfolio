@@ -68,8 +68,9 @@ module.exports =
   .logo-middle
     position: absolute
     left: 50%
+    top: 50%
     height: 17px
-    +translateXY(-50%, 0)
+    +translateXY(-50%, -50%)
     +screen(mobile)
       display: none
     img
