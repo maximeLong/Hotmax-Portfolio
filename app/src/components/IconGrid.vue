@@ -25,14 +25,14 @@
       </div>
 
     </div>
-    <div class="icon-group" v-if="port != 'mobile'">
+    <!-- <div class="icon-group float-group" v-if="port != 'mobile'">
 
       <div @click="openNavigatorWindow(navigatorWindows.rubbish)" class="icon rubbish">
         <img src="../assets/rubbish-icon.svg">
         <div class="caption">Rubbish Bin</div>
       </div>
 
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -132,7 +132,7 @@ module.exports =
     +align-content(row)
     +align-items(flex-end)
     margin-bottom: 30px
-    &:nth-last-child(1)
+    &.float-group
       position: absolute
       margin-bottom: 0
       bottom: 0

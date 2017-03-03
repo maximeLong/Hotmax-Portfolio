@@ -21,12 +21,14 @@
 
     <transition name="fadeup">
       <div id="services-panel" v-if="lineDone == startServiceId">
-        <!-- <div class="service">{{service}}</div> -->
+        <div class="intro">Hotmax does</div>
 
-        <div class="service-container" v-if="service == 'Strategy'">
-          <div class="service">{{service}}</div>
-        </div>
-
+        <transition name="fadeup" mode="out-in">
+          <div class="service strategy" v-if="service == 'Interactive Strategy'" key="int">{{service}}</div>
+          <div class="service design" v-if="service == 'Digital Design'" key="des">{{service}}</div>
+          <div class="service vr" v-if="service == 'Virtual Reality'" key="vr">{{service}}</div>
+          <div class="service ar" v-if="service == 'Augmented Reality'" key="ar">{{service}}</div>
+        </transition>
 
       </div>
     </transition>
@@ -46,17 +48,17 @@ module.exports =
     lineDone: 0
     currentServicePosition: 0
     currentService: 'Strategy'
-    services: ['Strategy', 'Design', 'Sound', 'Virtual']
+    services: ['Interactive Strategy', 'Digital Design', 'Virtual Reality', 'Augmented Reality']
 
   mounted: ->
-    # @$watch 'lineDone', (val)=>
-    #   if val is @startServiceId
-    #     setInterval ()=>
-    #       if @currentServicePosition == @services.length - 1
-    #         @currentServicePosition = 0
-    #       else
-    #         @currentServicePosition += 1
-    #     , 4000
+    @$watch 'lineDone', (val)=>
+      if val is @startServiceId
+        setInterval ()=>
+          if @currentServicePosition == @services.length - 1
+            @currentServicePosition = 0
+          else
+            @currentServicePosition += 1
+        , 4000
 
   computed:
     service: -> return @services[@currentServicePosition]
@@ -83,26 +85,30 @@ module.exports =
 
   #services-panel
     margin-top: 30px
-    border: 4px solid white
     padding: 20px 0
-    width: 100%
-    background-color: white
-    align-self: flex-end
+    align-self: flex-start
     position: relative
+    border-top: 1px solid white
+    +headerType(big)
+    font-size: 9vh
+    line-height: 10vh
+    color: white
     .service
-      +headerType(big)
-      color: $console_black
-      font-size: 70px
-      line-height: 80px
-      text-align: center
-
+      padding-bottom: 10px
+      word-spacing: 9999999px
       -webkit-background-clip: text
       color: transparent
-
       background-position: 50% 50%
       background-size: 100% auto
       background-repeat: no-repeat
-      background-image: url('../assets/flower-bloom.gif')
+      &.strategy
+        background-image: url('../assets/flower-bloom.gif')
+      &.design
+        background-image: url('../assets/design.gif')
+      &.ar
+        background-image: url('../assets/waves.gif')
+      &.vr
+        background-image: url('../assets/blue.gif')
 
 
 

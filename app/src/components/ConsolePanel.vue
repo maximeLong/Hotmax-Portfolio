@@ -11,7 +11,7 @@
           </transition>
 
           <!-- normalConsoleIsOpen -->
-          <transition name="fadedown">
+          <transition name="fadedown" mode="out-in">
             <component v-bind:is="normalConsoleText.component" v-if="portfolioWindowIsOpen"></component>
             <component v-bind:is="normalConsoleText.readme" v-if="projectWindowIsOpen"></component>
           </transition>
