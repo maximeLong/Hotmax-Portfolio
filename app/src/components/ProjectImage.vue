@@ -67,8 +67,9 @@ module.exports =
       position: relative
       &::after
         content: ''
-        height: 8vw
-        width: 16%
+        height: 20vh
+        width: 20vh
+        border-radius: 100%
         display: block
         position: absolute
         top: 50%
@@ -93,11 +94,11 @@ module.exports =
       left: 10px
       z-index: 999
       opacity: 0
-      background-color: $action_color
+      background-color: $action_red
       +transition(.35s ease all)
     &:hover
       &::after
-        opacity: .7
+        opacity: .8
         +transition(.35s ease all)
 
 
@@ -108,11 +109,6 @@ module.exports =
     opacity: 1
     border: 2px solid $ink_black
     +transition(.35s ease all)
-    &:hover
-      opacity: .8
-      +transition(.35s ease all)
-      +screen(mobile)
-        opacity: 1
     img
       z-index: 99
       position: relative

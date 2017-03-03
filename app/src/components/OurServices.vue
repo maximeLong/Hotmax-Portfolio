@@ -39,10 +39,13 @@
 
     <div class="service-panel">
       <div class="icon design">
+        <transition name="fadedown">
+          <div class="tooltip" v-if="showToolTip">Enjoy DESIGN SIMULATOR v1.01!</div>
+        </transition>
         <div id="model-window">
           <div class="toolpanel">
-            <div class="tool square">B</div>
-            <div class="tool brush" @click="eraseWork">E</div>
+            <div class="tool brush"></div>
+            <div class="tool eraser" @click="eraseWork"></div>
           </div>
         </div>
       </div>
@@ -95,6 +98,7 @@ module.exports =
   name: 'ourServices'
   data: ->
     positionalData: null
+    showToolTip: true
 
   destroyed: ->
     @app.destroy()
@@ -102,8 +106,11 @@ module.exports =
 
   methods:
     eraseWork: ->
-      console.log 'do something'
+      while @app.stage.children[0]
+        @app.stage.removeChild @app.stage.children[0]
+
     createPixel: (pos)->
+      @showToolTip = false
       graphic = new PIXI.Graphics()
       graphic.beginFill(0x000000)
       graphic.drawCircle(pos.x, pos.y, 3)
@@ -134,6 +141,17 @@ module.exports =
     @app.renderer.plugins.interaction.on 'mousemove', (e)=>
       if @brushDrag
         @createPixel(e.data.global)
+
+    #brush on mobile
+    @app.renderer.plugins.interaction.on 'touchstart', (e)=>
+      @brushDrag = true
+      @createPixel(e.data.global)
+    @app.renderer.plugins.interaction.on 'touchend', (e)=>
+      @brushDrag = false
+    @app.renderer.plugins.interaction.on 'touchmove', (e)=>
+      if @brushDrag
+        @createPixel(e.data.global)
+
 
 
     #filters
@@ -223,6 +241,27 @@ module.exports =
       border: 2px solid black
       padding: 15px
       position: relative
+      .tooltip
+        position: absolute
+        top: -50px
+        left: 15px
+        width: calc(100% - 30px)
+        background-color: $action_red
+        padding: 5px
+        color: white
+        text-align: center
+        z-index: 9
+        font-size: 13px
+        &::before
+          content: ''
+          width: 20px
+          height: 20px
+          background-color: $action_red
+          position: absolute
+          bottom: -3px
+          left: 50%
+          transform: translate(-50%, 0) rotate(45deg)
+          z-index: -1
       #model-window
         height: 100%
         border: 2px solid black
@@ -232,15 +271,50 @@ module.exports =
         .toolpanel
           position: absolute
           left: 30px
-          top: 30px
+          top: 40px
+          +flexbox
+          +flex-direction(row)
+          padding: 5px
+          border: 2px solid black
+          &::after
+            content: ''
+            position: absolute
+            top: -10px
+            left: -2px
+            height: 10px
+            width: calc(100% + 4px)
+            border: 2px solid black
+          &::before
+            content: ''
+            position: absolute
+            top: -6px
+            left: 6px
+            height: 3px
+            width: 3px
+            background-color: black
           .tool
-            border: 1px solid black
+            border: 2px solid black
             width: 30px
             height: 30px
             display: inline-block
             +clickable
-            &.active
-              border-color: red
+            &:first-of-type
+              border-right: 0
+            &.brush
+              background-position: 50% 50%
+              background-size: 100% 100%
+              background-repeat: no-repeat
+              background-image: url('../assets/brush.svg')
+            &.eraser
+              background-position: 50% 50%
+              background-size: 100% 100%
+              background-repeat: no-repeat
+              background-image: url('../assets/eraser.svg')
+              +transition(.15s ease all)
+              &:hover
+                background-color: $action_red
+                +transition(.15s ease all)
+
 
       &::after
         position: absolute

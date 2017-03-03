@@ -44,7 +44,7 @@ module.exports =
   .readme-text
     margin: 5px 0
     a
-      color: $vapor_blue
+      color: $action_red
       text-decoration: underline
     li
       padding: 4px 0

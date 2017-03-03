@@ -5,7 +5,7 @@
 
       <div @click="openPortfolio" class="icon folder">
         <img src="../assets/folder-icon.svg">
-        <div class="caption">Collected Work</div>
+        <div class="caption">Hotmax Work</div>
       </div>
       <div @click="openOverlay(consoleTexts.contactUs)" class="icon file">
         <img src="../assets/file-icon.svg">

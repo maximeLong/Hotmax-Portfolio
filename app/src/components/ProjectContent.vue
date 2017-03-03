@@ -81,7 +81,11 @@ module.exports =
         font-size: 15px
         width: calc(100% - 90px)
         position: relative
+        +screen(mobile)
+          padding-left: 30px
         &::before
+          +screen(mobile)
+            width: 15px
           content: ''
           display: block
           top: 50%
@@ -96,15 +100,18 @@ module.exports =
 
   .mobile-text
     button
-      width: 100%
-      padding: 15px 0
+      width: calc(100% - 60px)
+      padding: 20px
       border: 2px solid $action_red
-      margin-bottom: 20px
+      margin: 20px 30px
       background-color: white
       +systemType
       color: $action_red
       outline: 0
       +clickable
+      +screen(mobile)
+        width: calc(100% - 30px)
+        margin: 20px 15px
 
   .content
     padding: 30px

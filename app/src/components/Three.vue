@@ -226,10 +226,6 @@ module.exports =
       intersects = raycaster.intersectObjects( @map.children )
       if @mode is 'desktop'
         if intersects.length > 0
-          for intersect in intersects
-            if intersect.object.material.name is 'sun'
-              @setColor(intersect.object)
-              # @runSunSound()
           @setColor(intersects[0].object)
         else
           for line in @orbitTracks
@@ -268,7 +264,8 @@ module.exports =
         line.material.color.setHex('0xffffff') #set all orbit lines to white
 
       if currentLine.material.name is 'sun'
-        currentLine.material.color.setHex( Math.random() * 0xffffff ) #do something with the color here
+        # currentLine.material.color.setHex( Math.random() * 0xffffff )
+        # do nothing right now
       else
         currentLine.material.color.setHex('0xb98a5b') #set orbit lines to action color
     , 125
