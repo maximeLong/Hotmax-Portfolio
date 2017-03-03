@@ -145,7 +145,7 @@ module.exports =
 
     introDownEvent: (e, type)->
       if @entryIndex is 1
-        if (type is 'key' and e.code is 'Space') or type is 'touch'
+        if (type is 'key' and e.keyCode is 32) or type is 'touch'
           @$store.commit 'SET_THREE_GLITCH', true
           if @entryTimer is null
             @entryTimer =
@@ -154,7 +154,7 @@ module.exports =
               , 3000
     introUpEvent: (e, type)->
       if @entryIndex is 1
-        if (type is 'key' and e.code is 'Space') or type is 'touch'
+        if (type is 'key' and e.keyCode is 32) or type is 'touch'
           @$store.commit 'SET_THREE_GLITCH', false
           clearTimeout(@entryTimer)
           @entryTimer = null
