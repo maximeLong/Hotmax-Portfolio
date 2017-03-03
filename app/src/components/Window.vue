@@ -62,7 +62,7 @@ module.exports =
         @$refs.windowContent.scrollTop = 0
       if @type is 'portfolio'
         @$store.commit 'SET_PORTFOLIO_WINDOW_IS_OPEN', false
-        
+
 </script>
 
 <style lang="sass">
@@ -169,6 +169,7 @@ module.exports =
     background-color: white
     overflow-x: hidden
     overflow-y: scroll
+    -webkit-overflow-scrolling: touch
     width: 100%
     height: 100%
   &.consoleWindow > .window-content
