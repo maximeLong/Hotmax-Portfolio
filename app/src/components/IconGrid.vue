@@ -3,7 +3,7 @@
 
     <div class="icon-group">
 
-      <div @click="openPortfolio" class="icon folder">
+      <div @click="openPortfolio" class="icon folder" :class="{new : showNew}">
         <img src="../assets/folder-icon.svg">
         <div class="caption">Hotmax Work</div>
       </div>
@@ -46,13 +46,13 @@ module.exports =
 
   methods:
     openPortfolio: ()->
+      @showNew = false
       @$store.dispatch 'openPortfolio'
 
     openOverlay: (view)->
       overlay = view
       overlay.orientation = 'portrait'
-      @$store.commit 'SET_OVERLAY_IS_OPEN', true
-      @$store.commit 'SET_ACTIVE_OVERLAY', view
+      @$store.dispatch 'openServicesOverlay', view
 
     openNavigatorWindow: (view)->
       @$store.commit 'SET_NAVIGATOR_WINDOW_IS_OPEN', true
@@ -67,6 +67,7 @@ module.exports =
 
   data: ->
     positionalData: null
+    showNew: true
 
   # mounted: ->
   #   iconGrid = document.getElementById('icon-grid')
@@ -132,6 +133,8 @@ module.exports =
     +align-content(row)
     +align-items(flex-end)
     margin-bottom: 30px
+    +screen(mobile)
+      +justify-content(space-around)
     &.float-group
       position: absolute
       margin-bottom: 0
@@ -152,6 +155,27 @@ module.exports =
       &.file
         width: 60px
         margin-right: 55px
+
+      &.new::before
+        content: '!'
+        +consoleType(normal)
+        +flexbox
+        +align-items(center)
+        +justify-content(center)
+        text-align: center
+        color: white
+        height: 25px
+        width: 25px
+        border-radius: 100%
+        display: block
+        position: absolute
+        top: 5px
+        left: 25px
+        z-index: 999
+        background-color: $action_red
+        +transition(.35s ease all)
+        +screen(mobile)
+          display: none
 
 
 </style>

@@ -4,12 +4,21 @@
     <div class="entry-directions" :class="{ 'fade-out' : entryTimer != null }">
 
       <transition name="fadedelay" appear v-on:after-enter="emitLogoDone()">
-        <div class="big-logo"></div>
+        <div class="big-logo" v-if="port != 'mobile'"></div>
       </transition>
+
+      <transition name="fadedown" appear v-on:after-enter="emitLogoDone()">
+        <intro-text v-if="port == 'mobile'"></intro-text>
+      </transition>
+
       <transition name="fadeup">
         <div class="directions" v-if="logoDone && port == 'desktop'">Press and hold [ <span>space</span> ] to log in.</div>
-        <button id="thumbprint" v-if="logoDone && port != 'desktop'">press this </button>
+        <div class="directions mobile" v-if="logoDone && port != 'desktop'">
+          <button class="thumb" id="thumbprint"></button>
+          <div>Please scan your thumb to login</div>
+        </div>
       </transition>
+
     </div>
 
   </div>
@@ -18,6 +27,9 @@
 <script lang="coffee">
 module.exports =
   name: 'logoEntry'
+  components:
+    IntroText: require './IntroText'
+
   props:
     entryTimer: default: null
 
@@ -50,7 +62,7 @@ module.exports =
     min-width: 300px
     max-width: 700px
     height: 100%
-    +translate3d(0,-50px,0)
+    +translateXY(0,-50px)
     margin: 0 auto
     padding: 20px 0
     z-index: 9999
@@ -58,6 +70,10 @@ module.exports =
     +align-items(center)
     +flex-direction(column)
     +justify-content(space-between)
+    +screen(mobile)
+      +translateXY(0,0)
+      width: 100%
+      padding: 20px
     &.fade-out
       opacity: 0
       +transition(3s linear all)
@@ -89,8 +105,23 @@ module.exports =
       +systemType
       color: white
       background-color: rgba(0, 0, 0, 0.35)
-      span
-        // color: $action_color
+      z-index: 9999
+      &.mobile
+        text-align: center
+        border: none
+        button
+          width: 75px
+          height: 75px
+          background-color: transparent
+          outline: none
+          border: none
+          background-position: 50% 50%
+          background-size: 100% 100%
+          background-repeat: no-repeat
+          background-image: url('../assets/thumbprint.svg')
+          +clickable
+        div
+          margin-top: 20px
 
 
 

@@ -6,8 +6,8 @@
       <div class="title-container">
         <div class="title">About Hotmax</div>
         <div class="link-container">
-          <div class="link">Our Services</div>
-          <div class="link">Contact Us</div>
+          <div class="link" @click="openOverlay(consoleTexts.ourServices)">Our Services</div>
+          <div class="link" @click="openOverlay(consoleTexts.contactUs)">Contact Us</div>
         </div>
       </div>
 
@@ -27,11 +27,11 @@
       <div class="panel-text">
         <div class="title">What sets us apart</div>
         <div class="text">
-          We have a philosophy of exploration, connecting aspects of different interactive media
-          in novel ways. We’re currently exploring two ideas in greater detail:
+          <div>We have a philosophy of exploration, connecting aspects of different interactive media in novel ways.</div>
+          <div>We’re currently exploring two ideas in greater detail:</div>
           <ul>
             <li>The benefits that AR and VR can provide in existing industry software.</li>
-            <li>How giving users meaningful choices and engaging them in intelligent ways, as formalized in video game design, can enhance user retention in other interactive medias.</li>
+            <li>How giving users meaningful choices and engaging them in intelligent ways, as formalized in video game design, can enhance user retention in other interactive media.</li>
           </ul>
         </div>
       </div>
@@ -43,7 +43,7 @@
         <div class="text">
           Hotmax was founded in 2017 by Andy Katsikapes and Maxime Long.
           <br>
-          We have a revolving core of collaborators in design and development, depending on the project.
+          We also have a revolving core of collaborators from a diverse set of fields.
         </div>
       </div>
       <div class="split-panels">
@@ -51,7 +51,9 @@
           <div class="image" id="andy"></div>
           <div class="sub-title">Andy Katsikapes</div>
           <div class="text">
-            <div>Andy studied music at the Cornish College of the Arts and speaks fluent Japanese.  He has been designing sound for the better half of his life. When asked what his goal is for life he said, ”I want to make a mixed reality synthesizer that brings the musician into the machine”.</div>
+            <div>Andy studied music at the Cornish College of the Arts and speaks fluent Japanese.
+              He has been designing sound for the better half of his life.
+              When asked what his goal in life is he said, "I want to make a mixed reality synthesizer that brings the musician into the machine".</div>
             <div>Hopefully someday we will actually know what that means.</div>
           </div>
         </div>
@@ -59,8 +61,8 @@
           <div class="image" id="max"></div>
           <div class="sub-title">Maxime Long</div>
           <div class="text">
-            <div>Studied Cognitive Neuroscience at Brown University, and graduated in 2014.</div>
-            <div>Max uses his background in cognitive sciences to tackle design problems in a systematic and clear-minded way.</div>
+            <div>Max studied cognitive neuroscience at Brown University, and graduated in 2014.</div>
+            <div>He uses his background in cognitive sciences to tackle design problems in a systematic and clear-minded way.</div>
             <div>Max's goal is to build interactive experiences that help people live more beautiful lives.</div>
           </div>
         </div>
@@ -72,7 +74,7 @@
         <div class="title">Contact Us</div>
         <div class="text">
           Want to meet us and see how we can help your organization?
-          <div class="contact-link">Drop us a line</div>
+          <div class="contact-link" @click="openOverlay(consoleTexts.contactUs)">Drop us a line</div>
         </div>
       </div>
     </div>
@@ -91,8 +93,14 @@ module.exports =
     openProjectWindow: (view)->
       @$store.dispatch 'openProjectWindow', view
 
+    openOverlay: (view)->
+      overlay = view
+      overlay.orientation = 'portrait'
+      @$store.dispatch 'openServicesOverlay', view
+
   computed:
     projectWindows: ->    return @$store.state.projectWindows
+    consoleTexts: ->  return @$store.state.consoleTexts
 
 
 </script>

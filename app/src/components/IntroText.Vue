@@ -20,7 +20,7 @@
     </typed>
 
     <transition name="fadeup">
-      <div id="services-panel" v-if="lineDone == startServiceId">
+      <div id="services-panel" v-if="lineDone == startServiceId" @click="openOverlay(consoleTexts.ourServices)">
         <div class="intro">Hotmax does</div>
 
         <transition name="fadeup" mode="out-in">
@@ -62,6 +62,16 @@ module.exports =
 
   computed:
     service: -> return @services[@currentServicePosition]
+    consoleTexts: ->  return @$store.state.consoleTexts
+    port: -> return @$store.state.port
+
+  methods:
+    openOverlay: (view)->
+      if @port != 'mobile'
+        overlay = view
+        overlay.orientation = 'portrait'
+        @$store.dispatch 'openServicesOverlay', view
+
 
 </script>
 
@@ -93,6 +103,14 @@ module.exports =
     font-size: 9vh
     line-height: 10vh
     color: white
+    +screen(desktop)
+      +clickable
+    +screen(tablet)
+      +clickable
+    +screen(mobile)
+      font-size: 40px
+      line-height: 50px
+      margin-top: 20px
     .service
       padding-bottom: 10px
       word-spacing: 9999999px
@@ -103,6 +121,9 @@ module.exports =
       background-repeat: no-repeat
       &.strategy
         background-image: url('../assets/flower-bloom.gif')
+        +screen(mobile)
+          background-position: 100% 25%
+          background-size: 150% auto
       &.design
         background-image: url('../assets/design.gif')
       &.ar

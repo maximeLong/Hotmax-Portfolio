@@ -83,6 +83,8 @@ module.exports =
     .header-container
       padding: 30px 40px 50px 40px
       background-color: #0b3039
+      +screen(mobile)
+        padding: 30px 20px 40px 20px
       .title-container
         +flexbox
         +flex-direction(row)
@@ -97,6 +99,7 @@ module.exports =
           .link
             padding: 2px 0
             position: relative
+            +clickable
             &::before
               content: ''
               display: block
@@ -116,6 +119,9 @@ module.exports =
         padding-left: 90px
         width: calc(100% - 150px)
         position: relative
+        span
+          color: $action_red
+          +clickable
         +screen(tablet)
           width: 100%
           padding-left: 50px
@@ -144,6 +150,7 @@ module.exports =
       +screen(mobile)
         +flex-direction(column)
         +align-items(center)
+        padding: 30px 20px 40px 20px
       .icon
         +flex(1 1 40%)
         min-width: 300px
@@ -153,6 +160,7 @@ module.exports =
       .panel-text
         +flex(1 1 60%)
         padding-left: 30px
+        max-width: 900px
         +screen(mobile)
           width: 100%
           padding-left: 0
@@ -163,6 +171,24 @@ module.exports =
           +screen(mobile)
             margin: 30px 0 5px 0
             text-align: center
+        .text
+          li
+            padding-left: 30px
+            margin: 5px 0
+            font-size: 15px
+            width: calc(100% - 30px)
+            position: relative
+            &::before
+              +screen(mobile)
+                width: 15px
+              content: ''
+              display: block
+              top: 10px
+              left: 0
+              position: absolute
+              height: 1px
+              width: 20px
+              background-color: $action_red
 
       //permutation
       &.reverse
@@ -184,7 +210,7 @@ module.exports =
         margin-bottom: 30px
         +screen(mobile)
           padding-top: 10px
-          margin-bottom: 40px
+          margin-bottom: 20px
         .contact-link
           padding: 10px
           margin-top: 10px

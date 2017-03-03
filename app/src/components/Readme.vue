@@ -27,14 +27,20 @@ module.exports =
       color: $ink_black
       background-color: white
       padding: 10px 20px
+      +screen(mobile)
+        padding: 10px 0px
     .readme-text
       margin-top: 0
       border: 1px solid white
       padding: 15px 20px
+      +screen(mobile)
+        padding: 10px 0px
 
 
   .readme-group
     margin: 30px 0
+    +screen(mobile)
+      margin: 10px 0
     .intro-title
       text-transform: uppercase
       color: $action_color

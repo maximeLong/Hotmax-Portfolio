@@ -32,10 +32,8 @@ state =
 
 
   # console state
-  overflowConsoleIsOpen:  false
   normalConsoleIsOpen:    false
   normalConsoleText:    {}
-  overflowConsoleText:  {}
   consoleTexts:
     aboutUs:
       title:      'About Us.txt'
@@ -150,10 +148,6 @@ mutations =
     state.normalConsoleIsOpen = status
   SET_NORMAL_CONSOLE_TEXT: (state, text)->
     state.normalConsoleText = text
-  SET_OVERFLOW_CONSOLE_IS_OPEN: (state, status)->
-    state.overflowConsoleIsOpen = status
-  SET_OVERFLOW_CONSOLE_TEXT: (state, text)->
-    state.overflowConsoleText = text
 
   SET_OVERLAY_IS_OPEN: (state, status)->
     state.overlayIsOpen = status

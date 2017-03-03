@@ -6,11 +6,11 @@
         Building a new way to map the past, present, and future of your community.
       </div>
       <div class="readme-text">
-        Whereyaat is a social network for people to engage with their community of geographic proximity.
+        Whereyaat is a social network that encourages people to engage with their communities of geographic proximity.
         <br>
-        Built on the social-psychological theory of "channel factors", its design tries to overcome the latent reticence in an individual towards involvement with their community of geographic proximity.
+        Built on the social psychological theory of “channel factors,” its design strives to help users overcome latent reticence toward involvement with their surroundings.
         <br>
-        People can engage in any geographic level, from an apartment building - to a whole city.
+        People can engage at any geographic level, from just an apartment building to an entire city.
       </div>
     </div>
 
@@ -30,7 +30,7 @@
       <div class="readme-text">
         <ul>
           <li><span>Collaborators</span>: <a href="http://johnnysnelgrove.me/" target="_blank">Johnny Snelgrove</a></li>
-          <li><span>Progress</span>: Still ongoing development</li>
+          <li><span>Progress</span>: Still in development</li>
         </ul>
       </div>
     </div>

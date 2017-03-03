@@ -6,11 +6,11 @@
         Creating a lightweight CMS portfolio with multi-language support.
       </div>
       <div class="readme-text">
-        Lizzie Davis, a translator and editor for Coffee House Press, needed a custom solution for her translation portfolio that isn't offered by other CMS systems.
-        Because her portfolio will be seen by translation experts - she needed a way for people to easily flip between languages when reading different parts of her site.
+        Lizzie Davis, a translator and editor at Coffee House Press, needed a custom solution for her translation portfolio that isn’t offered by other CMS systems.
+        Because her portfolio will be seen by clients who read different languages, she needed a way for people to easily flip the content between Spanish, Italian, and English.
         <br>
-        The CMS created offers markdown support, and was written using Node Express to handle data between the Vue.js frontend and Mongo db.
-        The design called for a very trimmed down, two panel interface - where users could easily see her about section while switching between her other pages, and different languages.
+        The CMS created offers markdown support and was written using Node Express to handle data between the Vue.js frontend and Mongo db.
+        The design called for a very trimmed down, two-panel interface where users could easily see her about section while switching between her other pages—and different languages.
       </div>
     </div>
 
@@ -21,7 +21,7 @@
           <li>Stack: Vue.js -> Node(Express) -> MongoDB</li>
           <li>Literary interface design</li>
           <li>Custom CMS with markdown support</li>
-          <li>Custom Express Authentication</li>
+          <li>Custom Express.js authentication</li>
           <li>Seamless transition between language options</li>
         </ul>
       </div>

@@ -7,8 +7,8 @@
       </div>
       <div class="readme-text">
         An iOS app that uses AR tech to put a mini synthesizer keyboard under your fingertips.
-        It has seven sounds, three effect sliders for warping the sound, and one octave of keys.
-        AR $ynth is a completely new way to play music.
+        It has seven sounds, three effect sliders for warping notes, and one octave of keys.
+        AR Synth is a completely new way to play music.
       </div>
     </div>
 
@@ -16,7 +16,7 @@
       <div class="intro-title">Project Details</div>
       <div class="readme-text">
         <ul>
-          <li>Sound Design used multiple MIDI distortion effects</li>
+          <li>Sound design used multiple MIDI distortion effects</li>
           <li>Developed using Unity game-engine</li>
           <li>Built with Vuphoria AR integration</li>
         </ul>

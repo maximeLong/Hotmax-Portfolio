@@ -132,12 +132,15 @@ module.exports =
           font-size: 30px
           +transition(.6s linear opacity)
           +screen(mobile)
-            +headerType(small)
+            display: none
+          +screen(tablet)
+            display: none
           .movement-container
             width: 100%
             height: 100%
             +translate3d(0, 120%,0)
             +transition(.9s ease all)
+
 
 
 </style>

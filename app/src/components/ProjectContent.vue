@@ -83,6 +83,7 @@ module.exports =
         position: relative
         +screen(mobile)
           padding-left: 30px
+          width: calc(100% - 30px)
         &::before
           +screen(mobile)
             width: 15px
@@ -111,7 +112,7 @@ module.exports =
       +clickable
       +screen(mobile)
         width: calc(100% - 30px)
-        margin: 20px 15px
+        margin: 20px 15px 5px 15px
 
   .content
     padding: 30px

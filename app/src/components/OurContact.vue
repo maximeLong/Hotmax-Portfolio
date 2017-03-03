@@ -6,8 +6,8 @@
       <div class="title-container">
         <div class="title">Contact Us</div>
         <div class="link-container">
-          <div class="link">About Us</div>
-          <div class="link">Our Services</div>
+          <div class="link" @click="openOverlay(consoleTexts.aboutUs)">About Us</div>
+          <div class="link" @click="openOverlay(consoleTexts.ourServices)">Our Services</div>
         </div>
       </div>
 
@@ -38,6 +38,15 @@ module.exports =
   name: 'ourContact'
   components:
     Typed: require './Typed'
+
+  methods:
+    openOverlay: (view)->
+      overlay = view
+      overlay.orientation = 'portrait'
+      @$store.dispatch 'openServicesOverlay', view
+
+  computed:
+    consoleTexts: ->  return @$store.state.consoleTexts
 
 </script>
 

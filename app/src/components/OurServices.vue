@@ -6,8 +6,8 @@
       <div class="title-container">
         <div class="title">Our Services</div>
         <div class="link-container">
-          <div class="link">About Us</div>
-          <div class="link">Contact Us</div>
+          <div class="link" @click="openOverlay(consoleTexts.aboutUs)">About Us</div>
+          <div class="link" @click="openOverlay(consoleTexts.contactUs)">Contact Us</div>
         </div>
       </div>
 
@@ -32,7 +32,8 @@
       <div class="panel-text">
         <div class="title">Interactive Strategy</div>
         <div class="text">
-          We consult with your organization to find stategies that will allow you to fully take advantage of available interactive tools and technologies.
+          We consult with your organization to strategize how you could fully take advantage of interactive tools and technologies.
+          That means web development, mobile development, Augmented and Virtual Reality — or any mix therein.
         </div>
       </div>
     </div>
@@ -79,7 +80,7 @@
         <div class="title">Contact Us</div>
         <div class="text">
           Does it sound like we could help your organization?
-          <div class="contact-link">Drop us a line</div>
+          <div class="contact-link" @click="openOverlay(consoleTexts.contactUs)">Drop us a line</div>
         </div>
       </div>
     </div>
@@ -100,6 +101,9 @@ module.exports =
     positionalData: null
     showToolTip: true
 
+  computed:
+    consoleTexts: ->  return @$store.state.consoleTexts
+
   destroyed: ->
     @app.destroy()
     @vrApp.destroy()
@@ -108,6 +112,11 @@ module.exports =
     eraseWork: ->
       while @app.stage.children[0]
         @app.stage.removeChild @app.stage.children[0]
+
+    openOverlay: (view)->
+      overlay = view
+      overlay.orientation = 'portrait'
+      @$store.dispatch 'openServicesOverlay', view
 
     createPixel: (pos)->
       @showToolTip = false
