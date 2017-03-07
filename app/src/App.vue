@@ -145,7 +145,10 @@ module.exports =
 
     introDownEvent: (e, type)->
       if @entryIndex is 1
-        if (type is 'key' and e.keyCode is 32) or type is 'touch'
+        if (type is 'touch' and @port is 'mobile') #mobile handle
+          @setEntryIndex(2)
+
+        if (type is 'key' and e.keyCode is 32) or (type is 'touch' and @port is 'tablet') #desktop and tablet handle
           @$store.commit 'SET_THREE_GLITCH', true
           if @entryTimer is null
             @entryTimer =

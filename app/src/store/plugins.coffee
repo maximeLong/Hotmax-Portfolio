@@ -1,21 +1,17 @@
 module.exports =
 
   init: (store)=>
-    #mobile check
+    #screen resolution check
     mobile = 800
     desktop = 1280
     do widthCheck = ()=>
       WIDTH = window.innerWidth
-      # console.log WIDTH
       switch
         when (WIDTH <= mobile) then store.commit 'SET_PORT', 'mobile'
         when (WIDTH > mobile) and (WIDTH <= desktop) then store.commit 'SET_PORT', 'tablet'
         else store.commit 'SET_PORT', 'desktop'
-
     window.addEventListener 'resize', ()=>
       widthCheck()
-      # console.log WIDTH
-
 
     #canvas check
     canvas = document.createElement('canvas')
@@ -28,7 +24,6 @@ module.exports =
           break
       catch error
         console.log error
-
     if webglContext is null
       console.log 'WebGL is not supported on your browser, and you should see something less taxing.'
       #TODO: add some visual fallback for this case

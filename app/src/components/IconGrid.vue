@@ -120,7 +120,6 @@ module.exports =
 
 #icon-grid
   padding-left: 50px
-  padding-top: 60px
   align-self: flex-start
   width: 90%
   height: 80%
@@ -128,9 +127,8 @@ module.exports =
   z-index: 99
   position: absolute
   top: 0
-  left: 0
-  +screen(mobile)
-    padding-top: 30px
+  bottom: 0
+  margin: auto
 
   .icon-group
     width: 100%
@@ -174,7 +172,7 @@ module.exports =
         border-radius: 100%
         display: block
         position: absolute
-        top: 65px
+        top: 0
         left: 35px
         z-index: 999
         background-color: $action_red

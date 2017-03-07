@@ -168,7 +168,7 @@ module.exports =
     +flex(1)
     background-color: white
     overflow-x: hidden
-    overflow-y: scroll
+    overflow-y: auto
     -webkit-overflow-scrolling: touch
     width: 100%
     height: 100%
