@@ -1,5 +1,5 @@
 <template>
-  <div id="header-panel">
+  <div id="footer-panel">
     <div class="logo">
       <img src="../assets/logo-triangle-small.png">
     </div>
@@ -18,13 +18,10 @@
 
 <script lang="coffee">
 module.exports =
-  name: 'headerPanel'
+  name: 'footerPanel'
 
   computed:
     soundIsOn: ->             return @$store.state.soundIsOn
-    navigatorWindowIsOpen: -> return @$store.state.navigatorWindowIsOpen
-    activeNavigatorWindow: -> return @$store.state.activeNavigatorWindow
-    navigatorWindows: ->      return @$store.state.navigatorWindows
     consoleTexts:     ->      return @$store.state.consoleTexts
 
   methods:
@@ -44,7 +41,7 @@ module.exports =
 <style lang="sass">
 @import src/styles/main
 
-#header-panel
+#footer-panel
   position: relative
   width: 100%
   height: 100%

@@ -12,7 +12,7 @@
 
     <div class="mobile-text" v-if="port != 'desktop'">
       <button @click="showMobileText = !showMobileText">{{showMobileText ? 'hide project facts' : 'show project facts'}}</button>
-      <component v-bind:is="normalConsoleText.readme" v-if="showMobileText"></component>
+      <component v-bind:is="infoConsoleText.readme" v-if="showMobileText"></component>
     </div>
 
     <div class="content">
@@ -40,19 +40,13 @@ module.exports =
 
   computed:
     activeProjectWindow: -> return @$store.state.activeProjectWindow
-    normalConsoleText:   -> return @$store.state.normalConsoleText
+    infoConsoleText:   -> return @$store.state.infoConsoleText
     port: ->                return @$store.state.port
 
 </script>
 
 <style lang="sass">
 @import src/styles/main
-
-@keyframes flicker
-  $steps: 20
-  @for $i from 0 through $steps
-    #{percentage($i*(1/$steps))}
-      opacity: random()
 
 #project-content
   .banner

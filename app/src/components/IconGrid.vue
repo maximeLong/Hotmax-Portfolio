@@ -7,7 +7,7 @@
         <img src="../assets/folder-icon.svg">
         <div class="caption">Hotmax Work</div>
       </div>
-      <div @click="openOverlay(consoleTexts.contactUs)" class="icon file">
+      <div @click="openOverlay('contact')" class="icon file">
         <img src="../assets/file-icon.svg">
         <div class="caption">Contact Us</div>
       </div>
@@ -15,16 +15,17 @@
     </div>
     <div class="icon-group">
 
-      <div @click="openOverlay(consoleTexts.aboutUs)" class="icon file">
+      <div @click="openOverlay('about')" class="icon file">
         <img src="../assets/file-icon.svg">
         <div class="caption">About Us</div>
       </div>
-      <div @click="openOverlay(consoleTexts.ourServices)" class="icon file">
+      <div @click="openOverlay('services')" class="icon file">
         <img src="../assets/file-icon.svg">
         <div class="caption">Our Services</div>
       </div>
 
     </div>
+
     <!-- <div class="icon-group float-group" v-if="port != 'mobile'">
 
       <div @click="openNavigatorWindow(navigatorWindows.rubbish)" class="icon rubbish">
@@ -47,12 +48,10 @@ module.exports =
   methods:
     openPortfolio: ()->
       @showNew = false
-      @$store.dispatch 'openPortfolio'
+      @$router.push('work')
 
     openOverlay: (view)->
-      overlay = view
-      overlay.orientation = 'portrait'
-      @$store.dispatch 'openServicesOverlay', view
+      @$router.push(view)
 
     openNavigatorWindow: (view)->
       @$store.commit 'SET_NAVIGATOR_WINDOW_IS_OPEN', true

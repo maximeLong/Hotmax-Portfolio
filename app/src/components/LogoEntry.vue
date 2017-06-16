@@ -3,18 +3,18 @@
 
     <div class="entry-directions" :class="{ 'fade-out' : entryTimer != null }">
 
-      <transition name="fadedelay" appear v-on:after-enter="emitLogoDone()">
+      <transition name="fadedelay" appear v-on:after-enter="listenForEntryPress">
         <div class="big-logo" v-if="port != 'mobile'"></div>
       </transition>
 
-      <transition name="fadedown" appear v-on:after-enter="emitLogoDone()">
+      <transition name="fadedown" appear v-on:after-enter="listenForEntryPress">
         <intro-text v-if="port == 'mobile'"></intro-text>
       </transition>
 
-      <transition name="fadeup">
+      <transition name="fadeup" v-on:after-enter="attachMobileListeners">
         <div class="directions" v-if="logoDone && port == 'desktop'">Press and hold [ <span>space</span> ] to log in.</div>
         <div class="directions mobile" v-if="logoDone && port != 'desktop'">
-          <button class="thumb" id="thumbprint"></button>
+          <button class="thumb" ref="thumbprint" id="thumbprint"></button>
           <div>Please scan your thumb to login</div>
         </div>
       </transition>
@@ -30,19 +30,66 @@ module.exports =
   components:
     IntroText: require './IntroText'
 
-  props:
-    entryTimer: default: null
-
   data: ->
-    logoDone: false
+    logoDone:   false
+    entryTimer: null
 
   methods:
-    emitLogoDone: ->
+    listenForEntryPress: ->
       @logoDone = true
-      @$emit('logoDone')
+      if @port is 'desktop'
+        window.addEventListener 'keydown', (e)=>
+          @introDownEvent(e, 'key')
+        window.addEventListener 'keyup', (e)=>
+          @introUpEvent(e, 'key')
+
+    attachMobileListeners: ->
+      if @port != 'desktop'
+        @$refs.thumbprint.addEventListener 'touchstart', (e)=>
+          @introDownEvent(e, 'touch')
+        @$refs.thumbprint.addEventListener 'touchend', (e)=>
+          @introUpEvent(e, 'touch')
+        @$refs.thumbprint.addEventListener 'mousedown', (e)=>
+          @introDownEvent(e, 'touch')
+        @$refs.thumbprint.addEventListener 'mouseup', (e)=>
+          @introUpEvent(e, 'touch')
+
+
+    introDownEvent: (e, type)->
+      if @entryIndex is 1
+        if (type is 'touch' and @port is 'mobile') #mobile handle
+          @setEntryIndex(2)
+
+        if (type is 'key' and e.keyCode is 32) or (type is 'touch' and @port is 'tablet') #desktop and tablet handle
+          @$store.commit 'SET_THREE_GLITCH', true
+          if @entryTimer is null
+            @entryTimer =
+              setTimeout =>
+                @setEntryIndex(2)
+              , 3000
+    introUpEvent: (e, type)->
+      if @entryIndex is 1
+        if (type is 'key' and e.keyCode is 32) or type is 'touch'
+          @$store.commit 'SET_THREE_GLITCH', false
+          clearTimeout(@entryTimer)
+          @entryTimer = null
+
+    setEntryIndex: (index)-> @$store.commit 'SET_ENTRY_INDEX', index
+
 
   computed:
-    port: ->  return @$store.state.port
+    port: ->        return @$store.state.port
+    entryIndex: ->  return @$store.state.entryIndex
+
+  destroyed: ->
+    if @port is 'desktop'
+      window.removeEventListener 'keydown', (e) => console.log('im removed')
+      window.removeEventListener 'keyup', (e) => console.log('im removed')
+    if @port != 'desktop'
+      @$refs.thumbprint.removeEventListener 'touchstart', (e) => console.log('im removed')
+      @$refs.thumbprint.removeEventListener 'touchend', (e) => console.log('im removed')
+      @$refs.thumbprint.removeEventListener 'mousedown', (e) => console.log('im removed')
+      @$refs.thumbprint.removeEventListener 'mouseup', (e) => console.log('im removed')
 
 
 </script>

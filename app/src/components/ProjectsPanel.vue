@@ -50,7 +50,7 @@ module.exports =
     RubbishBin:   require './RubbishBin'
     Portfolio:    require './Portfolio'
     IconGrid:     require './IconGrid'
-    PopupPanel:   require './PopupPanel'
+    #PopupPanel:   require './PopupPanel'
 
 
     #content components

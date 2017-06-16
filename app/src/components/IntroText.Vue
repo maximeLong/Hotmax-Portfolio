@@ -19,7 +19,7 @@
       v-on:done="lineDone += 1">
     </typed>
 
-    <transition name="fadeup">
+    <transition name="fade">
       <div id="services-panel" v-if="lineDone == startServiceId" @click="openOverlay(consoleTexts.ourServices)">
         <div class="intro">Hotmax does</div>
 

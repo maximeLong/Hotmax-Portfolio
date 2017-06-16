@@ -1,13 +1,12 @@
 <template>
   <div id="app" :class="{ entryMode: entryIndex < 2 }">
 
+    <!-- entry logo and text that appears above planets -->
     <logo-entry
       v-if="entryIndex == 1"
-      :entryTimer="entryTimer"
-      v-on:logoDone="logoDone = true"
     ></logo-entry>
 
-    <!-- main desktop container -->
+    <!-- main desktop container, enters on entryIndex == 2 -->
     <transition appear name="slowfade">
       <div id="desktop-experience" v-if="entryIndex > 1">
 
@@ -19,16 +18,16 @@
           </div>
         </div>
 
-        <div id="header-container">
+        <div id="footer-container">
           <transition appear v-on:enter="beginShowingDesktop()" name="fadeup">
-            <header-panel></header-panel>
+            <footer-panel></footer-panel>
           </transition>
         </div>
 
       </div>
     </transition>
 
-    <!-- persistent three container, only show on desktop -->
+    <!-- persistent three container, dont show on mobile -->
     <div class="three-container" v-if="port != 'mobile'">
       <transition name="glitch">
         <div class="growth-container" ref="three"
@@ -40,9 +39,6 @@
       </transition>
     </div>
 
-    <!-- handles click sounds and shit -->
-    <click-handler></click-handler>
-
   </div>
 </template>
 
@@ -51,66 +47,40 @@ module.exports =
 
   name: 'app'
   components:
-    Entry:          require './components/Entry'
     LogoEntry:      require './components/LogoEntry'
     ProjectsPanel:  require './components/ProjectsPanel'
     ConsolePanel:   require './components/ConsolePanel'
-    HeaderPanel:    require './components/HeaderPanel'
+    FooterPanel:    require './components/FooterPanel'
     OverlayPanel:   require './components/OverlayPanel'
     Three:          require './components/Three'
-    ClickHandler:   require './components/ClickHandler'
 
   data: ->
     threeMode:    'entry'
     overlayHeight: 90
     overlayWidth:  70
     threeWidth:    ''
-    entryTimer:    null
-    logoDone:      false
-
 
   mounted: ->
-
-    #intro listeners
-    @$watch 'logoDone', (val)->
-      if val is true
-        if @port is 'desktop'
-          window.addEventListener 'keydown', (e)=>
-            @introDownEvent(e, 'key')
-          window.addEventListener 'keyup', (e)=>
-            @introUpEvent(e, 'key')
-        if @port != 'desktop'
-          document.getElementById('thumbprint').addEventListener 'touchstart', (e)=>
-            @introDownEvent(e, 'touch')
-          document.getElementById('thumbprint').addEventListener 'touchend', (e)=>
-            @introUpEvent(e, 'touch')
-          document.getElementById('thumbprint').addEventListener 'mousedown', (e)=>
-            @introDownEvent(e, 'touch')
-          document.getElementById('thumbprint').addEventListener 'mouseup', (e)=>
-            @introUpEvent(e, 'touch')
-
-
+    
+    #TODO: this should really be in init plugin but router has a race condition
+    if @$store.state.route.path is '/'
+      @$store.commit 'SET_ENTRY_INDEX', 1
+    else
+      @$store.commit 'SET_ENTRY_INDEX', 2
 
     # pass entryIndex info down into three.js component
-    @$watch 'entryIndex', (index)->
+    @$watch 'entryIndex', (index)=>
       if index is 2
-        @threeMode = 'desktop' #set desktop mode to show everything
-        @threeWidth = @$refs.three?.clientHeight #set width of new three container
-        if @soundIsOn
-          audio = new Audio("/static/wavs/opening/start.wav");
-          audio.play()
-        setTimeout =>
-          @$store.commit 'SET_THREE_GLITCH', false
-        , 3500
+        @changeSunPosition()
 
+    # reset the three circle width on a resize TODO: also do the vertical width
     window.addEventListener 'resize', ()=>
       if @threeMode is 'desktop'
         @threeWidth = @$refs.three?.clientHeight
 
 
-
   computed:
-    # show on desktop, not on mobile, on tablet only show on landing
+    # show console fully on desktop, on tablet only show on landing
     handleConsoleVisibility: ->
       if @consolePanelVisibility
         if @port is 'tablet'
@@ -119,14 +89,13 @@ module.exports =
         else return true
 
     # vuex store
-    port: ->        return @$store.state.port
+    port: -> return @$store.state.port
     portfolioWindowIsOpen: -> return @$store.state.portfolioWindowIsOpen
     projectWindowIsOpen:   -> return @$store.state.projectWindowIsOpen
 
     entryIndex: ->  return @$store.state.entryIndex
     projectPanelVisibility: -> return @$store.state.projectPanelVisibility
     consolePanelVisibility: -> return @$store.state.consolePanelVisibility
-    systemColor: ->            return @$store.state.systemColor
     overlayIsOpen: -> return @$store.state.overlayIsOpen
     activeOverlay: -> return @$store.state.activeOverlay
     showThreeGlitch: -> return @$store.state.showThreeGlitch
@@ -143,26 +112,16 @@ module.exports =
         @$store.commit 'SET_CONSOLE_PANEL_VISIBILITY', true
       , 2500
 
-    introDownEvent: (e, type)->
-      if @entryIndex is 1
-        if (type is 'touch' and @port is 'mobile') #mobile handle
-          @setEntryIndex(2)
+    changeSunPosition: ->
+      @threeMode = 'desktop' #set desktop mode to show everything
+      @threeWidth = @$refs.three?.clientHeight #set width of new three container
+      if @soundIsOn
+        audio = new Audio("/static/wavs/opening/start.wav");
+        audio.play()
+      setTimeout =>
+        @$store.commit 'SET_THREE_GLITCH', false
+      , 3500
 
-        if (type is 'key' and e.keyCode is 32) or (type is 'touch' and @port is 'tablet') #desktop and tablet handle
-          @$store.commit 'SET_THREE_GLITCH', true
-          if @entryTimer is null
-            @entryTimer =
-              setTimeout =>
-                @setEntryIndex(2)
-              , 3000
-    introUpEvent: (e, type)->
-      if @entryIndex is 1
-        if (type is 'key' and e.keyCode is 32) or type is 'touch'
-          @$store.commit 'SET_THREE_GLITCH', false
-          clearTimeout(@entryTimer)
-          @entryTimer = null
-
-    setEntryIndex: (index)-> @$store.commit 'SET_ENTRY_INDEX', index
     toggleSound: -> @$store.commit 'TOGGLE_SOUND', !@soundIsOn
 
 
@@ -213,22 +172,6 @@ module.exports =
           top: 50%
           left: 50%
           +translateXY(-50%, -50%)
-        // +screen(desktop)
-        //   &::before
-        //     +transition(.15s ease all)
-        //     opacity: .8
-        //     +defaultType(normal)
-        //     content: 'ホットマックス'
-        //     font-size: 60px
-        //     line-height: 44px
-        //     color: inherit
-        //     text-align: center
-        //     position: absolute
-        //     width: 150%
-        //     height: 125px
-        //     bottom: -200px
-        //     right: 50%
-        //     +translateX(50%)
 
 
   #entry-experience
@@ -250,7 +193,7 @@ module.exports =
     overflow-y: hidden
     background-color: #f5e6e3
 
-    #header-container
+    #footer-container
       height: 60px
       width: 100%
     #body-container
@@ -278,7 +221,6 @@ module.exports =
         max-width: 100%
         min-width: 0
       +screen(tablet)
-        // padding: 0 30px
         width: 80%
         max-width: 100%
 

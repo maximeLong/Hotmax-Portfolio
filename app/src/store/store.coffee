@@ -4,7 +4,6 @@ Vuex = require('vuex')
 state =
   # entry to desktop toggles
   port: ''
-
   webGlIsWorking: true
   entryIndex: 1
   showThreeGlitch: false
@@ -14,7 +13,8 @@ state =
   consolePanelVisibility: false
 
 
-  # portfolio, project, navigator, and overlay window statuses
+  # overlay normally is defined on ProjectImage -- for special overlays they are defined here
+  # activeOverlay is set from action
   overlayIsOpen: false
   activeOverlay: {}
   overlays:
@@ -22,6 +22,7 @@ state =
       title: 'asteroids.exe'
       orientation: 'portrait'
 
+  #navigator windows are small window containers -- basically only rubbish at the moment
   navigatorWindowIsOpen: false
   activeNavigatorWindow: {}
   navigatorWindows:
@@ -31,34 +32,39 @@ state =
       readMe: ''
 
 
-  # console state
-  normalConsoleIsOpen:    false
-  normalConsoleText:    {}
+  # console states
+  # infoConsoleText is set from actions
+  infoConsoleIsOpen:    false
+  infoConsoleText:    {}
   consoleTexts:
     aboutUs:
       title:      'About Us.txt'
       type:       'text'
       component:  'OurStory'
+      orientation: 'portrait'
     ourServices:
       title:      'Our Services.txt'
       type:       'text'
       component:  'OurServices'
+      orientation: 'portrait'
     contactUs:
       title:      'Contact Us.txt'
       type:       'text'
       component:  'OurContact'
+      orientation: 'portrait'
     portfolio:
       title:      'Portfolio.txt'
       type:       'text'
       component:  'PortfolioText'
-
+      orientation: 'portrait'
 
   # portfolio options
   portfolioWindowIsOpen: false
   activePortfolioOption: 'All'
   portfolioOptions: [ 'All', 'UI Design', 'Sound Design', 'App Dev.', 'VR', 'AR' ]
 
-  # projects
+
+  # portfolio projects, and info -- eventually should be moved out to another file
   projectWindowIsOpen: false
   activeProjectWindow: {}
   projectWindows:
@@ -144,10 +150,10 @@ mutations =
   SET_ACTIVE_PROJECT_WINDOW: (state, project)->
     state.activeProjectWindow = project
 
-  SET_NORMAL_CONSOLE_IS_OPEN: (state, status)->
-    state.normalConsoleIsOpen = status
-  SET_NORMAL_CONSOLE_TEXT: (state, text)->
-    state.normalConsoleText = text
+  SET_INFO_CONSOLE_IS_OPEN: (state, status)->
+    state.infoConsoleIsOpen = status
+  SET_INFO_CONSOLE_TEXT: (state, text)->
+    state.infoConsoleText = text
 
   SET_OVERLAY_IS_OPEN: (state, status)->
     state.overlayIsOpen = status

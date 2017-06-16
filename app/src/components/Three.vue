@@ -1,45 +1,5 @@
 <template>
-  <div id="three">
-    <!-- <div class="camera-stuff">
-      <div>
-        position x:<button v-on:click="changeCameraPosition('x', 'up')">x up</button>
-        <button v-on:click="changeCameraPosition('x', 'down')">x down</button>
-      </div>
-      <div>
-        position y:<button v-on:click="changeCameraPosition('y', 'up')">y up</button>
-        <button v-on:click="changeCameraPosition('y', 'down')">y down</button>
-      </div>
-      <div>
-        position z:<button v-on:click="changeCameraPosition('z', 'up')">z up</button>
-        <button v-on:click="changeCameraPosition('z', 'down')">z down</button>
-      </div>
-      <div>
-        rotation x:<button v-on:click="changeCameraRotation('x', 'up')">x rotation up</button>
-        <button v-on:click="changeCameraRotation('x', 'down')">x rotation down</button>
-      </div>
-      <div>
-        rotation y:<button v-on:click="changeCameraRotation('y', 'up')">y rotation up</button>
-        <button v-on:click="changeCameraRotation('y', 'down')">y rotation down</button>
-      </div>
-      <div>
-        rotation z:<button v-on:click="changeCameraRotation('z', 'up')">z rotation up</button>
-        <button v-on:click="changeCameraRotation('z', 'down')">z rotation down</button>
-      </div>
-
-      <div>
-        map r x:<button v-on:click="changeMapRotation('x', 'up')">x rotation up</button>
-        <button v-on:click="changeMapRotation('x', 'down')">x rotation down</button>
-      </div>
-      <div>
-        map r y:<button v-on:click="changeMapRotation('y', 'up')">y rotation up</button>
-        <button v-on:click="changeMapRotation('y', 'down')">y rotation down</button>
-      </div>
-      <div>
-        map r z:<button v-on:click="changeMapRotation('z', 'up')">z rotation up</button>
-        <button v-on:click="changeMapRotation('z', 'down')">z rotation down</button>
-      </div> -->
-    </div>
-  </div>
+  <div id="three"></div>
 </template>
 
 <style lang="sass">
@@ -60,7 +20,9 @@
 
 <script lang="coffee">
 THREE = require 'three'
+Stats = require 'stats.js'
 _ = require 'lodash'
+{ TweenLite } = require 'gsap'
 { EffectComposer, BloomPass, RenderPass, FilmPass, GlitchPass } = require 'postprocessing'
 
 module.exports =
@@ -75,12 +37,17 @@ module.exports =
     orbitTracks: []
     planetParents: []
     planets: []
+    sunRayCast: false
 
   mounted: ->
     # set up scene and camera
     scene = new THREE.Scene()
     @HEIGHT = window.innerHeight
     @WIDTH = window.innerWidth
+
+    stats = new Stats()
+    stats.showPanel( 1 ) #0: fps, 1: ms, 2: mb, 3+: custom
+    document.body.appendChild( stats.dom )
 
     # window.addEventListener('resize', handleWindowResize, false) # update the camera and the renderer size on window resize
 
@@ -107,6 +74,7 @@ module.exports =
     })
     @sunMesh = new THREE.Mesh( sunGeo, sunMat )
     @sunMesh.receiveShadow = true
+    @sunMesh.name = 'sun'
     @map.add( @sunMesh )
 
     # add track/planet parent object -- used for rotation
@@ -132,7 +100,6 @@ module.exports =
     @lineFactory(@planets, 'planet')
     for planet,i in @planets
       @planetParents[i].add( planet )
-
 
     scene.fog = new THREE.Fog(0xf7d9aa, 100,950)                        # fog??
     hemisphereLight = new THREE.HemisphereLight(0xb98a5b,0x000000, .9)  # lighting
@@ -180,6 +147,7 @@ module.exports =
       mouse.x = ( event.clientX / @WIDTH ) * 2 - 1
       mouse.y = - ( event.clientY / @HEIGHT ) * 2 + 1
     , false
+
     raycaster = new THREE.Raycaster()
 
 
@@ -198,6 +166,21 @@ module.exports =
         bloomPass.renderToScreen  = true
 
 
+    #watch for sun hit and do something
+    @$watch 'sunRayCast', (mode)=>
+      if mode is true
+        console.log 'sun has been hit'
+        console.log @sunMesh
+
+        # TweenLite.to( @sunMesh.rotation, 2, {
+        #   y: -Math.PI
+        #   ease: Bounce.easeOut
+        # })
+
+      else
+        console.log 'sun is not being hit'
+
+
     # //////////////////////////////////////////
     #  R E N D E R   L O O P
     # /////////////////////////////////////////
@@ -205,11 +188,13 @@ module.exports =
       delta = clock.getDelta()
       time = clock.getElapsedTime()
 
+      stats.begin()
+
       # on desktop flag -> animate new position and track mouse position
       if @mode is 'desktop'
         @camera.position.z += .05  if @camera.position.z <= 12.5
         @camera.rotation.z -= .01  if @camera.rotation.z >= -1.5
-        @map.rotation.x += .01     if @map.rotation.x <= 1.55
+        @map.rotation.x    += .01  if @map.rotation.x <= 1.55
 
         @orbitTracks[0].rotation.z = mouse.y * 0.3
         @orbitTracks[0].rotation.x = mouse.x * 0.3
@@ -221,15 +206,13 @@ module.exports =
         @orbitTracks[3].rotation.x = -mouse.x * 0.15
 
 
-      #update the mouse ray with the camera and mouse position
+      #raycasting watcher
       raycaster.setFromCamera( mouse, @camera )
       intersects = raycaster.intersectObjects( @map.children )
-      if @mode is 'desktop'
-        if intersects.length > 0
-          @setColor(intersects[0].object)
-        else
-          for line in @orbitTracks
-            line.material.color.setHex('0xffffff')
+      if intersects.length > 0
+        names = intersects.map (intersect)-> intersect.object.name
+        if _.includes(names, 'sun') then @sunRayCast = true else @sunRayCast = false
+
 
       # rotation of orbit tracks and sun
       for line,i in @orbitTracks
@@ -252,6 +235,8 @@ module.exports =
       @rotationalParents[2].rotation.y += 0.0025
       @rotationalParents[3].rotation.y += 0.00125
 
+      stats.end()
+
       requestAnimationFrame(render)
       composer1.render(delta)
       composer2.render(delta)
@@ -259,17 +244,6 @@ module.exports =
 
 
   methods:
-    setColor: _.throttle (currentLine)->
-      for line in @orbitTracks
-        line.material.color.setHex('0xffffff') #set all orbit lines to white
-
-      if currentLine.material.name is 'sun'
-        # currentLine.material.color.setHex( Math.random() * 0xffffff )
-        # do nothing right now
-      else
-        currentLine.material.color.setHex('0xb98a5b') #set orbit lines to action color
-    , 125
-
     runSunSound: _.throttle ()->
       if @sound
         audio = new Audio("/static/wavs/orbitTracks/planetTrack1.wav");
@@ -288,25 +262,7 @@ module.exports =
         audio.play()
     , 125
 
-
-    # camera methods for testing
-    changeCameraPosition: (axis, direction)->
-      if direction is 'up'
-        @camera.position[axis] += .5
-      if direction is 'down'
-        @camera.position[axis] -= .5
-    changeCameraRotation: (axis, direction)->
-      if direction is 'up'
-        @camera.rotation[axis] += .5
-      if direction is 'down'
-        @camera.rotation[axis] -= .5
-    changeMapRotation: (axis, direction)->
-      if direction is 'up'
-        @map.rotation[axis] += .5
-      if direction is 'down'
-        @map.rotation[axis] -= .5
-
-
+    # rotational stuff
     rotateOnOneAxis: (mesh, amount, axis)->
       mesh.rotation[axis] += amount
     rotateOnXYAxis: (mesh, amount)->

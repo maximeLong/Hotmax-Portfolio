@@ -52,16 +52,13 @@ module.exports =
       @$store.commit 'SET_ACTIVE_PORTFOLIO_OPTION', option
 
     closeWindow: ->
-      if @type is 'overlay'
-        @$store.commit 'SET_OVERLAY_IS_OPEN', false
-      if @type is 'navigator'
-        @$store.commit 'SET_NAVIGATOR_WINDOW_IS_OPEN', false
+      if @type is 'overlay' or 'navigator' or 'portfolio'
+        @$router.push('/') #goes back to hub
 
       if @type is 'project'
-        @$store.dispatch 'openPortfolio'
         @$refs.windowContent.scrollTop = 0
-      if @type is 'portfolio'
-        @$store.commit 'SET_PORTFOLIO_WINDOW_IS_OPEN', false
+        @$router.push('work') #goes back to work
+
 
 </script>
 

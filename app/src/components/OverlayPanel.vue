@@ -26,6 +26,7 @@
       </div>
 
     </window>
+  </div>
 </template>
 
 <script lang="coffee">
@@ -34,7 +35,7 @@ module.exports =
   name: 'overlayPanel'
   components:
     Window:       require './Window'
-    Asteroids:    require './Asteroids'
+    #Asteroids:    require './Asteroids'
 
     OurServices:    require './OurServices'
     OurStory:       require './OurStory'
