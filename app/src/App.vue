@@ -1,42 +1,51 @@
 <template>
-  <div id="app" :class="{ entryMode: entryIndex < 2 }">
+  <div id="app" :class="{ entryMode: entryIndex == 1 }">
 
-    <!-- entry logo and text that appears above planets -->
+    <!-- entry logo and text that appears above initial planets -->
     <logo-entry
       v-if="entryIndex == 1"
-    ></logo-entry>
+      v-on:done="runNarrativeEntry">
+    </logo-entry>
 
-    <!-- main desktop container, enters on entryIndex == 2 -->
-    <transition appear name="slowfade">
-      <div id="desktop-experience" v-if="entryIndex > 1">
 
-        <div id="body-container">
-          <projects-panel v-if="projectPanelVisibility"></projects-panel>
-          <console-panel v-if="handleConsoleVisibility"></console-panel>
-          <div id="overlay-container" v-if="overlayIsOpen">
-            <overlay-panel></overlay-panel>
-          </div>
+    <!-- main desktop container, enters on hub mode -->
+      <transition name="slowfade">
+    <div id="desktop-experience" v-if="entryIndex > 1">
+
+      <div id="body-container">
+        <projects-panel v-if="projectPanelVisibility"></projects-panel>
+        <console-panel v-if="handleConsoleVisibility"></console-panel>
+        <div id="overlay-container" v-if="overlayIsOpen">
+          <overlay-panel></overlay-panel>
         </div>
-
-        <div id="footer-container">
-          <transition appear v-on:enter="beginShowingDesktop()" name="fadeup">
-            <footer-panel></footer-panel>
-          </transition>
-        </div>
-
       </div>
-    </transition>
+
+      <div id="footer-container">
+        <transition appear v-on:enter="beginShowingHub()" name="fadeup">
+          <footer-panel></footer-panel>
+        </transition>
+      </div>
+
+    </div>
+      </transition>
+
 
     <!-- persistent three container, dont show on mobile -->
-    <div class="three-container" v-if="port != 'mobile'">
-      <transition name="glitch">
-        <div class="growth-container" ref="three"
-             v-if="entryIndex > 0"
-             :class="{ entry: entryIndex == 1, desktop: entryIndex > 1 }"
-             :style="{ width: threeWidth + 'px' }">
-            <three :mode="threeMode" :glitch="showThreeGlitch" :sound="soundIsOn" v-if="webGlIsWorking"></three>
-        </div>
-      </transition>
+    <div class="three-container" v-if="showThreeJS">
+
+      <div class="planet-container" ref="three"
+        :class="planetContainer.type"
+        :style="{width: planetContainer.width}">
+
+        <three
+          :cameraPosition="cameraPosition"
+          :animateCameraChange="animateCameraChange"
+          :glitch="showThreeGlitch"
+          :sound="soundIsOn"
+          v-if="webGlIsWorking">
+        </three>
+
+      </div>
     </div>
 
   </div>
@@ -55,27 +64,30 @@ module.exports =
     Three:          require './components/Three'
 
   data: ->
-    threeMode:    'entry'
-    overlayHeight: 90
-    overlayWidth:  70
-    threeWidth:    ''
+    cameraPosition:      'entry'
+    animateCameraChange: false
+    hideThreeJS: true
+    planetContainer:
+      type: 'entry'
+      width: '100%'
 
   mounted: ->
-    
-    #TODO: this should really be in init plugin but router has a race condition
-    if @$store.state.route.path is '/'
-      @$store.commit 'SET_ENTRY_INDEX', 1
-    else
-      @$store.commit 'SET_ENTRY_INDEX', 2
 
-    # pass entryIndex info down into three.js component
-    @$watch 'entryIndex', (index)=>
-      if index is 2
-        @changeSunPosition()
+    #TODO: move to some other init place -- checks if entry experience is needed or can be skipped
+    if @$store.state.route.path is '/'
+      @$store.commit 'SET_ENTRY_ROUTE', '/'
+      @$store.commit 'SET_ENTRY_INDEX', 1
+      @hideThreeJS = false
+    else
+      @$store.commit 'SET_ENTRY_ROUTE', @$store.state.route.path
+      @$store.commit 'SET_ENTRY_INDEX', 2
+      @hideThreeJS = true
+      #@setPlanetsToHubMode()
+
 
     # reset the three circle width on a resize TODO: also do the vertical width
     window.addEventListener 'resize', ()=>
-      if @threeMode is 'desktop'
+      if @cameraPosition is 'hub'
         @threeWidth = @$refs.three?.clientHeight
 
 
@@ -87,6 +99,12 @@ module.exports =
           return false if @portfolioWindowIsOpen or @projectWindowIsOpen
         if @port is 'mobile' then return false
         else return true
+
+    showThreeJS: ->
+      if @port is 'mobile' or @hideThreeJS
+        return false
+      else return true
+
 
     # vuex store
     port: -> return @$store.state.port
@@ -103,23 +121,35 @@ module.exports =
     soundIsOn:       -> return @$store.state.soundIsOn
 
   methods:
-    # vuex mutators
-    beginShowingDesktop: ->
+    beginShowingHub: ->
+      duration = 2500
+      if @$store.state.route.path is '/' then duration = 2500 else duration = 500
       setTimeout =>
         @$store.commit 'SET_PROJECT_PANEL_VISIBILITY', true
-      , 2500
+      , duration
       setTimeout =>
         @$store.commit 'SET_CONSOLE_PANEL_VISIBILITY', true
-      , 2500
+      , duration
 
-    changeSunPosition: ->
-      @threeMode = 'desktop' #set desktop mode to show everything
-      @threeWidth = @$refs.three?.clientHeight #set width of new three container
+    setPlanetsToHubMode: ->
+      @cameraPosition = 'hub'                     # move camera to hub position
+      @animateCameraChange = true                # animate change
+      @planetContainer.type = 'hubIsActive'
+      #TODO: this is completely stupid
+      setTimeout =>
+        @planetContainer.width = @$refs.three.clientHeight + 'px'
+      , 50
+
+    runNarrativeEntry: ->
+      @$store.commit 'SET_ENTRY_INDEX', 2         # move entry index forward
+      @setPlanetsToHubMode()                      # set planets
       if @soundIsOn
         audio = new Audio("/static/wavs/opening/start.wav");
         audio.play()
       setTimeout =>
-        @$store.commit 'SET_THREE_GLITCH', false
+        @$store.commit 'SET_THREE_GLITCH', false  # set glitch to false
+        @animateCameraChange = false              # have animation go back to being false
+        @planetContainer.width = @$refs.three.clientHeight + 'px' # just to be safe
       , 3500
 
     toggleSound: -> @$store.commit 'TOGGLE_SOUND', !@soundIsOn
@@ -150,12 +180,12 @@ module.exports =
     +flexbox
     +align-items(center)
     +justify-content(center)
-    .growth-container
+    .planet-container
       position: relative
       +flexbox
       +align-items(center)
       +justify-content(center)
-      &.desktop
+      &.hubIsActive
         // width is overriden by vue
         width: 50%
         height: 50%

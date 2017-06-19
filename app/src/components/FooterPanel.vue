@@ -5,7 +5,7 @@
     </div>
     <div class="other-stuff">
       <div class="work" @click="openPortfolioWindow()">:file</div>
-      <div class="about"@click="openOverlay(consoleTexts.ourServices)">:help</div>
+      <div class="about"@click="openOverlay('/services')">:help</div>
     </div>
     <div class="sound" @click="toggleSound">
       <span v-for="i in 5" :class="{soundOn: soundIsOn, soundOff: !soundIsOn}"></span>
@@ -29,12 +29,10 @@ module.exports =
       @$store.commit 'TOGGLE_SOUND', !@soundIsOn
 
     openPortfolioWindow: ()->
-      @$store.dispatch 'openPortfolio'
+      @$router.push('/work')
+
     openOverlay: (view)->
-      overlay = view
-      overlay.orientation = 'portrait'
-      @$store.commit 'SET_OVERLAY_IS_OPEN', true
-      @$store.commit 'SET_ACTIVE_OVERLAY', view
+      @$router.push(view)
 
 </script>
 

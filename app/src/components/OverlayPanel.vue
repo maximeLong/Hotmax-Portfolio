@@ -1,6 +1,6 @@
 <template>
   <div id="overlay-panel" :class="{portrait: activeOverlay.orientation == 'portrait'}">
-    <window :canClose="true" :shortTitle="'::' + activeOverlay.title" :type="'overlay'">
+    <window :canClose="true" :shortTitle="'::' + activeOverlay.title" :type="windowType">
 
       <div class="asteroids-content" v-if="activeOverlay.title == 'asteroids.exe'">
         <asteroids></asteroids>
@@ -12,8 +12,7 @@
       </div>
 
       <!-- image overlay -->
-      <div class="content" v-if="activeOverlay.type == 'image'"
-           @click="closeOverlay">
+      <div class="content" v-if="activeOverlay.type == 'image'" @click="closeOverlay">
         <img :src="'../static/projects/' + activeOverlay.image"/>
       </div>
 
@@ -44,6 +43,12 @@ module.exports =
   computed:
     activeOverlay: -> return @$store.state.activeOverlay
 
+    windowType: ->
+      if @activeOverlay.type is 'video' or @activeOverlay.type is 'image'
+        return 'blowupOverlay'
+      else
+        return 'servicesOverlay'
+
   methods:
     closeOverlay: ->
       @$store.commit 'SET_OVERLAY_IS_OPEN', false
@@ -71,7 +76,7 @@ module.exports =
     background-color: $ink_black
     +flexbox
 
-  .overlay
+  .servicesOverlay,.blowupOverlay
     .content
       img, video
         cursor: url('../assets/exit.png'), auto

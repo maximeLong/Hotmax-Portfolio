@@ -6,6 +6,8 @@ state =
   port: ''
   webGlIsWorking: true
   entryIndex: 1
+  entryRoute: ''
+
   showThreeGlitch: false
   soundIsOn: true
 
@@ -174,6 +176,9 @@ mutations =
 
   SET_ENTRY_INDEX: (state, index)->
     state.entryIndex = index
+  SET_ENTRY_ROUTE: (state, route)->
+    state.entryRoute = route
+
   SET_PROJECT_PANEL_VISIBILITY: (state, status)->
     state.projectPanelVisibility = status
   SET_CONSOLE_PANEL_VISIBILITY: (state, status)->

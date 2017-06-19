@@ -28,9 +28,10 @@ _ = require 'lodash'
 module.exports =
   name: 'three'
   props:
-    mode:   type: String
-    glitch: type: Boolean
-    sound:  type: Boolean
+    cameraPosition:      type: String
+    animateCameraChange: type: Boolean
+    glitch:              type: Boolean
+    sound:               type: Boolean
 
   data: ->
     rotationalParents: []
@@ -38,6 +39,7 @@ module.exports =
     planetParents: []
     planets: []
     sunRayCast: false
+    finalCameraPosition: [12.5, -1.5, 1.55] #corresponds to: pos.z, rot.z, rot.x
 
   mounted: ->
     # set up scene and camera
@@ -127,7 +129,7 @@ module.exports =
     })
     glitchPass = new GlitchPass() # glitch pass and default mode -- used for transition
     glitchPass.mode = .5
-    bloomPass = new BloomPass({   # bloom pass -- used for desktop
+    bloomPass = new BloomPass({   # bloom pass -- used for hub
       resolution:  0.5
       blurriness:  1.0
       strength:    1.1
@@ -150,12 +152,6 @@ module.exports =
 
     raycaster = new THREE.Raycaster()
 
-
-    # change pass on desktop mode change
-    # @$watch 'mode', (mode)=>
-    #   if mode is 'desktop'
-    #     bloomPass.renderToScreen  = true
-    #     filmPass.renderToScreen   = false
 
     @$watch 'glitch', (mode)=>
       if mode is true
@@ -190,11 +186,16 @@ module.exports =
 
       stats.begin()
 
-      # on desktop flag -> animate new position and track mouse position
-      if @mode is 'desktop'
-        @camera.position.z += .05  if @camera.position.z <= 12.5
-        @camera.rotation.z -= .01  if @camera.rotation.z >= -1.5
-        @map.rotation.x    += .01  if @map.rotation.x <= 1.55
+      # on hub flag -> either animate or go right to new position, and follow mouse
+      if @cameraPosition is 'hub'
+        if @animateCameraChange
+          @camera.position.z += .05  if @camera.position.z <= @finalCameraPosition[0]
+          @camera.rotation.z -= .01  if @camera.rotation.z >= @finalCameraPosition[1]
+          @map.rotation.x    += .01  if @map.rotation.x <= @finalCameraPosition[2]
+        else
+          @camera.position.z = @finalCameraPosition[0]
+          @camera.rotation.z = @finalCameraPosition[1]
+          @map.rotation.x    = @finalCameraPosition[2]
 
         @orbitTracks[0].rotation.z = mouse.y * 0.3
         @orbitTracks[0].rotation.x = mouse.x * 0.3
