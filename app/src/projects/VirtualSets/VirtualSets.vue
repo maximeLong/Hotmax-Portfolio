@@ -3,7 +3,7 @@
 
     <project-image
       :videoUrl="'virtualSets/virtualSetTrim.mp4'"
-      :imageUrl="'virtualSets/vs1.png'"
+      :imageUrl="'virtualSets/graphics.png'"
       :orientation="'landscape'"
       :type="'video'">
     </project-image>
