@@ -2,7 +2,7 @@
   <project-content>
 
     <project-image
-      :videoUrl="'virtualSets/virtualSetMovie.mov'"
+      :videoUrl="'virtualSets/virtualSetTrim.mp4'"
       :imageUrl="'virtualSets/vs1.png'"
       :orientation="'landscape'"
       :type="'video'">
