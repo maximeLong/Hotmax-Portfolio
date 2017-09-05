@@ -3,7 +3,7 @@
 
     <div class="header">
       <div class="title">
-        Realtime and interactable CG for broadcast sets
+        Live and interactable CGI for broadcast sets
       </div>
       <div class="readme-text">
         Using depth-based camera technology and VR tracking, we take live feeds of announcers in a greenscreen stage and transpose them into a virtual environment
