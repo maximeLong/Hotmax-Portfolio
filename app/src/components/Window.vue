@@ -4,9 +4,11 @@
 
       <div class="window-header">
         <div class="line-group"><div class="line" v-for="n in 4"></div></div>
-        <div class="close-btn" :class="{ active: canClose}" @click="closeWindow">
-        </div>
+
+        <div class="close-btn" :class="{ active: canClose}" @click="closeWindow"></div>
+
         <div class="line-group"><div class="line" v-for="n in 4"></div></div>
+
       </div>
       <div class="short-title">{{shortTitle}}</div>
 
@@ -52,16 +54,18 @@ module.exports =
       @$store.commit 'SET_ACTIVE_PORTFOLIO_OPTION', option
 
     closeWindow: ->
-      if @type is 'overlay'
+      #HANDLE IMAGE AND VIDEO BLOWUP
+      if @type is 'blowupOverlay'
         @$store.commit 'SET_OVERLAY_IS_OPEN', false
-      if @type is 'navigator'
-        @$store.commit 'SET_NAVIGATOR_WINDOW_IS_OPEN', false
 
-      if @type is 'project'
-        @$store.dispatch 'openPortfolio'
+      #HANDLE PROJECT
+      else if @type is 'project'
         @$refs.windowContent.scrollTop = 0
-      if @type is 'portfolio'
-        @$store.commit 'SET_PORTFOLIO_WINDOW_IS_OPEN', false
+        @$router.push('/work') #goes back to work
+
+      else
+        @$router.push('/') #goes back to hub
+
 
 </script>
 
@@ -168,7 +172,7 @@ module.exports =
     +flex(1)
     background-color: white
     overflow-x: hidden
-    overflow-y: scroll
+    overflow-y: auto
     -webkit-overflow-scrolling: touch
     width: 100%
     height: 100%

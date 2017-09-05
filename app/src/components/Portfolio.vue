@@ -29,7 +29,8 @@ module.exports =
 
   methods:
     openProjectWindow: (view)->
-      @$store.dispatch 'openProjectWindow', view
+      @$router.push("work/#{view.key}")
+      #@$store.dispatch 'openProjectWindow', view
 
   computed:
     tagFiltered: ->

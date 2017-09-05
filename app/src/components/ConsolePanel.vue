@@ -5,15 +5,15 @@
       <window :shortTitle="'::Console.exe'" :type="'consoleWindow'">
         <div class="console">
 
-          <!-- default console -->
+          <!-- landing default console is open -->
           <transition name="fadedown" appear>
             <intro-text v-if="showDefaultConsole"></intro-text>
           </transition>
 
-          <!-- normalConsoleIsOpen -->
+          <!-- informational console is open -->
           <transition name="fadedown" mode="out-in">
-            <component v-bind:is="normalConsoleText.component" v-if="portfolioWindowIsOpen"></component>
-            <component v-bind:is="normalConsoleText.readme" v-if="projectWindowIsOpen"></component>
+            <component v-bind:is="infoConsoleText.component" v-if="portfolioWindowIsOpen"></component>
+            <component v-bind:is="infoConsoleText.readme" v-if="projectWindowIsOpen"></component>
           </transition>
 
         </div>
@@ -39,6 +39,7 @@ module.exports =
     VideoPortalReadme:      require '../projects/VideoPortal/VideoPortalReadme'
     WhereyaatReadme:        require '../projects/Whereyaat/WhereyaatReadme'
     ArSynthReadme:          require '../projects/ArSynth/ArSynthReadme'
+    VirtualSetsReadme:          require '../projects/VirtualSets/VirtualSetsReadme'
     TranslationReadme:      require '../projects/Translation/TranslationReadme'
     WalkthroughReadme:      require '../projects/Walkthrough/WalkthroughReadme'
 
@@ -48,8 +49,8 @@ module.exports =
         return false
       else return true
 
-    normalConsoleIsOpen: ->     return @$store.state.normalConsoleIsOpen
-    normalConsoleText: ->       return @$store.state.normalConsoleText
+    infoConsoleIsOpen: ->     return @$store.state.infoConsoleIsOpen
+    infoConsoleText: ->       return @$store.state.infoConsoleText
 
     portfolioWindowIsOpen: ->   return @$store.state.portfolioWindowIsOpen
     projectWindowIsOpen: ->     return @$store.state.projectWindowIsOpen

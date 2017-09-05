@@ -1,47 +1,52 @@
 <template>
-  <div id="app" :class="{ entryMode: entryIndex < 2 }">
+  <div id="app" :class="{ entryMode: entryIndex == 1 }">
 
+    <!-- entry logo and text that appears above initial planets -->
     <logo-entry
       v-if="entryIndex == 1"
-      :entryTimer="entryTimer"
-      v-on:logoDone="logoDone = true"
-    ></logo-entry>
+      v-on:done="runNarrativeEntry">
+    </logo-entry>
 
-    <!-- main desktop container -->
-    <transition appear name="slowfade">
-      <div id="desktop-experience" v-if="entryIndex > 1">
 
-        <div id="body-container">
-          <projects-panel v-if="projectPanelVisibility"></projects-panel>
-          <console-panel v-if="handleConsoleVisibility"></console-panel>
-          <div id="overlay-container" v-if="overlayIsOpen">
-            <overlay-panel></overlay-panel>
-          </div>
+    <!-- main desktop container, enters on hub mode -->
+      <transition name="slowfade">
+    <div id="desktop-experience" v-if="entryIndex > 1">
+
+      <div id="body-container">
+        <projects-panel v-if="projectPanelVisibility"></projects-panel>
+        <console-panel v-if="handleConsoleVisibility"></console-panel>
+        <div id="overlay-container" v-if="overlayIsOpen">
+          <overlay-panel></overlay-panel>
         </div>
+      </div>
 
-        <div id="header-container">
-          <transition appear v-on:enter="beginShowingDesktop()" name="fadeup">
-            <header-panel></header-panel>
-          </transition>
-        </div>
+      <div id="footer-container">
+        <transition appear v-on:enter="beginShowingHub()" name="fadeup">
+          <footer-panel></footer-panel>
+        </transition>
+      </div>
+
+    </div>
+      </transition>
+
+
+    <!-- persistent three container, dont show on mobile -->
+    <div class="three-container" v-if="showThreeJS">
+
+      <div class="planet-container" ref="three"
+        :class="planetContainer.type"
+        :style="{width: planetContainer.width}">
+
+        <three
+          :cameraPosition="cameraPosition"
+          :animateCameraChange="animateCameraChange"
+          :glitch="showThreeGlitch"
+          :sound="soundIsOn"
+          v-if="webGlIsWorking">
+        </three>
 
       </div>
-    </transition>
-
-    <!-- persistent three container, only show on desktop -->
-    <div class="three-container" v-if="port != 'mobile'">
-      <transition name="glitch">
-        <div class="growth-container" ref="three"
-             v-if="entryIndex > 0"
-             :class="{ entry: entryIndex == 1, desktop: entryIndex > 1 }"
-             :style="{ width: threeWidth + 'px' }">
-            <three :mode="threeMode" :glitch="showThreeGlitch" :sound="soundIsOn" v-if="webGlIsWorking"></three>
-        </div>
-      </transition>
     </div>
-
-    <!-- handles click sounds and shit -->
-    <click-handler></click-handler>
 
   </div>
 </template>
@@ -51,66 +56,43 @@ module.exports =
 
   name: 'app'
   components:
-    Entry:          require './components/Entry'
     LogoEntry:      require './components/LogoEntry'
     ProjectsPanel:  require './components/ProjectsPanel'
     ConsolePanel:   require './components/ConsolePanel'
-    HeaderPanel:    require './components/HeaderPanel'
+    FooterPanel:    require './components/FooterPanel'
     OverlayPanel:   require './components/OverlayPanel'
     Three:          require './components/Three'
-    ClickHandler:   require './components/ClickHandler'
 
   data: ->
-    threeMode:    'entry'
-    overlayHeight: 90
-    overlayWidth:  70
-    threeWidth:    ''
-    entryTimer:    null
-    logoDone:      false
-
+    cameraPosition:      'entry'
+    animateCameraChange: false
+    hideThreeJS: true
+    planetContainer:
+      type: 'entry'
+      width: '100%'
 
   mounted: ->
 
-    #intro listeners
-    @$watch 'logoDone', (val)->
-      if val is true
-        if @port is 'desktop'
-          window.addEventListener 'keydown', (e)=>
-            @introDownEvent(e, 'key')
-          window.addEventListener 'keyup', (e)=>
-            @introUpEvent(e, 'key')
-        if @port != 'desktop'
-          document.getElementById('thumbprint').addEventListener 'touchstart', (e)=>
-            @introDownEvent(e, 'touch')
-          document.getElementById('thumbprint').addEventListener 'touchend', (e)=>
-            @introUpEvent(e, 'touch')
-          document.getElementById('thumbprint').addEventListener 'mousedown', (e)=>
-            @introDownEvent(e, 'touch')
-          document.getElementById('thumbprint').addEventListener 'mouseup', (e)=>
-            @introUpEvent(e, 'touch')
+    #TODO: move to some other init place -- checks if entry experience is needed or can be skipped
+    if @$store.state.route.path is '/'
+      @$store.commit 'SET_ENTRY_ROUTE', '/'
+      @$store.commit 'SET_ENTRY_INDEX', 1
+      @hideThreeJS = false
+    else
+      @$store.commit 'SET_ENTRY_ROUTE', @$store.state.route.path
+      @$store.commit 'SET_ENTRY_INDEX', 2
+      @hideThreeJS = true
+      #@setPlanetsToHubMode()
 
 
-
-    # pass entryIndex info down into three.js component
-    @$watch 'entryIndex', (index)->
-      if index is 2
-        @threeMode = 'desktop' #set desktop mode to show everything
-        @threeWidth = @$refs.three?.clientHeight #set width of new three container
-        if @soundIsOn
-          audio = new Audio("/static/wavs/opening/start.wav");
-          audio.play()
-        setTimeout =>
-          @$store.commit 'SET_THREE_GLITCH', false
-        , 3500
-
+    # reset the three circle width on a resize TODO: also do the vertical width
     window.addEventListener 'resize', ()=>
-      if @threeMode is 'desktop'
+      if @cameraPosition is 'hub'
         @threeWidth = @$refs.three?.clientHeight
 
 
-
   computed:
-    # show on desktop, not on mobile, on tablet only show on landing
+    # show console fully on desktop, on tablet only show on landing
     handleConsoleVisibility: ->
       if @consolePanelVisibility
         if @port is 'tablet'
@@ -118,15 +100,20 @@ module.exports =
         if @port is 'mobile' then return false
         else return true
 
+    showThreeJS: ->
+      if @port is 'mobile' or @hideThreeJS
+        return false
+      else return true
+
+
     # vuex store
-    port: ->        return @$store.state.port
+    port: -> return @$store.state.port
     portfolioWindowIsOpen: -> return @$store.state.portfolioWindowIsOpen
     projectWindowIsOpen:   -> return @$store.state.projectWindowIsOpen
 
     entryIndex: ->  return @$store.state.entryIndex
     projectPanelVisibility: -> return @$store.state.projectPanelVisibility
     consolePanelVisibility: -> return @$store.state.consolePanelVisibility
-    systemColor: ->            return @$store.state.systemColor
     overlayIsOpen: -> return @$store.state.overlayIsOpen
     activeOverlay: -> return @$store.state.activeOverlay
     showThreeGlitch: -> return @$store.state.showThreeGlitch
@@ -134,32 +121,37 @@ module.exports =
     soundIsOn:       -> return @$store.state.soundIsOn
 
   methods:
-    # vuex mutators
-    beginShowingDesktop: ->
+    beginShowingHub: ->
+      duration = 2500
+      if @$store.state.route.path is '/' then duration = 2500 else duration = 500
       setTimeout =>
         @$store.commit 'SET_PROJECT_PANEL_VISIBILITY', true
-      , 2500
+      , duration
       setTimeout =>
         @$store.commit 'SET_CONSOLE_PANEL_VISIBILITY', true
-      , 2500
+      , duration
 
-    introDownEvent: (e, type)->
-      if @entryIndex is 1
-        if (type is 'key' and e.keyCode is 32) or type is 'touch'
-          @$store.commit 'SET_THREE_GLITCH', true
-          if @entryTimer is null
-            @entryTimer =
-              setTimeout =>
-                @setEntryIndex(2)
-              , 3000
-    introUpEvent: (e, type)->
-      if @entryIndex is 1
-        if (type is 'key' and e.keyCode is 32) or type is 'touch'
-          @$store.commit 'SET_THREE_GLITCH', false
-          clearTimeout(@entryTimer)
-          @entryTimer = null
+    setPlanetsToHubMode: ->
+      @cameraPosition = 'hub'                     # move camera to hub position
+      @animateCameraChange = true                # animate change
+      @planetContainer.type = 'hubIsActive'
+      #TODO: this is completely stupid
+      setTimeout =>
+        @planetContainer.width = @$refs.three.clientHeight + 'px'
+      , 50
 
-    setEntryIndex: (index)-> @$store.commit 'SET_ENTRY_INDEX', index
+    runNarrativeEntry: ->
+      @$store.commit 'SET_ENTRY_INDEX', 2         # move entry index forward
+      @setPlanetsToHubMode()                      # set planets
+      if @soundIsOn
+        audio = new Audio("/static/wavs/opening/start.wav");
+        audio.play()
+      setTimeout =>
+        @$store.commit 'SET_THREE_GLITCH', false  # set glitch to false
+        @animateCameraChange = false              # have animation go back to being false
+        @planetContainer.width = @$refs.three.clientHeight + 'px' # just to be safe
+      , 3500
+
     toggleSound: -> @$store.commit 'TOGGLE_SOUND', !@soundIsOn
 
 
@@ -188,12 +180,12 @@ module.exports =
     +flexbox
     +align-items(center)
     +justify-content(center)
-    .growth-container
+    .planet-container
       position: relative
       +flexbox
       +align-items(center)
       +justify-content(center)
-      &.desktop
+      &.hubIsActive
         // width is overriden by vue
         width: 50%
         height: 50%
@@ -210,22 +202,6 @@ module.exports =
           top: 50%
           left: 50%
           +translateXY(-50%, -50%)
-        // +screen(desktop)
-        //   &::before
-        //     +transition(.15s ease all)
-        //     opacity: .8
-        //     +defaultType(normal)
-        //     content: 'ホットマックス'
-        //     font-size: 60px
-        //     line-height: 44px
-        //     color: inherit
-        //     text-align: center
-        //     position: absolute
-        //     width: 150%
-        //     height: 125px
-        //     bottom: -200px
-        //     right: 50%
-        //     +translateX(50%)
 
 
   #entry-experience
@@ -247,7 +223,7 @@ module.exports =
     overflow-y: hidden
     background-color: #f5e6e3
 
-    #header-container
+    #footer-container
       height: 60px
       width: 100%
     #body-container
@@ -275,7 +251,6 @@ module.exports =
         max-width: 100%
         min-width: 0
       +screen(tablet)
-        // padding: 0 30px
         width: 80%
         max-width: 100%
 

@@ -4,9 +4,10 @@ Vuex = require('vuex')
 state =
   # entry to desktop toggles
   port: ''
-
   webGlIsWorking: true
   entryIndex: 1
+  entryRoute: ''
+
   showThreeGlitch: false
   soundIsOn: true
 
@@ -14,7 +15,8 @@ state =
   consolePanelVisibility: false
 
 
-  # portfolio, project, navigator, and overlay window statuses
+  # overlay normally is defined on ProjectImage -- for special overlays they are defined here
+  # activeOverlay is set from action
   overlayIsOpen: false
   activeOverlay: {}
   overlays:
@@ -22,6 +24,7 @@ state =
       title: 'asteroids.exe'
       orientation: 'portrait'
 
+  #navigator windows are small window containers -- basically only rubbish at the moment
   navigatorWindowIsOpen: false
   activeNavigatorWindow: {}
   navigatorWindows:
@@ -31,37 +34,53 @@ state =
       readMe: ''
 
 
-  # console state
-  normalConsoleIsOpen:    false
-  normalConsoleText:    {}
+  # console states
+  # infoConsoleText is set from actions
+  infoConsoleIsOpen:    false
+  infoConsoleText:    {}
   consoleTexts:
     aboutUs:
       title:      'About Us.txt'
       type:       'text'
       component:  'OurStory'
+      orientation: 'portrait'
     ourServices:
       title:      'Our Services.txt'
       type:       'text'
       component:  'OurServices'
+      orientation: 'portrait'
     contactUs:
       title:      'Contact Us.txt'
       type:       'text'
       component:  'OurContact'
+      orientation: 'portrait'
     portfolio:
       title:      'Portfolio.txt'
       type:       'text'
       component:  'PortfolioText'
-
+      orientation: 'portrait'
 
   # portfolio options
   portfolioWindowIsOpen: false
   activePortfolioOption: 'All'
   portfolioOptions: [ 'All', 'UI Design', 'Sound Design', 'App Dev.', 'VR', 'AR' ]
 
-  # projects
+
+  # portfolio projects, and info -- eventually should be moved out to another file
   projectWindowIsOpen: false
   activeProjectWindow: {}
   projectWindows:
+    virtualSets:
+      content:    'VirtualSets'
+      readme:     'VirtualSetsReadme'
+      key:        'virtualSets'
+      meta:
+        tags: ['All', 'UI Design', 'App Dev.', 'VR', 'AR', 'Sound Design']
+        bannerImg:  'virtualSets.png'
+        shortTitle: 'Virtual Sets'
+        realTitle:  'Virtual Set Design'
+        client:     'Ongoing colloboration with Reid Santabarbara Designs'
+        date:       'August 2017'
     arSynth:
       content:    'ArSynth'
       readme:     'ArSynthReadme'
@@ -70,9 +89,20 @@ state =
         tags: ['All', 'Sound Design', 'App Dev.', 'AR']
         bannerImg:  'synth.png'
         shortTitle: 'AR Synth'
-        realTitle:  'AR Synth - Mobile Synthesizer'
-        date:       'December 2016'
-        client:     'Self Published on iOS store'
+        realTitle:  'AR Synth - Synthesizer App'
+        date:       'Early 2018'
+        client:     'Self Published early 2018'
+    whereyaat:
+      content:    'Whereyaat'
+      readme:     'WhereyaatReadme'
+      key:        'whereyaat'
+      meta:
+        tags: ['All', 'UI Design', 'App Dev.', 'AR']
+        bannerImg:  'whereyaat.png'
+        shortTitle: 'Whereyaat'
+        realTitle:  'Whereyaat - Geographic Social Network'
+        client:     'Self Published'
+        date:       'Ongoing'
     curriculum:
       content:    'DigitalTextbook'
       readme:     'DigitalTextbookReadme'
@@ -95,17 +125,6 @@ state =
         realTitle:  'Academic Video App'
         client:     'Brown University Web Services'
         date:       'May 2016'
-    whereyaat:
-      content:    'Whereyaat'
-      readme:     'WhereyaatReadme'
-      key:        'whereyaat'
-      meta:
-        tags: ['All', 'UI Design', 'App Dev.', 'AR']
-        bannerImg:  'whereyaat.png'
-        shortTitle: 'Whereyaat'
-        realTitle:  'Whereyaat - Geographic Social Network'
-        client:     'Self Published'
-        date:       'Ongoing'
     # walkthrough:
     #   content:    'Walkthrough'
     #   readme:     'WalkthroughReadme'
@@ -116,17 +135,17 @@ state =
     #     shortTitle: 'VR Navigation'
     #     realTitle:  'VR Stage Design Navigation'
     #     date:       'January 2017'
-    translation:
-      content:    'Translation'
-      readme:     'TranslationReadme'
-      key:        'translation'
-      meta:
-        tags: ['All', 'UI Design', 'App Dev.']
-        bannerImg:  'translation.png'
-        shortTitle: 'Translation Portfolio'
-        realTitle:  'CMS Translation Portfolio'
-        client:     'Lizzie Davis, Coffee House Press'
-        date:       'January 2017'
+    # translation:
+    #   content:    'Translation'
+    #   readme:     'TranslationReadme'
+    #   key:        'translation'
+    #   meta:
+    #     tags: ['All', 'UI Design', 'App Dev.']
+    #     bannerImg:  'translation.png'
+    #     shortTitle: 'Translation Portfolio'
+    #     realTitle:  'CMS Translation Portfolio'
+    #     client:     'Lizzie Davis, Coffee House Press'
+    #     date:       'January 2017'
 
 
 mutations =
@@ -144,10 +163,10 @@ mutations =
   SET_ACTIVE_PROJECT_WINDOW: (state, project)->
     state.activeProjectWindow = project
 
-  SET_NORMAL_CONSOLE_IS_OPEN: (state, status)->
-    state.normalConsoleIsOpen = status
-  SET_NORMAL_CONSOLE_TEXT: (state, text)->
-    state.normalConsoleText = text
+  SET_INFO_CONSOLE_IS_OPEN: (state, status)->
+    state.infoConsoleIsOpen = status
+  SET_INFO_CONSOLE_TEXT: (state, text)->
+    state.infoConsoleText = text
 
   SET_OVERLAY_IS_OPEN: (state, status)->
     state.overlayIsOpen = status
@@ -168,6 +187,9 @@ mutations =
 
   SET_ENTRY_INDEX: (state, index)->
     state.entryIndex = index
+  SET_ENTRY_ROUTE: (state, route)->
+    state.entryRoute = route
+
   SET_PROJECT_PANEL_VISIBILITY: (state, status)->
     state.projectPanelVisibility = status
   SET_CONSOLE_PANEL_VISIBILITY: (state, status)->
