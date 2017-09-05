@@ -19,7 +19,7 @@
         <ul>
           <li>Integrate broadcast stage designs with interactive and virtual features</li>
           <li>Run realtime mixing of greenscreen video and virtual environment using Unity engine</li>
-          <li>Director features like DMX lighting in Unity, and multi-camera broadcast support</li>
+          <li>Director features like DMX-to-Unity-lighting, and multi-camera broadcast support</li>
         </ul>
       </div>
     </div>
