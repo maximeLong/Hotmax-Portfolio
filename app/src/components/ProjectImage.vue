@@ -76,7 +76,7 @@ module.exports =
         left: 50%
         +translateXY(-50%,-50%)
         z-index: 999
-        opacity: 0
+        opacity: .8
         background-image: url('../assets/video.svg')
         background-repeat: no-repeat
         background-size: cover
@@ -93,7 +93,7 @@ module.exports =
       bottom: 10px
       left: 10px
       z-index: 999
-      opacity: 0
+      opacity: .8
       background-color: $action_red
       +transition(.35s ease all)
     &:hover

@@ -26,7 +26,7 @@
       <div class="intro-title">Credits</div>
       <div class="readme-text">
         <ul>
-          <li><span>Published</span>: TBT (early 2018)</li>
+          <li><span>Published</span>: TBD (early 2018)</li>
         </ul>
       </div>
     </div>

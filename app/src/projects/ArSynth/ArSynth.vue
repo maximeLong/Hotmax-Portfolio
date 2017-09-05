@@ -3,7 +3,7 @@
 
     <project-image
       :videoUrl="'synth/arMovie2.mp4'"
-      :imageUrl="'synth/ar3.png'"
+      :imageUrl="'synth/ar4.png'"
       :orientation="'landscape'"
       :type="'video'">
     </project-image>
