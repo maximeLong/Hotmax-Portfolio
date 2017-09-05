@@ -3,8 +3,6 @@ module.exports =
 
   openPortfolio: (store)->
     #portfolio opens itself, its consoleText, and closes overFlow if it's open
-    console.log 'what the fuck this actino should fire'
-
     store.commit 'SET_PORTFOLIO_WINDOW_IS_OPEN', true
 
     store.commit 'SET_INFO_CONSOLE_IS_OPEN', true

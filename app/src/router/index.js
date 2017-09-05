@@ -59,7 +59,6 @@ export default new Router({
       name: 'Work',
       component: Foo,
       beforeEnter: (to, from, next) => {
-        console.log('routing log fires');
         store.dispatch('openPortfolio');
         next(vm => {}) //need to call next for router to continue to fire
       }

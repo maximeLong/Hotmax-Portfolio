@@ -47,9 +47,9 @@ module.exports =
     @HEIGHT = window.innerHeight
     @WIDTH = window.innerWidth
 
-    stats = new Stats()
-    stats.showPanel( 1 ) #0: fps, 1: ms, 2: mb, 3+: custom
-    document.body.appendChild( stats.dom )
+    # stats = new Stats()
+    # stats.showPanel( 1 ) #0: fps, 1: ms, 2: mb, 3+: custom
+    # document.body.appendChild( stats.dom )
 
     # window.addEventListener('resize', handleWindowResize, false) # update the camera and the renderer size on window resize
 
@@ -165,8 +165,8 @@ module.exports =
     #watch for sun hit and do something
     @$watch 'sunRayCast', (mode)=>
       if mode is true
-        console.log 'sun has been hit'
-        console.log @sunMesh
+        # console.log 'sun has been hit'
+        # console.log @sunMesh
 
         # TweenLite.to( @sunMesh.rotation, 2, {
         #   y: -Math.PI
@@ -174,7 +174,7 @@ module.exports =
         # })
 
       else
-        console.log 'sun is not being hit'
+        # console.log 'sun is not being hit'
 
 
     # //////////////////////////////////////////
@@ -184,7 +184,7 @@ module.exports =
       delta = clock.getDelta()
       time = clock.getElapsedTime()
 
-      stats.begin()
+      # stats.begin()
 
       # on hub flag -> either animate or go right to new position, and follow mouse
       if @cameraPosition is 'hub'
@@ -236,7 +236,7 @@ module.exports =
       @rotationalParents[2].rotation.y += 0.0025
       @rotationalParents[3].rotation.y += 0.00125
 
-      stats.end()
+      # stats.end()
 
       requestAnimationFrame(render)
       composer1.render(delta)

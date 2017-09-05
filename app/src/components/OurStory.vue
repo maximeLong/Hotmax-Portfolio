@@ -66,6 +66,15 @@
             <div>Max's goal is to build interactive experiences that help people live more beautiful lives.</div>
           </div>
         </div>
+        <div class="panel">
+          <div class="image" id="john"></div>
+          <div class="sub-title">John Snelgrove</div>
+          <div class="text">
+            <div>John likes music, programming, and building things. He's also really interested in artificial intelligence and cognition. </div>
+            <div>He graduated from Brown University in 2015 with a degree in cognitive science.</div>
+            <div>He also received his Masters from Berklee in 2017 with a degree in electronic music.</div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -137,6 +146,8 @@ module.exports =
             background-image: url('../assets/portraits/andy2.jpg')
           &#max
             background-image: url('../assets/portraits/max2.jpg')
+          &#john
+            background-image: url('../assets/portraits/john.png')
 
 
 

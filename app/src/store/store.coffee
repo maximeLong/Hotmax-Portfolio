@@ -70,6 +70,17 @@ state =
   projectWindowIsOpen: false
   activeProjectWindow: {}
   projectWindows:
+    virtualSets:
+      content:    'VirtualSets'
+      readme:     'VirtualSetsReadme'
+      key:        'virtualSets'
+      meta:
+        tags: ['All', 'UI Design', 'App Dev.', 'VR', 'AR', 'Sound Design']
+        bannerImg:  'virtualSets.png'
+        shortTitle: 'Virtual Sets'
+        realTitle:  'Virtual Set Design'
+        client:     'Ongoing colloboration with Reid Santabarbara Designs'
+        date:       'August 2017'
     arSynth:
       content:    'ArSynth'
       readme:     'ArSynthReadme'
@@ -78,9 +89,20 @@ state =
         tags: ['All', 'Sound Design', 'App Dev.', 'AR']
         bannerImg:  'synth.png'
         shortTitle: 'AR Synth'
-        realTitle:  'AR Synth - Mobile Synthesizer'
-        date:       'December 2016'
-        client:     'Self Published on iOS store'
+        realTitle:  'AR Synth - Synthesizer App'
+        date:       'Early 2018'
+        client:     'Self Published early 2018'
+    whereyaat:
+      content:    'Whereyaat'
+      readme:     'WhereyaatReadme'
+      key:        'whereyaat'
+      meta:
+        tags: ['All', 'UI Design', 'App Dev.', 'AR']
+        bannerImg:  'whereyaat.png'
+        shortTitle: 'Whereyaat'
+        realTitle:  'Whereyaat - Geographic Social Network'
+        client:     'Self Published'
+        date:       'Ongoing'
     curriculum:
       content:    'DigitalTextbook'
       readme:     'DigitalTextbookReadme'
@@ -103,17 +125,6 @@ state =
         realTitle:  'Academic Video App'
         client:     'Brown University Web Services'
         date:       'May 2016'
-    whereyaat:
-      content:    'Whereyaat'
-      readme:     'WhereyaatReadme'
-      key:        'whereyaat'
-      meta:
-        tags: ['All', 'UI Design', 'App Dev.', 'AR']
-        bannerImg:  'whereyaat.png'
-        shortTitle: 'Whereyaat'
-        realTitle:  'Whereyaat - Geographic Social Network'
-        client:     'Self Published'
-        date:       'Ongoing'
     # walkthrough:
     #   content:    'Walkthrough'
     #   readme:     'WalkthroughReadme'
@@ -124,17 +135,17 @@ state =
     #     shortTitle: 'VR Navigation'
     #     realTitle:  'VR Stage Design Navigation'
     #     date:       'January 2017'
-    translation:
-      content:    'Translation'
-      readme:     'TranslationReadme'
-      key:        'translation'
-      meta:
-        tags: ['All', 'UI Design', 'App Dev.']
-        bannerImg:  'translation.png'
-        shortTitle: 'Translation Portfolio'
-        realTitle:  'CMS Translation Portfolio'
-        client:     'Lizzie Davis, Coffee House Press'
-        date:       'January 2017'
+    # translation:
+    #   content:    'Translation'
+    #   readme:     'TranslationReadme'
+    #   key:        'translation'
+    #   meta:
+    #     tags: ['All', 'UI Design', 'App Dev.']
+    #     bannerImg:  'translation.png'
+    #     shortTitle: 'Translation Portfolio'
+    #     realTitle:  'CMS Translation Portfolio'
+    #     client:     'Lizzie Davis, Coffee House Press'
+    #     date:       'January 2017'
 
 
 mutations =

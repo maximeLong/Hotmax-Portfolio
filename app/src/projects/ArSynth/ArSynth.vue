@@ -1,6 +1,12 @@
 <template>
   <project-content>
 
+    <project-image
+      :videoUrl="'synth/arMovie2.mp4'"
+      :imageUrl="'synth/ar3.png'"
+      :orientation="'landscape'"
+      :type="'video'">
+    </project-image>
 
     <project-image
       :videoUrl="'synth/arMovie.mp4'"
@@ -10,7 +16,7 @@
     </project-image>
 
     <project-image
-      :imageUrl="'synth/thumb.png'"
+      :imageUrl="'synth/ar2.jpg'"
       :orientation="'landscape'">
     </project-image>
 

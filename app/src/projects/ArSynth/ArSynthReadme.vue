@@ -16,8 +16,8 @@
       <div class="intro-title">Project Details</div>
       <div class="readme-text">
         <ul>
-          <li>Sound design used multiple MIDI distortion effects</li>
-          <li>Developed using Unity game-engine</li>
+          <li>Sound design uses multiple MIDI distortion effects for playful synthesizer experience</li>
+          <li>Developed using Unity</li>
           <li>Built with Vuphoria AR integration</li>
         </ul>
       </div>
@@ -26,8 +26,7 @@
       <div class="intro-title">Credits</div>
       <div class="readme-text">
         <ul>
-          <li><span>Published</span>: Hotmax Published</li>
-          <li><span>Link</span>: <a href="https://itunes.apple.com/us/app/ar-$ynth/id1179663804?mt=8" target="_blank">App Store</a></li>
+          <li><span>Published</span>: TBT (early 2018)</li>
         </ul>
       </div>
     </div>

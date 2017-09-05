@@ -37,6 +37,7 @@ module.exports =
     ArSynthReadme:          require '../projects/ArSynth/ArSynthReadme'
     TranslationReadme:      require '../projects/Translation/TranslationReadme'
     WalkthroughReadme:      require '../projects/Walkthrough/WalkthroughReadme'
+    VirtualSetsReadme:      require '../projects/VirtualSets/VirtualSetsReadme'
 
   computed:
     activeProjectWindow: -> return @$store.state.activeProjectWindow

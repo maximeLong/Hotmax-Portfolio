@@ -1,11 +1,11 @@
 <template>
   <div id="footer-panel">
-    <div class="logo">
+    <div class="logo" @click="goBackToIntro()">
       <img src="../assets/logo-triangle-small.png">
     </div>
     <div class="other-stuff">
       <div class="work" @click="openPortfolioWindow()">:file</div>
-      <div class="about"@click="openOverlay('/services')">:help</div>
+      <div class="about"@click="openOverlay()">:help</div>
     </div>
     <div class="sound" @click="toggleSound">
       <span v-for="i in 5" :class="{soundOn: soundIsOn, soundOff: !soundIsOn}"></span>
@@ -21,8 +21,8 @@ module.exports =
   name: 'footerPanel'
 
   computed:
-    soundIsOn: ->             return @$store.state.soundIsOn
-    consoleTexts:     ->      return @$store.state.consoleTexts
+    soundIsOn: ->      return @$store.state.soundIsOn
+    consoleTexts: ->   return @$store.state.consoleTexts
 
   methods:
     toggleSound: ->
@@ -31,8 +31,11 @@ module.exports =
     openPortfolioWindow: ()->
       @$router.push('/work')
 
-    openOverlay: (view)->
-      @$router.push(view)
+    goBackToIntro: ->
+      @$store.commit 'SET_ENTRY_INDEX', 1
+
+    openOverlay: ->
+      @$router.push('/services')
 
 </script>
 

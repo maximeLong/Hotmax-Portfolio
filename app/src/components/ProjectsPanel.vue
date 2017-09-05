@@ -59,6 +59,7 @@ module.exports =
     Whereyaat:        require '../projects/Whereyaat/Whereyaat'
     ArSynth:          require '../projects/ArSynth/ArSynth'
     Translation:      require '../projects/Translation/Translation'
+    VirtualSets:      require '../projects/VirtualSets/VirtualSets'
     Walkthrough:      require '../projects/Walkthrough/Walkthrough'
 
   computed:

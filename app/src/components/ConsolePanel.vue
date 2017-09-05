@@ -39,6 +39,7 @@ module.exports =
     VideoPortalReadme:      require '../projects/VideoPortal/VideoPortalReadme'
     WhereyaatReadme:        require '../projects/Whereyaat/WhereyaatReadme'
     ArSynthReadme:          require '../projects/ArSynth/ArSynthReadme'
+    VirtualSetsReadme:          require '../projects/VirtualSets/VirtualSetsReadme'
     TranslationReadme:      require '../projects/Translation/TranslationReadme'
     WalkthroughReadme:      require '../projects/Walkthrough/WalkthroughReadme'
 
