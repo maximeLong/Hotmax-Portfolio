@@ -79,7 +79,7 @@ state =
         bannerImg:  'virtualSets.png'
         shortTitle: 'Virtual Sets'
         realTitle:  'Virtual Set Design'
-        client:     'Ongoing colloboration with Reid Santabarbara Designs'
+        client:     'Ongoing collaboration with Reid Santabarbara Design'
         date:       'August 2017'
     arSynth:
       content:    'ArSynth'

@@ -116,5 +116,19 @@ module.exports =
     +screen(mobile)
       padding: 20px 15px
 
+    .iframeContainer
+      position: relative
+      width: 100%
+      height: 0px
+      padding-bottom: 56.25%
+      iframe
+        position: absolute
+        top: 0
+        left: 0
+        width: 100%
+        height: 100%
+        overflow: hidden
+
+
 
 </style>
