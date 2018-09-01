@@ -14,9 +14,7 @@
       <div class="introduction-container">
         <div class="before-bar"></div>
         <div class="introduction">
-          Hotmax is comprised of builders and designers in interactive media, who came together at the start of 2017 to create a lab where our ideas could be developed and published.
-          <br>
-          Collectively, we've built applications ranging from <span @click="openProjectWindow(projectWindows.curriculum)">interactive textbooks</span> to <span @click="openProjectWindow(projectWindows.arSynth)">augmented reality synthesizers</span>.
+          Hotmax is comprised of designers in interactive media, software, and the live-event industry.
         </div>
       </div>
 
@@ -31,7 +29,7 @@
           <div>We’re currently exploring two ideas in greater detail:</div>
           <ul>
             <li>The benefits that AR and VR can provide in existing industry software.</li>
-            <li>How giving users meaningful choices and engaging them in intelligent ways, as formalized in video game design, can enhance user retention in other interactive media.</li>
+            <li>Giving live video creators robust and affordable tools to broadcast in AR (Depthcast).</li>
           </ul>
         </div>
       </div>
@@ -41,9 +39,7 @@
       <div class="panel-text">
         <div class="title">The team</div>
         <div class="text">
-          Hotmax was founded in 2017 by Andy Katsikapes and Maxime Long.
-          <br>
-          We also have a revolving core of collaborators from a diverse set of fields.
+          Hotmax consists of three core members.
         </div>
       </div>
       <div class="split-panels">
@@ -67,12 +63,12 @@
           </div>
         </div>
         <div class="panel">
-          <div class="image" id="john"></div>
-          <div class="sub-title">John Snelgrove</div>
+          <div class="image" id="reid"></div>
+          <div class="sub-title">Reid Santabarbara</div>
           <div class="text">
-            <div>John likes music, programming, and building things. He's also really interested in artificial intelligence and cognition. </div>
-            <div>He graduated from Brown University in 2015 with a degree in cognitive science.</div>
-            <div>He also received his Masters from Berklee in 2017 with a degree in electronic music.</div>
+            <div>Reid has a long history in theatrical lighting design, receiving his first professional lighting credit when he was 15.</div>
+            <div>Reid went on to innovate in the industry, designing his own lighting console, and inventing a method of focusing lights with HDR photography.</div>
+            <div>Reid also owns Reid Santabarbara Design, a company which provides services for live events and experiences.</div>
           </div>
         </div>
       </div>
@@ -146,8 +142,8 @@ module.exports =
             background-image: url('../assets/portraits/andy2.jpg')
           &#max
             background-image: url('../assets/portraits/max2.jpg')
-          &#john
-            background-image: url('../assets/portraits/john.png')
+          &#reid
+            background-image: url('../assets/portraits/reid.jpg')
 
 
 
