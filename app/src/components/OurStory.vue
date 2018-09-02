@@ -138,12 +138,14 @@ module.exports =
           background-position: 50% 25%
           background-size: 100% auto
           background-repeat: no-repeat
+          border-radius: 100%
           &#andy
             background-image: url('../assets/portraits/andy2.jpg')
           &#max
             background-image: url('../assets/portraits/max2.jpg')
           &#reid
             background-image: url('../assets/portraits/reid.jpg')
+            background-size: 120%
 
 
 
